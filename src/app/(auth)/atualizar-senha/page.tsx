@@ -24,7 +24,7 @@ type passValidationType = {
   rule5: boolean;
 };
 
-const ResetPassword = () => {
+export default function ResetPassword() {
   const router = useRouter();
 
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
@@ -74,7 +74,7 @@ const ResetPassword = () => {
     if (successMessage) {
       handleSignOut();
     }
-  }, [successMessage]);
+  }, [handleSignOut, successMessage]);
 
   return (
     <div className="pt-16 pb-16 px-4">
@@ -174,6 +174,4 @@ const ResetPassword = () => {
       </AuthCard>
     </div>
   );
-};
-
-export default ResetPassword;
+}

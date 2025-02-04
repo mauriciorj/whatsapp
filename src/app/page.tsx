@@ -3,7 +3,7 @@ import Features from "@/components/home/features";
 import Hero from "@/components/home/hero";
 import Pricing from "@/components/home/pricing";
 
-const Home = async () => {
+export default function Home() {
   return (
     <>
       <Hero />
@@ -12,6 +12,4 @@ const Home = async () => {
       <FAQ />
     </>
   );
-};
-
-export default Home;
+}

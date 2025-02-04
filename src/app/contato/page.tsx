@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { contactSchema } from "@/lib/validations/schemas";
 import { useForm } from "@tanstack/react-form";
 
-const Contato = () => {
+export default function Contato() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [isServerError, setIsServerError] = useState<boolean>(false);
@@ -217,6 +217,4 @@ const Contato = () => {
       </AuthCard>
     </div>
   );
-};
-
-export default Contato;
+}

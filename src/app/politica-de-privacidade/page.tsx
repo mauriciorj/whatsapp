@@ -70,7 +70,7 @@ const privacySections = [
   },
 ];
 
-const PoliticaDePrivacidade = async () => {
+export default function PoliticaDePrivacidade() {
   return (
     <div className="mb-24 p-8 space-y-8">
       <p className="text-muted-foreground">
@@ -89,6 +89,4 @@ const PoliticaDePrivacidade = async () => {
       ))}
     </div>
   );
-};
-
-export default PoliticaDePrivacidade;
+}

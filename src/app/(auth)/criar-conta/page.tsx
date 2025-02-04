@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Eye, EyeOff, LoaderCircle } from "lucide-react";
-import CreateUserAccount from "@/db/actions/createUserAccount/actions";
+import CreateUserAccount from "@/actions/createUserAccount/actions";
 import AuthCard from "@/components/auth/auth-card";
 import PasswordRules from "@/components/auth/passwordRules";
 import { AlertBanner } from "@/components/ui/alert-banner";
@@ -33,7 +33,7 @@ type formValuesType = {
   cvc: string;
 };
 
-const CriarConta = () => {
+export default function CriarConta() {
   const [serverError, setServerError] = useState<boolean | null>(null);
   const [serverErrorMessage, setServerErrorMessage] = useState<string | null>(
     null
@@ -378,6 +378,4 @@ const CriarConta = () => {
       )}
     </div>
   );
-};
-
-export default CriarConta;
+}

@@ -4,6 +4,10 @@ export const loginSchema = z.object({
   email: z.string().email("Por favor insira um e-mail válido"),
 });
 
+export const linkSchema = z.object({
+  myLinkPersonalized: z.string().regex(/^[A-Za-z\b-]{4,20}$/, "Link inválido"),
+});
+
 export const updatePasswordSchema = z.object({
   password: z
     .string()
