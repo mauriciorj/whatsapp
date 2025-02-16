@@ -1,7 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { redirect } from "next/navigation";
 import { useTheme } from "next-themes";
 import {
   ChartNoAxesCombined,
@@ -16,9 +15,9 @@ import { Card } from "@/components/ui/card";
 
 const Pricing = () => {
   const { theme } = useTheme();
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  // const router = useRouter();
+  // const pathname = usePathname();
+  // const searchParams = useSearchParams();
 
   const plans = [
     {
@@ -135,15 +134,15 @@ const Pricing = () => {
 
   // Get a new searchParams string by merging the current
   // searchParams with a provided key/value pair
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set(name, value.toLowerCase());
+  // const createQueryString = useCallback(
+  //   (name: string, value: string) => {
+  //     const params = new URLSearchParams(searchParams.toString());
+  //     params.set(name, value.toLowerCase());
 
-      return params.toString();
-    },
-    [searchParams]
-  );
+  //     return params.toString();
+  //   },
+  //   [searchParams]
+  // );
 
   return (
     <section className="py-24 bg-secondary" id="planos">
@@ -203,12 +202,17 @@ const Pricing = () => {
                 <Button
                   className="w-full"
                   onClick={() => {
-                    router.push(
-                      pathname +
-                        "criar-conta/" +
-                        "?" +
-                        createQueryString("plan", plan.value)
-                    );
+                    if (plan.value === "basico") {
+                      redirect("https://pay.kiwify.com.br/vNY2XvG");
+                    } else {
+                      redirect("https://pay.kiwify.com.br/tA9jJEx");
+                    }
+                    // router.push(
+                    //   pathname +
+                    //     "criar-conta/" +
+                    //     "?" +
+                    //     createQueryString("plan", plan.value)
+                    // );
                   }}
                   variant={plan.popular ? "default" : "outline"}
                 >

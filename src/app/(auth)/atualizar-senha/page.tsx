@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, LoaderCircle } from "lucide-react";
@@ -29,7 +29,6 @@ export default function ResetPassword() {
 
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
   const [serverError, setServerError] = useState<boolean | null>(null);
-  const [successMessage, setSuccessMessage] = useState<boolean | null>(null);
   const [passwordValidation, setPasswordValidation] =
     useState<passValidationType>({
       rule1: false,
@@ -38,6 +37,14 @@ export default function ResetPassword() {
       rule4: false,
       rule5: false,
     });
+
+  const handleSignOut = async () => {
+    const supabase = createClient();
+    const { error } = await supabase.auth.signOut();
+    if (!error) {
+      router.refresh();
+    }
+  };
 
   const form = useForm({
     defaultValues: {
@@ -54,27 +61,13 @@ export default function ResetPassword() {
         if (response === false) {
           setServerError(true);
         } else {
-          setSuccessMessage(true);
+          handleSignOut();
         }
       } catch {
         setServerError(true);
       }
     },
   });
-
-  const handleSignOut = async () => {
-    const supabase = createClient();
-    const { error } = await supabase.auth.signOut();
-    if (!error) {
-      router.refresh();
-    }
-  };
-
-  useEffect(() => {
-    if (successMessage) {
-      handleSignOut();
-    }
-  }, [handleSignOut, successMessage]);
 
   return (
     <div className="pt-16 pb-16 px-4">
