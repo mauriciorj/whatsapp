@@ -33,7 +33,7 @@ const refundPolicySections = [
   },
 ];
 
-const PoliticaDeReembolso = async () => {
+export default function PoliticaDeReembolso() {
   return (
     <div className="mb-24 p-8 space-y-8">
       <p className="text-muted-foreground">
@@ -52,6 +52,4 @@ const PoliticaDeReembolso = async () => {
       ))}
     </div>
   );
-};
-
-export default PoliticaDeReembolso;
+}

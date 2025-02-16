@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm } from "@tanstack/react-form";
 
-const Login = () => {
+export default function Login() {
   const [serverError, setServerError] = useState<boolean>(false);
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
 
@@ -146,6 +146,4 @@ const Login = () => {
       </AuthCard>
     </div>
   );
-};
-
-export default Login;
+}

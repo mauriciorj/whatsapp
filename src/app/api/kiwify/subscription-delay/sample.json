@@ -1,0 +1,110 @@
+{
+  "order_id": "1b9ce90f-0564-415f-9d19-1cfd1f9cb668",
+  "order_ref": "PLchjnu",
+  "order_status": "paid",
+  "product_type": "membership",
+  "payment_method": "credit_card",
+  "store_id": "06PdAb6l2gBoK5s",
+  "payment_merchant_id": 72125245,
+  "installments": 1,
+  "card_type": "mastercard",
+  "card_last4digits": "4812",
+  "card_rejection_reason": null,
+  "boleto_URL": null,
+  "boleto_barcode": null,
+  "boleto_expiry_date": null,
+  "pix_code": null,
+  "pix_expiration": null,
+  "sale_type": "producer",
+  "created_at": "2025-02-16 02:08",
+  "updated_at": "2025-02-16 02:08",
+  "approved_date": null,
+  "refunded_at": null,
+  "webhook_event_type": "subscription_late",
+  "Product": {
+    "product_id": "4e81a7cd-57bf-4372-b8d1-b4b0194129c6",
+    "product_name": "Example product"
+  },
+  "Customer": {
+    "full_name": "John Doe",
+    "first_name": "John",
+    "email": "johndoe@example.com",
+    "mobile": "+21137491261",
+    "cnpj": "71731116237944",
+    "ip": "188.120.53.6",
+    "instagram": "@kiwify",
+    "street": "Rua 1001",
+    "number": "315",
+    "complement": "SL 05",
+    "neighborhood": "Centro",
+    "city": "Balneário Camboriú",
+    "state": "SC",
+    "zipcode": "88330-756"
+  },
+  "Commissions": {
+    "charge_amount": 8610,
+    "product_base_price": 8610,
+    "product_base_price_currency": "BRL",
+    "kiwify_fee": 947,
+    "kiwify_fee_currency": "BRL",
+    "settlement_amount": 8610,
+    "settlement_amount_currency": "BRL",
+    "sale_tax_rate": 0,
+    "sale_tax_amount": 0,
+    "commissioned_stores": [
+      {
+        "id": "96d8b36d-c5d0-4c82-a9ee-a3d95506d7af",
+        "type": "producer",
+        "custom_name": "Example store",
+        "email": "example@store.domain",
+        "value": "7663"
+      },
+      {
+        "id": "4f5b2d53-ecb9-407b-9058-9238aa4b287c",
+        "type": "coproducer",
+        "custom_name": "Example coproducer",
+        "email": "example@coproducer.domain",
+        "value": "7663"
+      },
+      {
+        "id": "1721c284-9bbb-4f17-9238-fb08d065c07d",
+        "type": "affiliate",
+        "affiliate_id": "RWYWHsV",
+        "custom_name": "Example affiliate",
+        "email": "example@affiliate.domain",
+        "value": "7663"
+      }
+    ],
+    "currency": "BRL",
+    "my_commission": 7663,
+    "funds_status": null,
+    "estimated_deposit_date": null,
+    "deposit_date": null
+  },
+  "TrackingParameters": {
+    "src": null,
+    "sck": null,
+    "utm_source": null,
+    "utm_medium": null,
+    "utm_campaign": null,
+    "utm_content": null,
+    "utm_term": null
+  },
+  "Subscription": {
+    "id": "ced20ed0-5e6f-431f-82ea-e345d7f77f8f",
+    "start_date": "2025-02-13T02:08:13.866Z",
+    "next_payment": "2025-02-20T02:08:13.866Z",
+    "status": "waiting_payment",
+    "plan": {
+      "id": "9dcfddb2-55c0-4a2b-88bc-15811c5ab081",
+      "name": "Example plan",
+      "frequency": "weekly",
+      "qty_charges": 0
+    },
+    "charges": {
+      "completed": [],
+      "future": [{ "charge_date": "2025-02-20T02:08:13.866Z" }]
+    }
+  },
+  "subscription_id": "ced20ed0-5e6f-431f-82ea-e345d7f77f8f"
+}

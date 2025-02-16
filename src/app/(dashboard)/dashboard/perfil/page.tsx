@@ -31,7 +31,7 @@ type passValidationType = {
   rule5: boolean;
 };
 
-const Perfil = () => {
+export default function Perfil() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const isShowResetPasswordComponent = searchParams.get("showResetPassword");
@@ -312,6 +312,4 @@ const Perfil = () => {
       </main>
     </>
   );
-};
-
-export default Perfil;
+}

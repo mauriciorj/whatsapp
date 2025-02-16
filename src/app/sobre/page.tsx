@@ -12,7 +12,7 @@ const aboutSections = [
   },
 ];
 
-const Sobre = async () => {
+export default function Sobre() {
   return (
     <div className="mb-24 p-8 space-y-8">
       {aboutSections.map((section, index) => (
@@ -27,6 +27,4 @@ const Sobre = async () => {
       ))}
     </div>
   );
-};
-
-export default Sobre;
+}

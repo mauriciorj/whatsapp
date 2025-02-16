@@ -4,6 +4,10 @@ export const loginSchema = z.object({
   email: z.string().email("Por favor insira um e-mail válido"),
 });
 
+export const linkSchema = z.object({
+  myLinkPersonalized: z.string().regex(/^[A-Za-z\b-]{4,20}$/, "Link inválido"),
+});
+
 export const updatePasswordSchema = z.object({
   password: z
     .string()
@@ -24,11 +28,11 @@ export const signupSchema = z.object({
   firstName: z.string().min(2, "Por favor insira um nome válido"),
   lastName: z.string().min(2, "Por favor insira um nome válido"),
   plan: z.enum(["basic", "business"]),
-  cardNumber: z.string().regex(/^\d{16}$/, "Número de Cartão inválido"),
-  expiryDate: z
-    .string()
-    .regex(/^(0[1-9]|1[0-2])\/([0-9]{2})$/, "Data inválida"),
-  cvc: z.string().regex(/^\d{3,4}$/, "Número inválido"),
+  // cardNumber: z.string().regex(/^\d{16}$/, "Número de Cartão inválido"),
+  // expiryDate: z
+  //   .string()
+  //   .regex(/^(0[1-9]|1[0-2])\/([0-9]{2})$/, "Data inválida"),
+  // cvc: z.string().regex(/^\d{3,4}$/, "Número inválido"),
 });
 
 export const forgotPasswordSchema = z.object({

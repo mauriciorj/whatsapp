@@ -2,6 +2,7 @@
 
 import { createServer } from "@/db/supabase/server";
 import generateRandomCode from "@/lib/generateCode";
+import { v4 as uuidv4 } from "uuid";
 
 const checkIfCodeExists = async (randomCodeToLink: string) => {
   const supabase = await createServer();
@@ -22,17 +23,17 @@ const getUniqueCode = async () => {
   return code;
 };
 
-const whatsAppInsert = async ({
-  user_id,
-  link,
-}: {
-  user_id: string;
-  link: string;
-}) => {
-  const supabase = await createServer();
-  const { error } = await supabase.from("whatsapp").insert({ user_id, link });
-  return error;
-};
+// const whatsAppInsert = async ({
+//   user_id,
+//   link,
+// }: {
+//   user_id: string;
+//   link: string;
+// }) => {
+//   const supabase = await createServer();
+//   const { error } = await supabase.from("whatsapp").insert({ user_id, link });
+//   return error;
+// };
 
 const userProfileUpdate = async ({
   first_name,
@@ -40,17 +41,28 @@ const userProfileUpdate = async ({
   plan,
   user_id,
   is_subscription_active,
+  role,
+  account_id,
 }: {
   first_name: string;
   last_name: string;
   plan: string;
   user_id: string;
   is_subscription_active: boolean;
+  role: string;
+  account_id: string;
 }) => {
   const supabase = await createServer();
   const { error } = await supabase
     .from("user_profile")
-    .update({ first_name, last_name, plan, is_subscription_active })
+    .update({
+      first_name,
+      last_name,
+      plan,
+      is_subscription_active,
+      role,
+      account_id,
+    })
     .eq("user_id", user_id);
   return error;
 };
@@ -103,6 +115,8 @@ const CreateUserAccount = async (formData: {
         plan: plan,
         user_id: signUpData?.user?.id,
         is_subscription_active: true,
+        role: "admin",
+        account_id: uuidv4(),
       });
 
       if (profileUpdated) {
@@ -111,14 +125,14 @@ const CreateUserAccount = async (formData: {
 
       // Step 3.3 - Insert in the whatsapp table:
       // user_id and link (random code)
-      const whatsAppUpdated = await whatsAppInsert({
-        user_id: signUpData?.user?.id,
-        link: randomUniqueCode,
-      });
+      // const whatsAppUpdated = await whatsAppInsert({
+      //   user_id: signUpData?.user?.id,
+      //   link: randomUniqueCode,
+      // });
 
-      if (whatsAppUpdated) {
-        return { status: 500 };
-      }
+      // if (whatsAppUpdated) {
+      //   return { status: 500 };
+      // }
     } else {
       return { status: 500 };
     }
