@@ -13,7 +13,7 @@ type whatsappApp = {
   ];
   user_id: string;
   redirect_to: number;
-  user_profile: { is_subscription_active: boolean };
+  user_profile: { subscription_status: string };
 }[];
 
 export async function GET(request: NextRequest) {
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
   const { data, error } = await supabase
     .from("whatsapp")
     .select(
-      "id, numbers,redirect_to, user_id, user_profile(is_subscription_active)"
+      "id, numbers,redirect_to, user_id, user_profile(subscription_status)"
     )
     .eq("link", pathname)
     .returns<whatsappApp>();
@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
 
   const { id, numbers, redirect_to, user_profile, user_id } = data[0];
 
-  if (user_profile?.is_subscription_active) {
+  if (user_profile?.subscription_status === "active") {
     const whatsappNumbers = numbers;
     const currentIndex = redirect_to || 0;
     const nextRedirectTo = (currentIndex + 1) % whatsappNumbers?.length;

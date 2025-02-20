@@ -27,7 +27,7 @@ export const signupSchema = z.object({
     ),
   firstName: z.string().min(2, "Por favor insira um nome válido"),
   lastName: z.string().min(2, "Por favor insira um nome válido"),
-  plan: z.enum(["basic", "business"]),
+  plan: z.string(),
   // cardNumber: z.string().regex(/^\d{16}$/, "Número de Cartão inválido"),
   // expiryDate: z
   //   .string()

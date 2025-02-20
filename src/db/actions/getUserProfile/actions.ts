@@ -12,7 +12,7 @@ const GetUserProfile = async ({ userId }: { userId?: string }) => {
     .select(
       `
       email,
-      is_subscription_active,
+      subscription_status,
       first_name,
       last_name,
       plan,
