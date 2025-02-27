@@ -2,7 +2,7 @@
 
 import { Resend } from "resend";
 
-const ContactWebForm = async (formData: {
+const SendContactWebForm = async (formData: {
   email: string;
   subject: string;
   name: string;
@@ -29,4 +29,4 @@ const ContactWebForm = async (formData: {
   }
 };
 
-export default ContactWebForm;
+export default SendContactWebForm;

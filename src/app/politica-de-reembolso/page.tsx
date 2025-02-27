@@ -1,3 +1,8 @@
+"use client";
+
+import { HandCoins } from "lucide-react";
+import PageLayout from "@/components/layout/pageLayout";
+
 const refundPolicySections = [
   {
     title: "Política de Reembolso",
@@ -33,15 +38,24 @@ const refundPolicySections = [
   },
 ];
 
+const breadcrumbItems = [
+  {
+    href: "/politica-de-reembolso",
+    label: "Política de Reembolso",
+    icon: HandCoins,
+  },
+];
+
 export default function PoliticaDeReembolso() {
   return (
-    <div className="mb-24 p-8 space-y-8">
-      <p className="text-muted-foreground">
-        Última atualização: 20 de Dezembro de 2024
-      </p>
-
+    <PageLayout breadcrumbItems={breadcrumbItems}>
+      <section className="mb-10 ml-0 md:ml-[150px]">
+        <p className="text-muted-foreground">
+          Última atualização: 20 de Dezembro de 2024
+        </p>
+      </section>
       {refundPolicySections.map((section, index) => (
-        <section className="space-y-4" key={index}>
+        <section className="mb-10 ml-0 md:ml-[150px]" key={index}>
           <h2 className="text-2xl font-semibold">{section.title}</h2>
           <div className="space-y-4 text-muted-foreground">
             {section.content.map((paragraph, pIndex) => (
@@ -50,6 +64,6 @@ export default function PoliticaDeReembolso() {
           </div>
         </section>
       ))}
-    </div>
+    </PageLayout>
   );
 }

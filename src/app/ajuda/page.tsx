@@ -1,10 +1,21 @@
+"use client";
+
+import { MessageCircleQuestion } from "lucide-react";
 import HelpContent from "@/components/help/help-content";
+import PageLayout from "@/components/layout/pageLayout";
+
+const breadcrumbItems = [
+  {
+    href: "/ajuda",
+    label: "Ajuda",
+    icon: MessageCircleQuestion,
+  },
+];
 
 export default function Help() {
   return (
-    <div className="space-y-8">
-      <h1 className="text-3xl font-bold">Central de Ajuda</h1>
+    <PageLayout breadcrumbItems={breadcrumbItems}>
       <HelpContent />
-    </div>
+    </PageLayout>
   );
 }

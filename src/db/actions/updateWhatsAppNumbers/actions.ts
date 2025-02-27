@@ -7,7 +7,7 @@ type WhatsAppEntry = {
   message: string;
 }[];
 
-const PostWhatsAppNumbers = async ({
+const UpdateWhatsAppNumbers = async ({
   entries,
   user_id,
 }: {
@@ -24,4 +24,4 @@ const PostWhatsAppNumbers = async ({
   return error;
 };
 
-export default PostWhatsAppNumbers;
+export default UpdateWhatsAppNumbers;

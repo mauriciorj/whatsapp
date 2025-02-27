@@ -2,7 +2,13 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function updateSession(request: NextRequest) {
-  const protectedPages = ["dashboard", "perfil", "whatsapp"];
+  const protectedPages = [
+    "dashboard",
+    "perfil",
+    "relatorios",
+    "projetos",
+    "whatsapp",
+  ];
   const isProtectedPage = protectedPages.some((page: string) =>
     request.nextUrl.pathname.includes(page)
   );

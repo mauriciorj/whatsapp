@@ -14,7 +14,7 @@ export function AlertBanner({ type, message, className }: AlertBannerProps) {
   return (
     <div
       className={cn(
-        "flex items-center gap-2 p-4 rounded-lg text-sm",
+        "w-full max-w-lg mx-auto mb-8 p-8 flex items-center gap-2 rounded-lg text-sm",
         type === "success" &&
           "bg-green-50 text-green-700 border border-green-200",
         type === "error" && "bg-red-50 text-red-700 border border-red-200",

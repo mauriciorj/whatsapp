@@ -31,11 +31,11 @@ const HelpContent = () => {
 
   return (
     <div className="space-y-6">
-      <Card className="p-6">
+      <Card className="w-full max-w-3xl mx-auto p-8">
         <Accordion type="single" collapsible className="space-y-4">
           {helpSections.map((section) => (
             <AccordionItem key={section.id} value={section.id}>
-              <AccordionTrigger className="text-lg font-semibold">
+              <AccordionTrigger className="text-lg font-semibold text-left">
                 {section.title}
               </AccordionTrigger>
               <AccordionContent className="space-y-4 pt-4">

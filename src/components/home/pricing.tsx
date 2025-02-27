@@ -1,6 +1,12 @@
 "use client";
 
-import { redirect } from "next/navigation";
+import { useCallback } from "react";
+import {
+  // redirect,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 import { useTheme } from "next-themes";
 import {
   ChartNoAxesCombined,
@@ -12,18 +18,19 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import BusinessRules from "@/lib/businessRules";
 
 const Pricing = () => {
   const { theme } = useTheme();
-  // const router = useRouter();
-  // const pathname = usePathname();
-  // const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const plans = [
     {
-      name: "Básico",
+      name: BusinessRules.basico.name,
       value: "basico",
-      price: "$59",
+      price: `R$${BusinessRules.basico.price}`,
       description: "Perfeito para quem está começando",
       features: [
         {
@@ -54,9 +61,9 @@ const Pricing = () => {
       ],
     },
     {
-      name: "Avançado",
+      name: BusinessRules.avancado.name,
       value: "avancado",
-      price: "$99",
+      price: `R$${BusinessRules.avancado.price}`,
       description: "Para quem já tem uma operação rodando",
       popular: true,
       features: [
@@ -134,15 +141,15 @@ const Pricing = () => {
 
   // Get a new searchParams string by merging the current
   // searchParams with a provided key/value pair
-  // const createQueryString = useCallback(
-  //   (name: string, value: string) => {
-  //     const params = new URLSearchParams(searchParams.toString());
-  //     params.set(name, value.toLowerCase());
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value.toLowerCase());
 
-  //     return params.toString();
-  //   },
-  //   [searchParams]
-  // );
+      return params.toString();
+    },
+    [searchParams]
+  );
 
   return (
     <section className="py-24 bg-secondary" id="planos">
@@ -202,17 +209,17 @@ const Pricing = () => {
                 <Button
                   className="w-full"
                   onClick={() => {
-                    if (plan.value === "basico") {
-                      redirect("https://pay.kiwify.com.br/vNY2XvG");
-                    } else {
-                      redirect("https://pay.kiwify.com.br/tA9jJEx");
-                    }
-                    // router.push(
-                    //   pathname +
-                    //     "criar-conta/" +
-                    //     "?" +
-                    //     createQueryString("plan", plan.value)
-                    // );
+                    // if (plan.value === "basico") {
+                    //   redirect("https://pay.kiwify.com.br/vNY2XvG");
+                    // } else {
+                    //   redirect("https://pay.kiwify.com.br/tA9jJEx");
+                    // }
+                    router.push(
+                      pathname +
+                        "criar-conta/" +
+                        "?" +
+                        createQueryString("plano", plan.value)
+                    );
                   }}
                   variant={plan.popular ? "default" : "outline"}
                 >

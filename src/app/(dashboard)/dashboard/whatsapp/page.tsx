@@ -1,36 +1,38 @@
 "use client";
 
-import GetUser from "@/actions/getUser/actions";
+import { MessageCircle } from "lucide-react";
 import GetUserProfile from "@/actions/getUserProfile/actions";
+import PageLayout from "@/components/dashboard/pageLayout";
 import WhatsAppLink from "@/components/whatsapp/whatsapp-link";
 import { WhatsAppNumbers } from "@/components/whatsapp/whatsapp-numbers";
 import { useQuery } from "@tanstack/react-query";
 
 const WhatsAppPage = () => {
-  const { data: userData, isLoading: userIsLoading } = useQuery({
-    queryKey: ["user"],
-    queryFn: async () => GetUser(),
-  });
-
   const { data: userProfileData, isLoading: userProfileIsLoading } = useQuery({
     queryKey: ["userProfile"],
-    queryFn: async () => GetUserProfile({ userId: userData?.user?.id }),
-    enabled: !!userData?.user?.id,
+    queryFn: async () => GetUserProfile(),
   });
 
+  const breadcrumbItems = [
+    { href: "/dashboard/whatsapp", label: "Whatsapp", icon: MessageCircle },
+  ];
+
   return (
-    <div className="space-y-8">
-      <h1 className="text-3xl font-bold">WhatsApp</h1>
+    <PageLayout
+      breadcrumbItems={breadcrumbItems}
+      pageTitle="Whatsapp"
+      pageDescription="Gerencie seu link e números."
+    >
       <WhatsAppLink
-        isLoading={userIsLoading || userProfileIsLoading}
+        isLoading={userProfileIsLoading}
         link={userProfileData?.whatsapp?.link}
       />
       <WhatsAppNumbers
-        isLoading={userIsLoading || userProfileIsLoading}
+        isLoading={userProfileIsLoading}
         numbers={userProfileData?.whatsapp?.numbers}
         userInfo={userProfileData}
       />
-    </div>
+    </PageLayout>
   );
 };
 

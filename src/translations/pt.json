@@ -1,0 +1,129 @@
+{
+  "Pages": {
+    "CreateAccount": {
+      "cardTitle": "Primeiro vamos criar a sua conta",
+      "cardDescription": "Por favor insira suas informações abaixo",
+      "form": {
+        "fields": {
+          "firstName": {
+            "label": "Primeiro Nome *",
+            "name": "firstName",
+            "placeholder": "Seu primeiro nome"
+          },
+          "lastName": {
+            "label": "Último Nome *",
+            "name": "lastName",
+            "placeholder": "Seu último nome"
+          },
+          "email": {
+            "label": "Email *",
+            "name": "email",
+            "placeholder": "seuemail@exemplo.com"
+          },
+          "password": {
+            "label": "Password *",
+            "name": "password"
+          },
+          "plan": {
+            "label": "Plano *",
+            "name": "plan"
+          }
+        },
+        "submitLabel": "Criar conta e ir para o pagamento",
+        "submitLoadingLabel": "Criando conta ..."
+      },
+      "makeLoginLabel": "Lembra da sua senha? Faça o login aqui."
+    },
+    "Contact": {
+      "cardTitle": "Entre em contato",
+      "cardDescription": "Alguma dúvida ou sugestão?",
+      "form": {
+        "alertMessage": "Ops... alguma coisa deu errada. Tente novamente mais tarde",
+        "fields": {
+          "name": {
+            "label": "Nome *",
+            "name": "name",
+            "placeholder": "Por favor informe seu nome"
+          },
+          "email": {
+            "label": "Email *",
+            "name": "email",
+            "placeholder": "seuemail@exemplo.com"
+          },
+          "subject": {
+            "label": "Dúvida, Assunto ou Sugestão *",
+            "name": "subject"
+          },
+          "message": {
+            "label": "Mensagem *",
+            "name": "message"
+          }
+        },
+        "submitLabel": "Enviar Mensagem",
+        "submitLoadingLabel": "Enviando Mensagem ...",
+        "successMessage": "Mensagem Enviada! Obrigado por entrar em contato. Retornaremos o mais rápido possível."
+      }
+    },
+    "Login": {
+      "cardTitle": "Seja Bem Vindo",
+      "cardDescription": "Insira suas informações para acessar o sistema",
+      "form": {
+        "alertMessage": "Email e/ou senha inválidos",
+        "createAccountLinkLabel": "Não tem uma conta? Crie uma agora mesmo.",
+        "forgotPasswordLabel": "Esqueceu sua senha?",
+        "fields": {
+          "email": {
+            "label": "Email *",
+            "name": "email",
+            "placeholder": "seuemail@exemplo.com"
+          },
+          "password": {
+            "label": "Password *",
+            "name": "password"
+          }
+        },
+        "submitLabel": "Entrar",
+        "submitLoadingLabel": "Entrando..."
+      }
+    },
+    "RecoveryPassword": {
+      "cardTitle": "Crie uma senha nova",
+      "cardDescription": "Por favor insira uma senha nova para acessar o nosso sistema.",
+      "form": {
+        "alertMessage": "Ops... alguma coisa deu errada. Tente novamente mais tarde",
+        "makeLoginLabel": "Lembra da sua senha? Faça o login aqui.",
+        "fields": {
+          "email": {
+            "label": "Email *",
+            "name": "email",
+            "placeholder": "seuemail@exemplo.com"
+          }
+        },
+        "submitLabel": "Recuperar senha",
+        "submitLoadingLabel": "Processando...",
+        "successMessage": "Por favor verifique o seu e-mail. Enviamos todas as instruções para recuperar a sua senha."
+      }
+    },
+    "PaymentSuccess": {
+      "cardTitle": "Pagamento realizado com sucesso!",
+      "cardDescription": "Uma confirmação vai ser enviada para o seu e-mail.",
+      "buttonLabel": "Clique aqui para acessar o nosso sistema."
+    },
+    "UpdatePassword": {
+      "cardTitle": "Crie uma senha nova",
+      "cardDescription": "Por favor insira uma senha nova para acessar o nosso sistema.",
+      "form": {
+        "alertMessage": "Ops... alguma coisa deu errada. Tente novamente mais tarde",
+        "createAccountLinkLabel": "Não tem uma conta? Crie uma agora mesmo.",
+        "fields": {
+          "password": {
+            "label": "Password *",
+            "name": "password"
+          }
+        },
+        "submitLabel": "Atualizar",
+        "submitLoadingLabel": "Atualizando..."
+      }
+    }
+  }
+}

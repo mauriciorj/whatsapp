@@ -5,12 +5,12 @@ import { Plus, Trash2 } from "lucide-react";
 import PhoneInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
 import pt from "react-phone-number-input/locale/pt";
-import PostWhatsAppNumbers from "@/actions/postWhatsAppNumbers/actions";
+import UpdateWhatsAppNumbers from "@/actions/updateWhatsAppNumbers/actions";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { PlansInfo } from "@/lib/businessRules";
+import BusinessRules from "@/lib/businessRules";
 import { useMutation } from "@tanstack/react-query";
 import WhatsAppNumbersLoading from "./loading";
 import "./style.css";
@@ -38,11 +38,11 @@ export function WhatsAppNumbers({
   const [mutationError, setMutationError] = useState<boolean>(false);
   const [mutationSuccess, setMutationSuccess] = useState<boolean>(false);
 
-  const maxNumbers = PlansInfo[userInfo?.plan]?.maxNumbers;
+  const maxNumbers = BusinessRules[userInfo?.plan]?.maxNumbers;
 
   const mutation = useMutation({
     mutationFn: (entries) =>
-      PostWhatsAppNumbers({ entries, user_id: userInfo?.user_id } as any),
+      UpdateWhatsAppNumbers({ entries, user_id: userInfo?.user_id } as any),
     onError: () => {
       setMutationError(true);
     },
@@ -226,7 +226,7 @@ export function WhatsAppNumbers({
         {isLoading && <WhatsAppNumbersLoading />}
         {!entries?.length && !isLoading ? (
           <div className="flex flex-col w-full items-center py-5">
-            <div className="px-8 py-5 text-center text-destructive font-bold border rounded-md text-card-foreground shadow-sm">
+            <div className="px-8 py-5 text-center text-destructive font-bold border rounded-md text-DefaultCard-foreground shadow-sm">
               <p>Você não tem nenhum número cadastrado!</p>Por favor cadastre um
               número para começar.
             </div>
