@@ -2,56 +2,30 @@
 
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Link from "next/link";
-import { Eye, EyeOff, LoaderCircle } from "lucide-react";
-import CreateUserAccount from "@/actions/createUserAccount/actions";
-//  import StripePayment from "@/actions/stripe/actions";
+import { UserPlus } from "lucide-react";
+// import CreateUserAccount from "@/actions/createUserAccount/actions";
 import AuthCard from "@/components/auth/auth-card";
-import PasswordRules from "@/components/auth/passwordRules";
+import Form from "@/components/form";
 import { AlertBanner } from "@/components/ui/alert-banner";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import PasswordRulesValidation from "@/lib/passwordRulesValidation";
-import PLANS from "@/lib/plans";
+import useTranslations from "@/hooks/useTranslations";
+import BusinessRules from "@/lib/businessRules";
 import { signupSchema } from "@/lib/validations/schemas";
+import { createClient } from "@/supabase/client";
 import { useForm } from "@tanstack/react-form";
-
-type passValidationType = {
-  rule1: boolean;
-  rule2: boolean;
-  rule3: boolean;
-  rule4: boolean;
-  rule5: boolean;
-};
-
-type formValuesType = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  plan: string;
-};
+import PageLayout from "@/components/layout/pageLayout";
+import { v4 as uuidv4 } from "uuid";
 
 export default function CriarConta() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const getPlano = searchParams.get("plano") as "basico" | "avancado" | null;
+  const translate = useTranslations("Pages.CreateAccount");
+
+  const getPlano = searchParams.get("plano") as "basico" | "avancado";
 
   const [serverError, setServerError] = useState<boolean | null>(null);
   const [serverErrorMessage, setServerErrorMessage] = useState<string | null>(
     null
   );
-
-  const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
-  const [passwordValidation, setPasswordValidation] =
-    useState<passValidationType>({
-      rule1: false,
-      rule2: false,
-      rule3: false,
-      rule4: false,
-      rule5: false,
-    });
 
   const form = useForm({
     defaultValues: {
@@ -60,7 +34,7 @@ export default function CriarConta() {
       email: "",
       password: "",
       plan: getPlano
-        ? `${PLANS[getPlano].name} - R$${PLANS[getPlano].price}`
+        ? `${BusinessRules[getPlano].name} - R$${BusinessRules[getPlano].price}`
         : null,
     },
     validators: {
@@ -69,218 +43,164 @@ export default function CriarConta() {
     onSubmit: async ({ value }: any) => {
       setServerError(null);
       setServerErrorMessage(null);
-      try {
-        const response = await CreateUserAccount(value as formValuesType);
-        if (response?.status === 500) {
-          setServerErrorMessage(
-            "Ops... algo deu errado. Por favor tente de novo."
-          );
-          setServerError(true);
-        } else if (response?.status === 400) {
-          setServerErrorMessage(
-            "Esse email já existe, por favor faça o login."
-          );
-          setServerError(true);
-        } else {
-          if (getPlano && PLANS[getPlano].name === "basico") {
-            router.push("https://pay.kiwify.com.br/vNY2XvG");
-          } else {
-            router.push("https://pay.kiwify.com.br/tA9jJEx");
-          }
-        }
-      } catch {
+      // CLIENT SIDE
+      const supabase = await createClient();
+
+      if (
+        !Object.values(BusinessRules).some((plan) => plan.name === getPlano)
+      ) {
+        setServerError(true);
         setServerErrorMessage(
           "Ops... algo deu errado. Por favor tente de novo."
         );
-        setServerError(true);
       }
+
+      const data = {
+        email: value.email.toLowerCase(),
+        password: value.password,
+      };
+
+      // Step 1 - Check if account doesn't exist
+      const { data: hasUser } = await supabase
+        .from("user_profile")
+        .select("email")
+        .eq("email", value.email);
+
+      if (hasUser && hasUser[0]?.email) {
+        setServerError(true);
+        setServerErrorMessage("Esse email já existe, por favor faça o login.");
+      }
+
+      // Step 2 - Create account
+      // Supabase will add the id and email to user_profile table
+      const { data: signUpData, error } = await supabase.auth.signUp(data);
+
+      if (error) {
+        setServerError(true);
+        setServerErrorMessage(
+          "Ops... algo deu errado. Por favor tente de novo."
+        );
+      }
+
+      // Step 3 - Update account after create it
+      if (signUpData?.user?.id) {
+        const { error } = await supabase
+          .from("user_profile")
+          .update({
+            country: "Brasil",
+            irst_name: value.firstName,
+            last_name: value.lastName,
+            plan: getPlano,
+            user_id: signUpData?.user?.id,
+            role: "admin",
+            account_id: uuidv4(),
+          })
+          .eq("user_id", signUpData?.user?.id);
+
+        if (error) {
+          setServerError(true);
+          setServerErrorMessage(
+            "Ops... algo deu errado. Por favor tente de novo."
+          );
+        }
+      }
+
+      if (getPlano === "basico") {
+        router.push("https://pay.kiwify.com.br/vNY2XvG");
+      } else if (getPlano === "avancado") {
+        router.push("https://pay.kiwify.com.br/tA9jJEx");
+      } else {
+        setServerError(true);
+        setServerErrorMessage(
+          "Ops... algo deu errado. Por favor tente de novo."
+        );
+      }
+
+      // SERVER SIDE
+      // try {
+      //   const response = await CreateUserAccount({
+      //     email: value.email,
+      //     firstName: value.firstName,
+      //     lastName: value.lastName,
+      //     password: value.password,
+      //     plan: getPlano,
+      //   });
+      //   if (response?.status === 500) {
+      //     setServerErrorMessage(
+      //       "Ops... algo deu errado. Por favor tente de novo."
+      //     );
+      //     setServerError(true);
+      //   } else if (response?.status === 400) {
+      //     setServerErrorMessage(
+      //       "Esse email já existe, por favor faça o login."
+      //     );
+      //     setServerError(true);
+      //   }
+      // } catch {
+      //   setServerErrorMessage(
+      //     "Ops... algo deu errado. Por favor tente de novo."
+      //   );
+      //   setServerError(true);
+      // }
     },
   });
-
+  const breadcrumbItems = [
+    {
+      href: `/criar-conta?plano=${getPlano}`,
+      label: "Criar Conta",
+      icon: UserPlus,
+    },
+  ];
   return (
-    <div className="pt-10 pb-16 px-4">
-      {serverError && (
-        <AuthCard className="border-0">
-          <AlertBanner message={serverErrorMessage} type="error" />
-        </AuthCard>
-      )}
-      <AuthCard>
-        <div className="space-y-6">
-          <div className="space-y-2 text-center">
-            <h1 className="text-2xl font-bold">
-              Primeiro vamos criar a sua conta
-            </h1>
-            <p className="text-muted-foreground">
-              Por favor insira suas informações abaixo
-            </p>
-          </div>
-          <form
-            className="space-y-4"
-            onSubmit={(e) => {
-              e.preventDefault();
-              form.handleSubmit();
-            }}
-          >
-            <div className="grid grid-cols-2 gap-4">
-              <form.Field name="firstName">
-                {(field) => (
-                  <div className="space-y-2">
-                    <Label htmlFor="firstName">Primeiro nome</Label>
-                    <Input
-                      id="firstName"
-                      maxLength={50}
-                      onBlur={field.handleBlur}
-                      onChange={(e: any) => field.handleChange(e.target.value)}
-                      placeholder="Nome"
-                      required
-                      type="text"
-                      value={field.state.value}
-                    />
-                    {field.state.meta.errors && (
-                      <p className="text-sm text-destructive">
-                        {field.state.meta.errors[0]}
-                      </p>
-                    )}
-                  </div>
-                )}
-              </form.Field>
-              <form.Field name="lastName">
-                {(field) => (
-                  <div className="space-y-2">
-                    <Label htmlFor="lastName">Último nome</Label>
-                    <Input
-                      id="lastName"
-                      maxLength={50}
-                      onBlur={field.handleBlur}
-                      onChange={(e: any) => field.handleChange(e.target.value)}
-                      placeholder="Sobre Nome"
-                      required
-                      type="text"
-                      value={field.state.value}
-                    />
-                    {field.state.meta.errors && (
-                      <p className="text-sm text-destructive">
-                        {field.state.meta.errors[0]}
-                      </p>
-                    )}
-                  </div>
-                )}
-              </form.Field>
-            </div>
-            <form.Field name="email">
-              {(field) => (
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    onBlur={field.handleBlur}
-                    onChange={(e: any) => field.handleChange(e.target.value)}
-                    placeholder="seuemail@exemplo.com"
-                    required
-                    type="email"
-                    value={field.state.value}
-                  />
-                  {field.state.meta.errors && (
-                    <p className="text-sm text-destructive">
-                      {field.state.meta.errors[0]}
-                    </p>
-                  )}
-                </div>
-              )}
-            </form.Field>
-            <form.Field name="password">
-              {(field) => (
-                <div className="space-y-2 relative">
-                  <Label htmlFor="password">Senha</Label>
-                  <Input
-                    id="password"
-                    onBlur={field.handleBlur}
-                    onChange={(e: any) => {
-                      field.handleChange(e.target.value);
-                      const checkRules = PasswordRulesValidation(
-                        e.target.value
-                      );
-                      setPasswordValidation((prevState: any) => ({
-                        ...prevState,
-                        ...checkRules,
-                      }));
-                    }}
-                    maxLength={20}
-                    type={isShowPassword ? "text" : "password"}
-                    required
-                    value={field.state.value}
-                  />
-                  {isShowPassword ? (
-                    <div
-                      className="flex w-[25px] absolute right-2 top-8 cursor-pointer text-center justify-center"
-                      onClick={() => setIsShowPassword(!isShowPassword)}
-                    >
-                      <EyeOff className="h-6 w-6 text-primary" />
-                    </div>
-                  ) : (
-                    <div
-                      className="flex w-[25px] absolute right-2 top-8 cursor-pointer text-center justify-center"
-                      onClick={() => setIsShowPassword(!isShowPassword)}
-                    >
-                      <Eye className="h-6 w-6 text-primary" />
-                    </div>
-                  )}
-                  {field.state.meta.errors && (
-                    <p className="text-sm text-destructive">
-                      {field.state.meta.errors[0]}
-                    </p>
-                  )}
-                </div>
-              )}
-            </form.Field>
-            <PasswordRules passwordValidation={passwordValidation} />
-            <form.Field name="plan">
-              {(field) => (
-                <div className="space-y-2">
-                  <Label>Plano</Label>
-                  <Input
-                    id="plan"
-                    onBlur={field.handleBlur}
-                    onChange={(e: any) => field.handleChange(e.target.value)}
-                    disabled
-                    readOnly
-                    value={field.state.value}
-                  />
-                  {field.state.meta.errors && (
-                    <p className="text-sm text-destructive">
-                      {field.state.meta.errors[0]}
-                    </p>
-                  )}
-                </div>
-              )}
-            </form.Field>
-            <Button
-              className="w-full"
-              disabled={form.state.isSubmitting}
-              type="submit"
-            >
-              {form.state.isSubmitting ? (
-                <div className="flex flex-row items-center italic">
-                  Criando conta...
-                  <LoaderCircle className="animate-spin h-5 w-5 ml-2" />
-                </div>
-              ) : (
-                "Criar conta e ir para o pagamento"
-              )}
-            </Button>
-          </form>
-          <div className="text-center text-sm">
-            Já possui uma conta?{" "}
-            <Link
-              className="text-primary hover:underline"
-              href="/login"
-              prefetch
-            >
-              Faça o Login.
-            </Link>
-          </div>
-        </div>
+    <PageLayout breadcrumbItems={breadcrumbItems}>
+      {serverError && <AlertBanner message={serverErrorMessage} type="error" />}
+      <AuthCard
+        title={translate["cardTitle"]}
+        description={translate["cardDescription"]}
+      >
+        <Form
+          createAccountLinkLabel={translate["form"]["createAccountLinkLabel"]}
+          fieldsToRender={[
+            {
+              label: translate["form"]["fields"]["firstName"]["label"],
+              name: translate["form"]["fields"]["firstName"]["name"],
+              placeholder:
+                translate["form"]["fields"]["firstName"]["placeholder"],
+              type: "text",
+            },
+            {
+              label: translate["form"]["fields"]["lastName"]["label"],
+              name: translate["form"]["fields"]["lastName"]["name"],
+              placeholder:
+                translate["form"]["fields"]["lastName"]["placeholder"],
+              type: "text",
+            },
+            {
+              label: translate["form"]["fields"]["email"]["label"],
+              name: translate["form"]["fields"]["email"]["name"],
+              placeholder: translate["form"]["fields"]["email"]["placeholder"],
+              type: "email",
+            },
+            {
+              label: translate["form"]["fields"]["password"]["label"],
+              name: translate["form"]["fields"]["password"]["name"],
+              type: "password",
+            },
+            {
+              disabled: true,
+              label: translate["form"]["fields"]["plan"]["label"],
+              name: translate["form"]["fields"]["plan"]["name"],
+              type: "text",
+            },
+          ]}
+          forgotPasswordLabel={translate["form"]["forgotPasswordLabel"]}
+          form={form}
+          makeLoginLabel={translate["makeLoginLabel"]}
+          showPasswordRules
+          submitLabel={translate["form"]["submitLabel"]}
+          submitLoadingLabel={translate["form"]["submitLoadingLabel"]}
+        />
       </AuthCard>
-    </div>
+    </PageLayout>
   );
 }

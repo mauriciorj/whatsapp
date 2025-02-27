@@ -2,7 +2,7 @@
 
 import { createServer } from "@/supabase/server";
 
-const GetWhatsAppControl = async ({ user_id }: { user_id: string }) => {
+const GetWhatsapp = async ({ user_id }: { user_id: string }) => {
   const supabase = await createServer();
 
   const { data, error }: any = await supabase
@@ -17,4 +17,4 @@ const GetWhatsAppControl = async ({ user_id }: { user_id: string }) => {
   return data[0];
 };
 
-export default GetWhatsAppControl;
+export default GetWhatsapp;

@@ -1,3 +1,8 @@
+"use client";
+
+import { ShieldAlert } from "lucide-react";
+import PageLayout from "@/components/layout/pageLayout";
+
 const aboutSections = [
   {
     title: "Sobre nós",
@@ -12,11 +17,19 @@ const aboutSections = [
   },
 ];
 
+const breadcrumbItems = [
+  {
+    href: "/sobre",
+    label: "Sobre nós",
+    icon: ShieldAlert,
+  },
+];
+
 export default function Sobre() {
   return (
-    <div className="mb-24 p-8 space-y-8">
+    <PageLayout breadcrumbItems={breadcrumbItems}>
       {aboutSections.map((section, index) => (
-        <section className="space-y-4" key={index}>
+        <section className="mb-10 ml-0 md:ml-[150px]" key={index}>
           <h2 className="text-2xl font-semibold">{section.title}</h2>
           <div className="space-y-4 text-muted-foreground">
             {section.content.map((paragraph, pIndex) => (
@@ -25,6 +38,6 @@ export default function Sobre() {
           </div>
         </section>
       ))}
-    </div>
+    </PageLayout>
   );
 }

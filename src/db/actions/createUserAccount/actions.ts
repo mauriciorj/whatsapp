@@ -1,7 +1,10 @@
 "use server";
 
-import { createServer } from "@/db/supabase/server";
+import updateUserProfile from "@/actions/updateUserProfile/actions";
+import { createServer } from "@/supabase/server";
+import { redirect } from "next/navigation";
 // import generateRandomCode from "@/lib/generateCode";
+import BusinessRules from "@/lib/businessRules";
 import { v4 as uuidv4 } from "uuid";
 
 // const checkIfCodeExists = async (randomCodeToLink: string) => {
@@ -35,36 +38,6 @@ import { v4 as uuidv4 } from "uuid";
 //   return error;
 // };
 
-const userProfileUpdate = async ({
-  first_name,
-  last_name,
-  plan,
-  user_id,
-  role,
-  account_id,
-}: {
-  first_name: string;
-  last_name: string;
-  plan: string;
-  user_id: string;
-  role: string;
-  account_id: string;
-}) => {
-  const supabase = await createServer();
-  const { error } = await supabase
-    .from("user_profile")
-    .insert({
-      first_name,
-      last_name,
-      plan,
-      subscription_status: "not active",
-      role,
-      account_id,
-    })
-    .eq("user_id", user_id);
-  return error;
-};
-
 const CreateUserAccount = async (formData: {
   email: string;
   firstName: string;
@@ -76,6 +49,10 @@ const CreateUserAccount = async (formData: {
 
   const { email, firstName, lastName, password, plan } = formData;
 
+  if (!Object.values(BusinessRules).some((item) => item.name === plan)) {
+    return { status: 500 };
+  }
+
   const data = {
     email: email.toLowerCase(),
     password,
@@ -86,21 +63,22 @@ const CreateUserAccount = async (formData: {
     .from("user_profile")
     .select("email")
     .eq("email", email);
-  
+
   if (hasUser && hasUser[0]?.email) {
     return { status: 400 };
   }
-  
+
   // Step 2 - Create account
   // Supabase will add the id and email to user_profile table
   const { data: signUpData, error } = await supabase.auth.signUp(data);
-  
+
   if (error) {
     return { status: 500 };
   }
-  
+
+  // Step 3 - Update account after create it
   if (signUpData?.user?.id) {
-    const profileUpdated = await userProfileUpdate({
+    const profileUpdated = await updateUserProfile({
       first_name: firstName,
       last_name: lastName,
       plan: plan,
@@ -108,7 +86,7 @@ const CreateUserAccount = async (formData: {
       role: "admin",
       account_id: uuidv4(),
     });
-    
+
     if (profileUpdated) {
       return { status: 500 };
     }
@@ -154,7 +132,13 @@ const CreateUserAccount = async (formData: {
   //   }
   // }
 
-  return { status: 200 };
+  if (plan === "basico") {
+    redirect("https://pay.kiwify.com.br/vNY2XvG");
+  } else if (plan === "avancado") {
+    redirect("https://pay.kiwify.com.br/tA9jJEx");
+  } else {
+    return { status: 500 };
+  }
 };
 
 export default CreateUserAccount;

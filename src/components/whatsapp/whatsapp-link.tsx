@@ -8,8 +8,8 @@ import {
   LoaderCircle,
   RefreshCcw,
 } from "lucide-react";
+import DefaultCard from "@/components/layout/defaultCard";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -72,8 +72,8 @@ const WhatsAppLink = ({
 
   const isFetching = false;
   return (
-    <>
-      <Card className="p-6">
+    <div className="mb-10">
+      <DefaultCard>
         <h2 className="text-xl font-semibold mb-4">Link de divulgação</h2>
         <div className="flex gap-4">
           <div className="w-full relative">
@@ -150,7 +150,7 @@ const WhatsAppLink = ({
             </HoverCard>
           </div>
         </div>
-      </Card>
+      </DefaultCard>
       <Dialog
         open={isModalOpen}
         onOpenChange={() => {
@@ -167,7 +167,7 @@ const WhatsAppLink = ({
           </DialogHeader>
           <div className="flex flex-row">
             <div className="text-sm text-muted-foreground">
-              https://zaprouter.pro/
+              https://zaprouter.pro/wp/
             </div>
             <div className="text-sm bold">{linkPersonalized}</div>
           </div>
@@ -244,7 +244,7 @@ const WhatsAppLink = ({
           </form>
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 };
 

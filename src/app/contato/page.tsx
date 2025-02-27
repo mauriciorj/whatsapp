@@ -1,20 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { LoaderCircle } from "lucide-react";
-import ContactWebForm from "@/actions/contactWebForm/actions";
-import AuthCard from "@/components/auth/auth-card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import { Mail } from "lucide-react";
+import SendContactWebForm from "@/actions/sendContactWebForm/actions";
+import useTranslations from "@/hooks/useTranslations";
 import { contactSchema } from "@/lib/validations/schemas";
 import { useForm } from "@tanstack/react-form";
+import PageLayout from "@/components/layout/pageLayout";
+import AuthCard from "@/components/auth/auth-card";
+import { AlertBanner } from "@/components/ui/alert-banner";
+import Form from "@/components/form";
 
 export default function Contato() {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const translate = useTranslations("Pages.Contact");
+
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-  const [isServerError, setIsServerError] = useState<boolean>(false);
+  const [serverError, setServerError] = useState<boolean>(false);
 
   const form = useForm({
     defaultValues: {
@@ -27,9 +28,8 @@ export default function Contato() {
       onSubmit: contactSchema,
     },
     onSubmit: async ({ value }: any) => {
-      setIsLoading(true);
       try {
-        const response = await ContactWebForm(
+        const response = await SendContactWebForm(
           value as {
             email: string;
             subject: string;
@@ -38,183 +38,70 @@ export default function Contato() {
           }
         );
         if (response === false) {
-          setIsServerError(true);
-          setIsLoading(false);
+          setServerError(true);
         } else {
-          setIsServerError(false);
+          setServerError(false);
           setIsSubmitted(true);
-          setIsLoading(false);
         }
       } catch {
-        setIsServerError(true);
-        setIsLoading(false);
+        setServerError(true);
       }
     },
   });
 
+  const breadcrumbItems = [{ href: "/contato", label: "Contato", icon: Mail }];
+
   return (
-    <div className="pt-14 pb-16 px-4">
-      <AuthCard>
-        {!isSubmitted ? (
-          <div className="space-y-6">
-            <div className="space-y-2 text-center">
-              <h1 className="text-2xl font-bold">Entre em contato</h1>
-              <p className="text-muted-foreground">
-                Alguma dúvida ou Sugestão? Ficaremos felizes em ajudar!
-              </p>
-            </div>
-            <form
-              className="space-y-4"
-              onSubmit={(e) => {
-                e.preventDefault();
-                form.handleSubmit();
-              }}
-            >
-              <div className="space-y-2">
-                <form.Field name="name">
-                  {(field) => (
-                    <>
-                      <Label htmlFor="firstName">Nome *</Label>
-                      <Input
-                        id="name"
-                        onBlur={field.handleBlur}
-                        onChange={(e: any) =>
-                          field.handleChange(e.target.value)
-                        }
-                        maxLength={50}
-                        placeholder="Nome"
-                        required
-                        type="text"
-                        value={field.state.value}
-                      />
-                      {field.state.meta.errors && (
-                        <p className="text-sm text-destructive">
-                          {field.state.meta.errors[0]}
-                        </p>
-                      )}
-                    </>
-                  )}
-                </form.Field>
-              </div>
-              <div className="space-y-2 relative">
-                <form.Field name="email">
-                  {(field) => (
-                    <>
-                      <Label htmlFor="firstName">Email *</Label>
-                      <Input
-                        id="email"
-                        onBlur={field.handleBlur}
-                        onChange={(e: any) =>
-                          field.handleChange(e.target.value)
-                        }
-                        placeholder="seuemail@exemplo.com"
-                        required
-                        type="email"
-                        value={field.state.value}
-                      />
-                      {field.state.meta.errors && (
-                        <p className="text-sm text-destructive">
-                          {field.state.meta.errors[0]}
-                        </p>
-                      )}
-                    </>
-                  )}
-                </form.Field>
-              </div>
-              <div className="space-y-2 relative">
-                <form.Field name="subject">
-                  {(field) => (
-                    <>
-                      <Label htmlFor="firstName">
-                        Dúvida, Assunto ou Sugestão *
-                      </Label>
-                      <Input
-                        id="subject"
-                        onBlur={field.handleBlur}
-                        onChange={(e: any) =>
-                          field.handleChange(e.target.value)
-                        }
-                        maxLength={200}
-                        placeholder="Tópico em poucas palavras..."
-                        required
-                        type="text"
-                        value={field.state.value}
-                      />
-                      {field.state.meta.errors && (
-                        <p className="text-sm text-destructive">
-                          {field.state.meta.errors[0]}
-                        </p>
-                      )}
-                    </>
-                  )}
-                </form.Field>
-              </div>
-              <div className="space-y-2 relative">
-                <form.Field name="message">
-                  {(field) => (
-                    <>
-                      <Label htmlFor="firstName">Mensagem *</Label>
-                      <Textarea
-                        id="message"
-                        onBlur={field.handleBlur}
-                        onChange={(e: any) =>
-                          field.handleChange(e.target.value)
-                        }
-                        maxLength={1000}
-                        placeholder="Sua mensagem..."
-                        required
-                        value={field.state.value}
-                      />
-                      {field.state.meta.errors && (
-                        <p className="text-sm text-destructive">
-                          {field.state.meta.errors[0]}
-                        </p>
-                      )}
-                    </>
-                  )}
-                </form.Field>
-              </div>
-              <Button
-                className="w-full"
-                disabled={isLoading || isServerError}
-                type="submit"
-              >
-                {isLoading ? (
-                  <div className="flex flex-row items-center italic">
-                    Enviando...
-                    <LoaderCircle className="animate-spin h-5 w-5 ml-2" />
-                  </div>
-                ) : (
-                  "Enviar Mensagem"
-                )}
-              </Button>
-            </form>
-            {isServerError && (
-              <p className="text-sm text-destructive">
-                Ops... algo deu errado. Por favor tente novamente mais tarde.
-              </p>
-            )}
-          </div>
-        ) : (
-          <div className="space-y-6 text-center">
-            <h2 className="text-2xl font-bold">Mensagem Enviada!</h2>
-            <p className="text-muted-foreground">
-              Obrigado por entrar em contato. Retornaremos o mais rápido
-              possível.
-            </p>
-            <Button
-              className="w-full"
-              onClick={() => {
-                setIsSubmitted(false);
-                form.reset();
-              }}
-              variant="outline"
-            >
-              Enviar Outra Mensagem
-            </Button>
+    <PageLayout breadcrumbItems={breadcrumbItems}>
+      <AuthCard
+        title={translate["cardTitle"]}
+        description={translate["cardDescription"]}
+      >
+        {serverError && (
+          <AlertBanner
+            message={translate["form"]["alertMessage"]}
+            type="error"
+          />
+        )}
+        {isSubmitted && (
+          <AlertBanner
+            message={translate["form"]["successMessage"]}
+            type="error"
+          />
+        )}
+        {!isSubmitted && (
+          <div>
+            <Form
+              fieldsToRender={[
+                {
+                  label: translate["form"]["fields"]["name"]["label"],
+                  name: translate["form"]["fields"]["name"]["name"],
+                  type: "text",
+                },
+                {
+                  label: translate["form"]["fields"]["email"]["label"],
+                  name: translate["form"]["fields"]["email"]["name"],
+                  type: "email",
+                },
+                {
+                  label: translate["form"]["fields"]["subject"]["label"],
+                  name: translate["form"]["fields"]["subject"]["name"],
+                  type: "text",
+                },
+                {
+                  label: translate["form"]["fields"]["message"]["label"],
+                  name: translate["form"]["fields"]["message"]["name"],
+                  maxLength: 1000,
+                  type: "textArea",
+                },
+              ]}
+              form={form}
+              submitLabel={translate["form"]["submitLabel"]}
+              submitLoadingLabel={translate["form"]["submitLoadingLabel"]}
+            />
           </div>
         )}
       </AuthCard>
-    </div>
+    </PageLayout>
   );
 }

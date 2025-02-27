@@ -10,7 +10,7 @@ const Header = ({ userData }: any) => {
   const pathname = usePathname();
 
   const isInsideDashboard = Boolean(pathname.split("/")[1] === "dashboard");
-
+console.log("userData => ",userData)
   return (
     <header className="fixed top-0 w-full bg-background/80 backdrop-blur-sm border-b z-50">
       <div

@@ -1,7 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import GetUser from "@/actions/getUser/actions";
 import GetUserProfile from "@/actions/getUserProfile/actions";
 import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
@@ -19,15 +18,14 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const data = await GetUser();
-  const userData = await GetUserProfile({ userId: data?.user?.id });
+  const userProfileData = await GetUserProfile();
 
   return (
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          <Header userData={userData}/>
-          <main className="pt-16 min-h-[calc(100svh-340px)]">{children}</main>
+          <Header userData={userProfileData} />
+          <main className="pt-16 min-h-screen">{children}</main>
           <Footer />
         </Providers>
       </body>

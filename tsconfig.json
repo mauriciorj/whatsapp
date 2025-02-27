@@ -26,7 +26,8 @@
       "@/images/*": ["./src/assets/images/*"],
       "@/lib/*": ["./src/lib/*"],
       "@/providers/*": ["./src/providers/*"],
-      "@/supabase/*": ["./src/db/supabase/*"]
+      "@/supabase/*": ["./src/db/supabase/*"],
+      "@/translations/*": ["./src/translations/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

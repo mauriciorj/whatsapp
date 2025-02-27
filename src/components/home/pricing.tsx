@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import PLANS from "@/lib/plans";
+import BusinessRules from "@/lib/businessRules";
 
 const Pricing = () => {
   const { theme } = useTheme();
@@ -28,9 +28,9 @@ const Pricing = () => {
 
   const plans = [
     {
-      name: PLANS.basico.name,
+      name: BusinessRules.basico.name,
       value: "basico",
-      price: `R$${PLANS.basico.price}`,
+      price: `R$${BusinessRules.basico.price}`,
       description: "Perfeito para quem está começando",
       features: [
         {
@@ -61,9 +61,9 @@ const Pricing = () => {
       ],
     },
     {
-      name: PLANS.avancado.name,
+      name: BusinessRules.avancado.name,
       value: "avancado",
-      price: `R$${PLANS.avancado.price}`,
+      price: `R$${BusinessRules.avancado.price}`,
       description: "Para quem já tem uma operação rodando",
       popular: true,
       features: [

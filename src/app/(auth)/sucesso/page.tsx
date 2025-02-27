@@ -1,28 +1,33 @@
+"use client";
+
 import Link from "next/link";
-import AuthCard from "@/components/auth/auth-card";
+import { Check } from "lucide-react";
+import PageLayout from "@/components/layout/pageLayout";
 import { Button } from "@/components/ui/button";
+import DefaultCard from "@/components/layout/defaultCard";
+import useTranslations from "@/hooks/useTranslations";
 
 export default function Successo() {
+  const translate = useTranslations("Pages.PaymentSuccess");
+  const breadcrumbItems = [
+    {
+      href: "/sucesso",
+      label: "Sucesso",
+      icon: Check,
+    },
+  ];
   return (
-    <div className="pt-16 pb-16 px-4">
-      <AuthCard>
-        <div className="space-y-2 text-center">
-          <h1 className="text-2xl font-bold">
-            Pagamento realizado com sucesso!{" "}
-          </h1>
-          <p className="pt-7">
-            Uma confirmação vai ser enviada para o seu e-mail.
-          </p>
-          <p className="pt-5">
-            <Button asChild>
-              <Link href="/login">
-                Clique aqui para acessar o nosso sistema.
-              </Link>
-            </Button>
-          </p>
-          <p className="pt-5">Qualquer dúvida entre em contato.</p>
+    <PageLayout breadcrumbItems={breadcrumbItems}>
+      <DefaultCard
+        title={translate["cardTitle"]}
+        description={translate["cardDescription"]}
+      >
+        <div className="flex flex-row w-full items-center justify-center">
+          <Button asChild>
+            <Link href="/login">{translate["buttonLabel"]}</Link>
+          </Button>
         </div>
-      </AuthCard>
-    </div>
+      </DefaultCard>
+    </PageLayout>
   );
 }
