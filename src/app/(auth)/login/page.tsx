@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { KeyRound } from "lucide-react";
 // import LoginUser from "@/actions/login/actions";
 import AuthCard from "@/components/auth/auth-card";
@@ -14,6 +14,7 @@ import { createClient } from "@/supabase/client";
 import { useForm } from "@tanstack/react-form";
 
 export default function Login() {
+  const router = useRouter();
   const translate = useTranslations("Pages.Login");
 
   const [serverError, setServerError] = useState<boolean>(false);
@@ -36,6 +37,7 @@ export default function Login() {
       if (error) {
         setServerError(true);
       } else {
+        router.refresh();
         redirect("/dashboard");
       }
 
