@@ -21,7 +21,7 @@
             "placeholder": "seuemail@exemplo.com"
           },
           "password": {
-            "label": "Password *",
+            "label": "Senha *",
             "name": "password"
           },
           "plan": {
@@ -64,6 +64,45 @@
         "successMessage": "Mensagem Enviada! Obrigado por entrar em contato. Retornaremos o mais rápido possível."
       }
     },
+    "Dashboard": {
+      "Perfil": {
+        "pageTitle": "Perfil",
+        "pageDescription": "Todas as suas inforações pessoais.",
+        "form": {
+          "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+          "cancelLabel": "Cancelar troca de senha",
+          "cardTitle": "Crie uma senha nova",
+          "cardDescription": "Por favor insira uma senha nova para acessar o nosso sistema.",
+          "fields": {
+            "password": {
+              "label": "Senha",
+              "name": "password"
+            }
+          },
+          "submitLabel": "Confirmar a senha nova",
+          "submitLoadingLabel": "Processando...",
+          "successMessage": "Por favor verifique o seu e-mail. Enviamos todas as instruções para recuperar a sua senha."
+        },
+        "profileCard": {
+          "cardTitle": "Informações Básicas",
+          "email": {
+            "label": "Email",
+            "placeholder": "seuemail@exemplo.com"
+          },
+          "firstName": {
+            "label": "Primeiro Nome"
+          },
+          "lastName": {
+            "label": "Último Nome"
+          },
+          "plan": {
+            "label": "Plano"
+          },
+          "submitLabel": "Alterar senha",
+          "submitLoadingLabel": "Processando..."
+        }
+      }
+    },
     "Login": {
       "cardTitle": "Seja Bem Vindo",
       "cardDescription": "Insira suas informações para acessar o sistema",
@@ -78,7 +117,7 @@
             "placeholder": "seuemail@exemplo.com"
           },
           "password": {
-            "label": "Password *",
+            "label": "Senha *",
             "name": "password"
           }
         },
@@ -117,7 +156,7 @@
         "createAccountLinkLabel": "Não tem uma conta? Crie uma agora mesmo.",
         "fields": {
           "password": {
-            "label": "Password *",
+            "label": "Senha *",
             "name": "password"
           }
         },
