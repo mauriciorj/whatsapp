@@ -2,14 +2,16 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
+import UserNav from "./user-nav";
 import GetUserProfile from "@/actions/getUserProfile/actions";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
-import UserNav from "./user-nav";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import useTranslations from "@/hooks/useTranslations";
 
 const Header = () => {
+  const translate = useTranslations("main");
   const pathname = usePathname();
 
   const isInsideDashboard = Boolean(pathname.split("/")[1] === "dashboard");
@@ -46,7 +48,7 @@ const Header = () => {
           {userData?.email ? (
             <>
               <Button asChild>
-                <Link href="/dashboard">Dashboard</Link>
+                <Link href="/dashboard">{translate["dashboard"]}</Link>
               </Button>
               <UserNav />
             </>
@@ -54,11 +56,11 @@ const Header = () => {
             <div className="flex items-center gap-2">
               <Button asChild variant="ghost">
                 <Link prefetch href="/login">
-                  Login
+                  {translate["login"]}
                 </Link>
               </Button>
               <Button asChild>
-                <Link href="/#planos">Começar</Link>
+                <Link href="/#planos">{translate["signUp"]}</Link>
               </Button>
             </div>
           )}

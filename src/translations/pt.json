@@ -1,4 +1,33 @@
 {
+  "main": {
+    "dashboard": "Dashboard",
+    "login": "Login",
+    "signUp": "Começar",
+    "footer": {
+      "product": {
+        "title": "Dashboard",
+        "links": [{ "label": "Login", "href": "/login" }]
+      },
+      "company": {
+        "title": "Empresa",
+        "links": [
+          { "label": "Sobre Nós", "href": "/sobre" },
+          {
+            "label": "Política de Privacidade",
+            "href": "/politica-de-privacidade"
+          },
+          { "label": "Politica de Reembolso", "href": "/politica-de-reembolso" }
+        ]
+      },
+      "support": {
+        "title": "Suporte",
+        "links": [
+          { "label": "Contato", "href": "/contato" },
+          { "label": "Ajuda", "href": "/ajuda" }
+        ]
+      }
+    }
+  },
   "Pages": {
     "CreateAccount": {
       "cardTitle": "Primeiro vamos criar a sua conta",
