@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 export default function TextArea({
   field,
   fieldToRender,
+  isLoading,
   onBlur,
   onChange,
 }: any) {
@@ -12,7 +13,7 @@ export default function TextArea({
     <>
       <Textarea
         id={field.name}
-        disabled={fieldToRender.disabled}
+        disabled={fieldToRender.disabled || isLoading}
         name={field.name}
         maxLength={field.maxLength || 500}
         onBlur={onBlur}

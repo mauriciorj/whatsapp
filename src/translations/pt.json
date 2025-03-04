@@ -130,6 +130,31 @@
           "submitLabel": "Alterar senha",
           "submitLoadingLabel": "Processando..."
         }
+      },
+      "Projects": {
+        "addProjectCtaLabel": "Adicionar Projeto",
+        "pageTitle": "Bem vindo, ",
+        "projectCardTitle": "Projeto: ",
+        "form": {
+          "addProjectLabel": "Adicionar Projeto",
+          "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+          "cancelLabel": "Cancelar",
+          "cardTitle": "Para começar, crie um projeto!",
+          "cardTitleTwo": "Projetos",
+          "cardDescription": "Escolha um nome para o seu projeto.",
+          "cardDescriptionTwo": "Gerencie os seus projetos",
+          "fields": {
+            "project": {
+              "label": "Nome *",
+              "name": "project",
+              "placeholder": "Ex: Projeto Suporte Online",
+              "fieldError": "Já existe um projeto com esse nome."
+            }
+          },
+          "submitLabel": "Criar projeto",
+          "submitLoadingLabel": "Criando projeto...",
+          "successMessage": "Projeto criado com sucesso!"
+        }
       }
     },
     "Login": {

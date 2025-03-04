@@ -68,6 +68,7 @@ export default function Form({
                       <Textarea
                         field={field}
                         fieldToRender={fieldToRender}
+                        isLoading={form.state.isSubmitting}
                         onBlur={field.handleBlur}
                         onChange={(e: { target: { value: string } }) => {
                           field.handleChange(e.target.value);
@@ -79,6 +80,7 @@ export default function Form({
                     <Password
                       field={field}
                       fieldToRender={fieldToRender}
+                      isLoading={form.state.isSubmitting}
                       isShowPassword={isShowPassword}
                       onBlur={field.handleBlur}
                       onChange={(e: any) => {
@@ -100,6 +102,7 @@ export default function Form({
                     <Text
                       field={field}
                       fieldToRender={fieldToRender}
+                      isLoading={form.state.isSubmitting}
                       onBlur={field.handleBlur}
                       onChange={(e: { target: { value: string } }) => {
                         field.handleChange(e.target.value);
@@ -110,6 +113,7 @@ export default function Form({
                     <Email
                       field={field}
                       fieldToRender={fieldToRender}
+                      isLoading={form.state.isSubmitting}
                       onBlur={field.handleBlur}
                       onChange={(e: { target: { value: string } }) => {
                         field.handleChange(e.target.value);

@@ -1,5 +1,6 @@
+import PageTitle from "@/components/layout/pageTitle";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
-import PageTitle from "../layout/pageTitle";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export interface BreadcrumbItem {
   href: string;
@@ -12,6 +13,7 @@ interface PageLayoutProps {
   children: React.ReactNode;
   pageTitle?: string;
   pageDescription?: string;
+  isLoading?: boolean;
 }
 
 const PageLayout = ({
@@ -19,13 +21,18 @@ const PageLayout = ({
   children,
   pageTitle,
   pageDescription,
+  isLoading,
 }: PageLayoutProps) => (
   <>
     <div className="container mb-10">
       <Breadcrumb items={breadcrumbItems} />
     </div>
     <div className="container mb-10 md:ml-10">
-      <PageTitle title={pageTitle} description={pageDescription} />
+      {isLoading ? (
+        <Skeleton className="h-10 w-72 mb-4" />
+      ) : (
+        <PageTitle title={pageTitle} description={pageDescription} />
+      )}
     </div>
     {children}
   </>

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import FooterSections from "./FooterSections";
+import FooterSections from "./footerSections";
 import useTranslations from "@/hooks/useTranslations";
 
 const Footer = () => {

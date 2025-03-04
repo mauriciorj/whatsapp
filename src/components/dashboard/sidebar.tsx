@@ -11,9 +11,10 @@ import {
   PanelsTopLeft,
 } from "lucide-react";
 import GetUserProfile from "@/actions/getUserProfile/actions";
-import GetUserProjects from "@/actions/getUserProjects/actions";
+// import GetUserProjects from "@/actions/getUserProjects/actions";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { createClient } from "@/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 
 const Sidebar = () => {
@@ -29,7 +30,20 @@ const Sidebar = () => {
 
   const { data: userProjects } = useQuery({
     queryKey: ["userProjects"],
-    queryFn: async () => GetUserProjects({ userId: userProfileData?.user_id }),
+    queryFn: async () => {
+      // CLIENT SIDE
+      const supabase = await createClient();
+
+      const { data }: any = await supabase
+        .from("projects")
+        .select("title")
+        .eq("user_id", userProfileData?.user_id);
+
+      return data;
+
+      // SERVER SIDE
+      // GetUserProjects({ userId: userProfileData?.user_id });
+    },
     enabled: !!userProfileData?.user_id,
   });
 

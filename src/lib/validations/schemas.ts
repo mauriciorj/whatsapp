@@ -23,7 +23,7 @@ export const loginSchema = z.object({
 });
 
 export const projectTitleSchema = z.object({
-  projectTitle: z.string(),
+  project: z.string().min(1, { message: "Por favor insira um nome válido." }),
 });
 
 export const signupSchema = z.object({
