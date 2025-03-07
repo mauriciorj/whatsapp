@@ -52,7 +52,7 @@ const TableDeviceType = ({
     )}
     {/* {Boolean(!data?.length) && !isLoading && (
       <div className="w-full flex flex-col items-center justify-center h-[100px]">
-        <div className="border rounded-md py-5 px-7">
+        <div className="border rounded-md py-5 px-7 text-center">
           Sem dados para serem mostrados no momento.
         </div>
       </div>

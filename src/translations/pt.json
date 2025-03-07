@@ -155,6 +155,81 @@
           "submitLoadingLabel": "Criando projeto...",
           "successMessage": "Projeto criado com sucesso!"
         }
+      },
+      "Reports": {
+        "pageTitle": "Relatórios",
+        "pageDescription": "Seus relatórios com as últimas informações",
+        "reportPeriods": {
+          "sevenDays": "Periodo: 7 dias",
+          "fourteenDays": "Periodo: 14 dias",
+          "thirtiehDays": "Periodo: 30 dias"
+        },
+        "noProject": "Selecione um projeto para carregar os dados.",
+        "noData": "Sem dados para serem mostrados no momento."
+      },
+      "Whatsapp": {
+        "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+        "LinkComponent": {
+          "componentTitle": "Link de divulgação",
+          "dialog": {
+            "title": "Personalize o seu link",
+            "description": "Por favor insira o seu link abaixo para confirmar a disponibilidade",
+            "instruction": "Seu link só deve conter letras e \"-\".",
+            "form": {
+              "cancelLabel": "Cancelar",
+              "fields": {
+                "link": {
+                  "label": "Link",
+                  "name": "link",
+                  "placeholder": "ex: seu-link"
+                }
+              },
+              "submitLabel": "Checar disponibilidade",
+              "submitLoadingLabel": "Checando disponibilidade..."
+            }
+          },
+          "hoverCards": {
+            "createLinkTitle": "Personalize o seu link",
+            "createLinkDescription": "Tenha um link da sua maneira",
+            "generateRandomLinkTitle": "Gere um link aleatório",
+            "generateRandomLinkErrorMessage": "Ops... Erro ao gerar um novo link.",
+            "generateRandomLinkSuccessMessage": "Um novo link foi gerado com sucesso",
+            "copyLinkTitle": "Copie o seu link"
+          }
+        },
+        "MessageComponent": {
+          "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+          "componentDescription": "Essa mensagem será exibida assim que os usuários forem adicionados ao WhatsApp",
+          "componentTitle": "Mensagem de Boas Vindas",
+          "form": {
+            "cancelLabel": "Cancelar",
+            "fields": {
+              "message": {
+                "label": "Mensagem",
+                "name": "message"
+              }
+            },
+            "submitLabel": "Salvar Mensagem",
+            "submitLoadingLabel": "Salvando mensagem..."
+          },
+          "successMessage": "Mensagem salva com sucesso"
+        },
+        "NumberComponent": {
+          "addNumberCtaLabel": "Adicionar Número",
+          "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+          "cancelCtaLabel": "Cancelar",
+          "componentTitle": "Numeros de WhatsApp",
+          "noProject": "Selecione um projeto para carregar os dados.",
+          "noData": "Você não tem nenhum número cadastrado! Por favor cadastre um número para começar.",
+          "placeholder": "Insira o número de telefone",
+          "successMessage": "Alteração salva com sucesso.",
+          "saveCtaLabel": "Salvar alterações",
+          "saveCtaLoadingLabel": "Salvando alterações..."
+        },
+        "pageTitle": "Whatsapp",
+        "pageDescription": "Gerencie seu link e números.",
+        "noProject": "Selecione um projeto para carregar os dados.",
+        "noData": "Sem dados para serem mostrados no momento."
       }
     },
     "Login": {

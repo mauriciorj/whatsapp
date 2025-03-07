@@ -20,6 +20,7 @@ export default function Form({
   form,
   makeLoginLabel,
   onCancel,
+  onChange,
   showPasswordRules,
   submitLabel,
   submitLoadingLabel,
@@ -104,9 +105,23 @@ export default function Form({
                       fieldToRender={fieldToRender}
                       isLoading={form.state.isSubmitting}
                       onBlur={field.handleBlur}
-                      onChange={(e: { target: { value: string } }) => {
-                        field.handleChange(e.target.value);
+                      onChange={(e: any) => {
+                        if (fieldToRender?.isPersonalizedLink) {
+                          const re = /^[A-Za-z\b-]+$/;
+                          if (
+                            e?.target?.value === "" ||
+                            re.test(e?.target?.value)
+                          ) {
+                            field.handleChange(e.target.value.toLowerCase());
+                          }
+                        } else {
+                          field.handleChange(e.target.value);
+                        }
+                        onChange(e.target.value);
                       }}
+                      // onChange={(e: { target: { value: string } }) => {
+                      //   field.handleChange(e.target.value);
+                      // }}
                     />
                   )}
                   {fieldToRender.type === "email" && (
@@ -136,20 +151,22 @@ export default function Form({
             </Link>
           </div>
         )}
-        <Button
-          className="w-full"
-          disabled={form.state.isSubmitting}
-          type="submit"
-        >
-          {form.state.isSubmitting ? (
-            <div className="flex flex-row items-center italic">
-              {submitLoadingLabel}
-              <LoaderCircle className="animate-spin h-5 w-5 ml-2" />
-            </div>
-          ) : (
-            submitLabel
-          )}
-        </Button>
+        {submitLabel && (
+          <Button
+            className="w-full"
+            disabled={form.state.isSubmitting}
+            type="submit"
+          >
+            {form.state.isSubmitting ? (
+              <div className="flex flex-row items-center italic">
+                {submitLoadingLabel}
+                <LoaderCircle className="animate-spin h-5 w-5 ml-2" />
+              </div>
+            ) : (
+              submitLabel
+            )}
+          </Button>
+        )}
         {createAccountLinkLabel && (
           <div className="text-center text-sm">
             <Link className="text-primary hover:underline" href="/#planos">

@@ -16,28 +16,28 @@ const Header = () => {
 
   const isInsideDashboard = Boolean(pathname.split("/")[1] === "dashboard");
 
-  const { data: userData, refetch } = useQuery({
+  const { data: userProfileData, refetch } = useQuery({
     queryKey: ["userProfile"],
     queryFn: async () => GetUserProfile(),
   });
 
   useEffect(() => {
     refetch();
-  }, [isInsideDashboard]);
+  }, [isInsideDashboard, refetch]);
 
   return (
     <header className="fixed top-0 w-full bg-background/80 backdrop-blur-sm border-b z-50">
       <div
         className={`${
-          userData?.email && !isInsideDashboard
+          userProfileData?.email && !isInsideDashboard
             ? "pl-5 pr-5 md:pl-20 md:pr-20"
             : null
         } ${
-          userData?.email && isInsideDashboard
+          userProfileData?.email && isInsideDashboard
             ? "pl-16 pr-2 md:pl-20 md:pr-20"
             : null
         } ${
-          !userData?.email ? "pl-5 pr-5 md:pl-20 md:pr-20" : null
+          !userProfileData?.email ? "pl-5 pr-5 md:pl-20 md:pr-20" : null
         } h-16 flex items-center justify-between`}
       >
         <Link className="pl-0 text-xl md:text-3xl font-bold" href="/">
@@ -45,7 +45,7 @@ const Header = () => {
         </Link>
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          {userData?.email ? (
+          {userProfileData?.email ? (
             <>
               <Button asChild>
                 <Link href="/dashboard">{translate["dashboard"]}</Link>

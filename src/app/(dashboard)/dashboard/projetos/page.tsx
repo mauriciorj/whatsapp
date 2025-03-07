@@ -13,6 +13,7 @@ import { AlertBanner } from "@/components/ui/alert-banner";
 import { Button } from "@/components/ui/button";
 import useTranslations from "@/hooks/useTranslations";
 import BusinessRules from "@/lib/businessRules";
+import generateRandomCode from "@/lib/generateCode";
 import { createClient } from "@/supabase/client";
 // import { useMutation } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
@@ -24,11 +25,11 @@ type FormType = {
 };
 
 export default function DashboardPage() {
-  const searchParams = useSearchParams()
+  const searchParams = useSearchParams();
   const router = useRouter();
   const translate = useTranslations("Pages.Dashboard.Projects");
 
-  const projectName = searchParams.get('project')
+  const projectName = searchParams.get("project");
 
   // const [isLoading, setIsLoading] = useState(false);
   const [isOpenForm, setIsOpenForm] = useState<boolean>(false);
@@ -59,7 +60,9 @@ export default function DashboardPage() {
         setServerError(true);
       }
 
-      return data;
+      return (
+        data?.sort((a: any, b: any) => a.title.localeCompare(b.title)) || []
+      );
 
       // SERVER SIDE
       // GetUserProjects({ userId: userProfileData?.user_id });
@@ -108,9 +111,31 @@ export default function DashboardPage() {
       // mutation.mutate({ title: value?.project });
       try {
         const supabase = await createClient();
-        const { error } = await supabase
-          .from("projects")
-          .insert({ title: value.project, user_id: userProfileData?.user_id });
+
+        const checkIfCodeExists = async (randomCodeToLink: string) => {
+          const { data } = await supabase
+            .from("projects")
+            .select()
+            .eq("wp_link", randomCodeToLink);
+          return data;
+        };
+
+        const getUniqueCode = async () => {
+          let code: boolean | string = false;
+          while (code === false) {
+            const getCode = await generateRandomCode();
+            const check = await checkIfCodeExists(getCode);
+            if (!check?.length) code = getCode;
+          }
+          return code;
+        };
+
+        const randomUniqueCode = await getUniqueCode();
+        const { error } = await supabase.from("projects").insert({
+          wp_link: randomUniqueCode,
+          title: value.project,
+          user_id: userProfileData?.user_id,
+        });
         if (error) {
           setServerError(true);
         } else {
@@ -151,11 +176,11 @@ export default function DashboardPage() {
   return (
     <PageLayout
       breadcrumbItems={breadcrumbItems}
+      isLoading={isProfileDataLoading}
       pageTitle={
         userProfileData?.first_name &&
         `${translate["pageTitle"]} ${userProfileData?.first_name}`
       }
-      isLoading={isProfileDataLoading}
     >
       {serverError && (
         <div className="container mb-10">
@@ -191,7 +216,11 @@ export default function DashboardPage() {
             userProjects?.map(
               (project: { title: string }, index: { index: number }) => (
                 <DefaultCard
-                  className={`${projectName === project?.title ? 'border-2 border-primary'  : ''} mt-5`}
+                  className={`${
+                    projectName === project?.title
+                      ? "border-2 border-primary"
+                      : ""
+                  } mt-5`}
                   isHoverable
                   key={`${index}-${project.title}`}
                   onClick={() => onClickHandler({ project: project.title })}

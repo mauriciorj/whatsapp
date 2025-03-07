@@ -9,6 +9,9 @@ export default function TextArea({
   onBlur,
   onChange,
 }: any) {
+  const countChar = Boolean(
+    fieldToRender.countChar && fieldToRender.countCharMaxChar
+  );
   return (
     <>
       <Textarea
@@ -22,6 +25,13 @@ export default function TextArea({
         required={fieldToRender.required}
         value={field.state.value}
       />
+      {countChar && (
+        <div className="w-full h-6 text-right pr-2 mt-2 text-sm">
+          <>
+            {field.state.value?.length} / {fieldToRender.countCharMaxChar}
+          </>
+        </div>
+      )}
     </>
   );
 }

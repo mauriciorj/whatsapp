@@ -14,7 +14,7 @@ export const forgotPasswordSchema = z.object({
 });
 
 export const linkSchema = z.object({
-  myLinkPersonalized: z.string().regex(/^[A-Za-z\b-]{4,20}$/, "Link inválido"),
+  link: z.string().regex(/^[A-Za-z\b-]{4,20}$/, "Link inválido"),
 });
 
 export const loginSchema = z.object({
@@ -24,6 +24,13 @@ export const loginSchema = z.object({
 
 export const projectTitleSchema = z.object({
   project: z.string().min(1, { message: "Por favor insira um nome válido." }),
+});
+
+export const projectMessageSchema = z.object({
+  message: z
+    .string()
+    .min(1, { message: "Por favor insira uma mensagem válida." })
+    .max(200, { message: "A mensagem não pode ter mais de 200 caracteres." }),
 });
 
 export const signupSchema = z.object({
