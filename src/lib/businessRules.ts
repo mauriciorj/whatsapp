@@ -4,6 +4,7 @@ interface PlansProps {
     name: string;
     projects: number;
     price: number | string;
+    url?: string;
   };
 }
 
@@ -19,12 +20,13 @@ const BusinessRules: PlansProps = {
     name: "Avançado",
     projects: 4,
     price: 97,
+    url: "https://pay.kiwify.com.br/JeIpGkP",
   },
   customizavel: {
     maxNumbers: 50,
     name: "Customizavel",
     projects: 4,
-    price: ' - Sob Consulta',
+    price: " - Sob Consulta",
   },
 };
 
