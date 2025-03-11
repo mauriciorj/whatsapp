@@ -105,16 +105,18 @@ export default function CriarConta() {
         }
       }
 
-      if (getPlano === "basico") {
-        router.push("https://pay.kiwify.com.br/vNY2XvG");
-      } else if (getPlano === "avancado") {
-        router.push("https://pay.kiwify.com.br/tA9jJEx");
-      } else {
-        setServerError(true);
-        setServerErrorMessage(
-          "Ops... algo deu errado. Por favor tente de novo."
-        );
-      }
+      router.push("https://pay.kiwify.com.br/JeIpGkP");
+
+      // if (getPlano === "basico") {
+      //   router.push("https://pay.kiwify.com.br/vNY2XvG");
+      // } else if (getPlano === "avancado") {
+      //   router.push("https://pay.kiwify.com.br/JeIpGkP");
+      // } else {
+      //   setServerError(true);
+      //   setServerErrorMessage(
+      //     "Ops... algo deu errado. Por favor tente de novo."
+      //   );
+      // }
 
       // SERVER SIDE
       // try {
