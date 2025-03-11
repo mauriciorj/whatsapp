@@ -62,7 +62,8 @@
           }
         },
         "submitLabel": "Criar conta e ir para o pagamento",
-        "submitLoadingLabel": "Criando conta ..."
+        "submitLoadingLabel": "Criando conta ...",
+        "successMessage": "Conta criada com sucesso, estamos redirecionando você para o pagamento"
       },
       "makeLoginLabel": "Lembra da sua senha? Faça o login aqui."
     },

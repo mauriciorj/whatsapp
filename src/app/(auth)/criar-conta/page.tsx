@@ -23,6 +23,14 @@ export default function CriarConta() {
   const getPlano = searchParams.get("plano") as string;
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  const isBrowser = () => typeof window !== "undefined"; //The approach recommended by Next.js
+
+  function scrollToTop() {
+    if (!isBrowser()) return;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
 
   const form = useForm({
     defaultValues: {
@@ -39,13 +47,14 @@ export default function CriarConta() {
     },
     onSubmit: async ({ value }: any) => {
       setErrorMessage(null);
+      setSuccessMessage(null);
 
       const supabase = await createClient();
 
-      if (
-        !Object.values(BusinessRules).some((plan) => plan?.name === getPlano)
-      ) {
+      if (!Object.keys(BusinessRules).some((plan) => plan === getPlano)) {
+        setSuccessMessage(null);
         setErrorMessage(translate["form"]["alertMessage"]);
+        return scrollToTop();
       }
 
       const data = {
@@ -60,7 +69,9 @@ export default function CriarConta() {
         .eq("email", value.email);
 
       if (hasUser && hasUser[0]?.email) {
+        setSuccessMessage(null);
         setErrorMessage(translate["form"]["alertMessageEmailExists"]);
+        return scrollToTop();
       }
 
       // Step 2 - Create account
@@ -68,7 +79,9 @@ export default function CriarConta() {
       const { data: signUpData, error } = await supabase.auth.signUp(data);
 
       if (error) {
+        setSuccessMessage(null);
         setErrorMessage(translate["form"]["alertMessage"]);
+        return scrollToTop();
       }
 
       // Step 3 - Update account after create it
@@ -77,7 +90,7 @@ export default function CriarConta() {
           .from("user_profile")
           .update({
             country: "Brasil",
-            irst_name: value.firstName,
+            first_name: value.firstName,
             last_name: value.lastName,
             plan: getPlano,
             user_id: signUpData?.user?.id,
@@ -85,13 +98,17 @@ export default function CriarConta() {
             account_id: uuidv4(),
           })
           .eq("user_id", signUpData?.user?.id);
-
         if (error) {
+          setSuccessMessage(null);
           setErrorMessage(translate["form"]["alertMessage"]);
+          return scrollToTop();
         }
       }
       if (BusinessRules[getPlano]?.url) {
-        router.push(BusinessRules[getPlano]?.url);
+        setErrorMessage(null);
+        setSuccessMessage(translate["form"]["successMessage"]);
+        scrollToTop();
+        return router.push(BusinessRules[getPlano]?.url);
       }
     },
   });
@@ -105,6 +122,9 @@ export default function CriarConta() {
   return (
     <PageLayout breadcrumbItems={breadcrumbItems}>
       {errorMessage && <AlertBanner message={errorMessage} type="error" />}
+      {successMessage && (
+        <AlertBanner message={successMessage} type="success" />
+      )}
       <AuthCard
         title={translate["cardTitle"]}
         description={translate["cardDescription"]}
