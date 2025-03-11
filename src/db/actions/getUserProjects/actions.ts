@@ -16,7 +16,7 @@ const GetUserProjects = async ({ userId }: { userId?: string }) => {
     return error;
   }
 
-  return data;
+  return data?.sort((a: any, b: any) => a.title.localeCompare(b.title)) || [];
 };
 
 export default GetUserProjects;

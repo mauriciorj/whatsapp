@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -11,16 +12,20 @@ import {
   PanelsTopLeft,
 } from "lucide-react";
 import GetUserProfile from "@/actions/getUserProfile/actions";
-import GetUserProjects from "@/actions/getUserProjects/actions";
+// import GetUserProjects from "@/actions/getUserProjects/actions";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { createClient } from "@/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 
 const Sidebar = () => {
+  const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
   const isInsideDashboard = Boolean(pathname.split("/")[1] === "dashboard");
+
+  const params = new URLSearchParams(searchParams.toString())
 
   const { data: userProfileData } = useQuery({
     queryKey: ["userProfile"],
@@ -29,7 +34,22 @@ const Sidebar = () => {
 
   const { data: userProjects } = useQuery({
     queryKey: ["userProjects"],
-    queryFn: async () => GetUserProjects({ userId: userProfileData?.user_id }),
+    queryFn: async () => {
+      // CLIENT SIDE
+      const supabase = await createClient();
+
+      const { data }: any = await supabase
+        .from("projects")
+        .select("id, title, user_id")
+        .eq("user_id", userProfileData?.user_id);
+
+      return (
+        data?.sort((a: any, b: any) => a.title.localeCompare(b.title)) || []
+      );
+
+      // SERVER SIDE
+      // GetUserProjects({ userId: userProfileData?.user_id });
+    },
     enabled: !!userProfileData?.user_id,
   });
 
@@ -63,13 +83,13 @@ const Sidebar = () => {
                 pathname === "/dashboard/projetos" &&
                   "bg-secondary text-foreground"
               )}
-              href="/dashboard/projetos"
+              href={`/dashboard/projetos?${params.toString()}`}
               onClick={() => setIsOpen(false)}
             >
               <PanelsTopLeft className="h-5 w-5" />
               Projetos
             </Link>
-            {Boolean(!userProjects?.lenght) && (
+            {Boolean(userProjects?.length) && (
               <>
                 <Link
                   className={cn(
@@ -77,7 +97,7 @@ const Sidebar = () => {
                     pathname === "/dashboard/relatorios" &&
                       "bg-secondary text-foreground"
                   )}
-                  href="/dashboard/relatorios"
+                  href={`/dashboard/relatorios?${params.toString()}`}
                   onClick={() => setIsOpen(false)}
                 >
                   <ChartSpline className="h-5 w-5" />
@@ -89,7 +109,7 @@ const Sidebar = () => {
                     pathname === "/dashboard/whatsapp" &&
                       "bg-secondary text-foreground"
                   )}
-                  href="/dashboard/whatsapp"
+                  href={`/dashboard/whatsapp?${params.toString()}`}
                   onClick={() => setIsOpen(false)}
                   prefetch
                 >

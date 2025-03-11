@@ -1,4 +1,33 @@
 {
+  "main": {
+    "dashboard": "Dashboard",
+    "login": "Login",
+    "signUp": "Começar",
+    "footer": {
+      "product": {
+        "title": "Dashboard",
+        "links": [{ "label": "Login", "href": "/login" }]
+      },
+      "company": {
+        "title": "Empresa",
+        "links": [
+          { "label": "Sobre Nós", "href": "/sobre" },
+          {
+            "label": "Política de Privacidade",
+            "href": "/politica-de-privacidade"
+          },
+          { "label": "Politica de Reembolso", "href": "/politica-de-reembolso" }
+        ]
+      },
+      "support": {
+        "title": "Suporte",
+        "links": [
+          { "label": "Contato", "href": "/contato" },
+          { "label": "Ajuda", "href": "/ajuda" }
+        ]
+      }
+    }
+  },
   "Pages": {
     "CreateAccount": {
       "cardTitle": "Primeiro vamos criar a sua conta",
@@ -21,7 +50,7 @@
             "placeholder": "seuemail@exemplo.com"
           },
           "password": {
-            "label": "Password *",
+            "label": "Senha *",
             "name": "password"
           },
           "plan": {
@@ -64,6 +93,211 @@
         "successMessage": "Mensagem Enviada! Obrigado por entrar em contato. Retornaremos o mais rápido possível."
       }
     },
+    "Dashboard": {
+      "Perfil": {
+        "pageTitle": "Perfil",
+        "pageDescription": "Todas as suas inforações pessoais.",
+        "form": {
+          "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+          "cancelLabel": "Cancelar troca de senha",
+          "cardTitle": "Crie uma senha nova",
+          "cardDescription": "Por favor insira uma senha nova para acessar o nosso sistema.",
+          "fields": {
+            "password": {
+              "label": "Senha",
+              "name": "password"
+            }
+          },
+          "submitLabel": "Confirmar a senha nova",
+          "submitLoadingLabel": "Processando...",
+          "successMessage": "Por favor verifique o seu e-mail. Enviamos todas as instruções para recuperar a sua senha."
+        },
+        "profileCard": {
+          "cardTitle": "Informações Básicas",
+          "email": {
+            "label": "Email",
+            "placeholder": "seuemail@exemplo.com"
+          },
+          "firstName": {
+            "label": "Primeiro Nome"
+          },
+          "lastName": {
+            "label": "Último Nome"
+          },
+          "plan": {
+            "label": "Plano"
+          },
+          "submitLabel": "Alterar senha",
+          "submitLoadingLabel": "Processando..."
+        }
+      },
+      "Projects": {
+        "addProjectCtaLabel": "Adicionar Projeto",
+        "pageTitle": "Bem vindo, ",
+        "projectCardTitle": "Projeto: ",
+        "createProjectForm": {
+          "addProjectLabel": "Adicionar Projeto",
+          "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+          "cancelLabel": "Cancelar",
+          "cardTitle": "Para começar, crie um projeto!",
+          "cardTitleTwo": "Projetos",
+          "cardDescription": "Escolha um nome para o seu projeto.",
+          "cardDescriptionTwo": "Gerencie os seus projetos",
+          "fields": {
+            "project": {
+              "label": "Nome *",
+              "name": "project",
+              "placeholder": "Ex: Projeto Suporte Online",
+              "fieldError": "Já existe um projeto com esse nome."
+            }
+          },
+          "submitLabel": "Criar projeto",
+          "submitLoadingLabel": "Criando projeto...",
+          "successMessage": "Projeto criado com sucesso!"
+        },
+        "deleteProjectForm": {
+          "dialog": {
+            "title": "Deletar Projeto",
+            "alertBannerTitle": "Atenção!",
+            "alertBannerDescription": "Todos os dados relacionados a esse projeto serão apagados e não poderão ser acessados ou recuperados!",
+            "alertBannerFooter": "Essa operação é irreversível",
+            "instruction": "Para prosseguir insira a palavra 'deletar' e confirme.",
+            "form": {
+              "cancelLabel": "Cancelar",
+              "fields": {
+                "deleteProject": {
+                  "label": "Deletar o Projeto:",
+                  "name": "deleteWord",
+                  "placeholder": "deletar"
+                }
+              },
+              "submitLabel": "Deletar projeto",
+              "submitLoadingLabel": "Deletando projeto..."
+            }
+          },
+          "successMessage": "Projeto deletado com sucesso"
+        }
+      },
+      "Reports": {
+        "pageTitle": "Relatórios",
+        "pageDescription": "Seus relatórios com as últimas informações",
+        "reportPeriods": {
+          "sevenDays": "Periodo: 7 dias",
+          "fourteenDays": "Periodo: 14 dias",
+          "thirtiehDays": "Periodo: 30 dias"
+        },
+        "noProject": "Selecione um projeto para carregar os dados.",
+        "noData": "Sem dados para serem mostrados no momento."
+      },
+      "Whatsapp": {
+        "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+        "LinkComponent": {
+          "componentTitle": "Link de divulgação",
+          "dialog": {
+            "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+            "successMessage": "Link atualizado com sucesso",
+            "title": "Personalize o seu link",
+            "description": "Por favor insira o seu link abaixo para confirmar a disponibilidade",
+            "instruction": "Seu link só deve conter letras e \"-\".",
+            "form": {
+              "cancelLabel": "Cancelar",
+              "fields": {
+                "link": {
+                  "label": "Link",
+                  "name": "link",
+                  "placeholder": "ex: seu-link"
+                }
+              },
+              "submitLabel": "Checar disponibilidade",
+              "submitLoadingLabel": "Checando disponibilidade..."
+            }
+          },
+          "hoverCards": {
+            "createLinkTitle": "Personalize o seu link",
+            "createLinkDescription": "Tenha um link da sua maneira",
+            "generateRandomLinkTitle": "Gere um link aleatório",
+            "generateRandomLinkErrorMessage": "Ops... Erro ao gerar um novo link.",
+            "generateRandomLinkSuccessMessage": "Um novo link foi gerado com sucesso",
+            "copyLinkTitle": "Copie o seu link"
+          }
+        },
+        "MessageComponent": {
+          "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+          "componentDescription": "Essa mensagem será exibida assim que os usuários forem adicionados ao WhatsApp",
+          "componentTitle": "Mensagem de Boas Vindas",
+          "form": {
+            "cancelLabel": "Cancelar",
+            "fields": {
+              "message": {
+                "label": "Mensagem",
+                "name": "message"
+              }
+            },
+            "submitLabel": "Salvar Mensagem",
+            "submitLoadingLabel": "Salvando mensagem..."
+          },
+          "successMessage": "Mensagem salva com sucesso"
+        },
+        "NumberComponent": {
+          "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+          "componentTitle": "Numeros de WhatsApp",
+          "addNumberForm": {
+            "fields": {
+              "addNumber": {
+                "label": "Adicionar número",
+                "name": "phoneNumber",
+                "placeholder": "ex: 21 99999-9999"
+              }
+            },
+            "submitLabel": "Adicionar Número",
+            "submitLoadingLabel": "Adicionando Número..."
+          },
+          "editNumberDialog": {
+            "title": "Editar número",
+            "form": {
+              "cancelLabel": "Cancelar",
+              "fields": {
+                "phoneNumber": {
+                  "label": "Número",
+                  "name": "phoneNumber"
+                }
+              },
+              "submitLabel": "Editar número",
+              "submitLoadingLabel": "Editando número..."
+            }
+          },
+          "deleteNumberDialog": {
+            "title": "Deletar número",
+            "alertBannerTitle": "Atenção!",
+            "alertBannerDescription": "Os dados relacionados a esse número não serão apagados do seu projeto!",
+            "alertBannerFooter": "Essa operação é irreversível",
+            "instruction": "Para prosseguir insira a palavra 'deletar' e confirme.",
+            "form": {
+              "fields": {
+                "cancelLabel": "Cancelar",
+                "deleteNumber": {
+                  "label": "Deletar número",
+                  "name": "deleteWord",
+                  "placeholder": "deletar"
+                }
+              },
+              "submitLabel": "Adicionar Número",
+              "submitLoadingLabel": "Adicionando Número..."
+            }
+          },
+          "cancelCtaLabel": "Cancelar",
+          "noProject": "Selecione um projeto para carregar os dados.",
+          "noData": "Você não tem nenhum número cadastrado! Por favor cadastre um número para começar.",
+          "numbersUpdateCta": "Editar",
+          "numbersRegistered": "Números cadastrados",
+          "successMessage": "Alteração salva com sucesso."
+        },
+        "pageTitle": "Whatsapp",
+        "pageDescription": "Gerencie seu link e números.",
+        "noProject": "Selecione um projeto para carregar os dados.",
+        "noData": "Sem dados para serem mostrados no momento."
+      }
+    },
     "Login": {
       "cardTitle": "Seja Bem Vindo",
       "cardDescription": "Insira suas informações para acessar o sistema",
@@ -78,7 +312,7 @@
             "placeholder": "seuemail@exemplo.com"
           },
           "password": {
-            "label": "Password *",
+            "label": "Senha *",
             "name": "password"
           }
         },
@@ -117,7 +351,7 @@
         "createAccountLinkLabel": "Não tem uma conta? Crie uma agora mesmo.",
         "fields": {
           "password": {
-            "label": "Password *",
+            "label": "Senha *",
             "name": "password"
           }
         },

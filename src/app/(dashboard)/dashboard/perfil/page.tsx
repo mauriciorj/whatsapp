@@ -1,36 +1,27 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Eye, EyeOff, LoaderCircle, User } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { User } from "lucide-react";
 import GetUserProfile from "@/actions/getUserProfile/actions";
 import UpdateUserPassword from "@/actions/updateUserPassword/actions";
 import ResetPasswordForEmail from "@/actions/resetPasswordForEmail/actions";
-import PasswordRules from "@/components/auth/passwordRules";
 import PageLayout from "@/components/dashboard/pageLayout";
+import ProfileTable from "@/components/dashboard/profileTable";
+import Form from "@/components/form";
 import DefaultCard from "@/components/layout/defaultCard";
 import { AlertBanner } from "@/components/ui/alert-banner";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import PasswordRulesValidation from "@/lib/passwordRulesValidation";
+import useTranslations from "@/hooks/useTranslations";
 import { updatePasswordSchema } from "@/lib/validations/schemas";
 import { createClient } from "@/supabase/client";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 
-type passValidationType = {
-  rule1: boolean;
-  rule2: boolean;
-  rule3: boolean;
-  rule4: boolean;
-  rule5: boolean;
-};
-
 export default function Perfil() {
+  const translate = useTranslations("Pages.Dashboard.Perfil");
+
+  const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
   const isShowResetPasswordComponent = searchParams.get("showResetPassword");
@@ -38,30 +29,26 @@ export default function Perfil() {
   const supabase = createClient();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
 
   // This is control by url once the user has to
   // access the email and then click on the link to return to this page
   const [isShowPasswordComponent, setIsShowPasswordComponent] =
     useState<boolean>(false);
 
-  const [passwordValidation, setPasswordValidation] =
-    useState<passValidationType>({
-      rule1: false,
-      rule2: false,
-      rule3: false,
-      rule4: false,
-      rule5: false,
-    });
-
   const [serverError, setServerError] = useState<boolean | null>(null);
   const [successMessage, setSuccessMessage] = useState<boolean | null>(false);
 
   useEffect(() => {
-    if (isShowResetPasswordComponent) {
+    if (isShowResetPasswordComponent === "true") {
       setIsShowPasswordComponent(true);
+    } else {
+      setIsShowPasswordComponent(false);
     }
   }, [isShowResetPasswordComponent]);
+
+  const onCancelHandler = () => {
+    router.replace(pathname);
+  };
 
   const handleSignOut = async () => {
     const { error } = await supabase.auth.signOut();
@@ -162,13 +149,13 @@ export default function Perfil() {
   return (
     <PageLayout
       breadcrumbItems={breadcrumbItems}
-      pageTitle="Perfil"
-      pageDescription="Todas as suas inforações pessoais."
+      pageTitle={translate["pageTitle"]}
+      pageDescription={translate["pageDescription"]}
     >
       {serverError && (
         <div className="container mb-10">
           <AlertBanner
-            message="Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte"
+            message={translate["form"]["alertMessage"]}
             type="error"
           />
         </div>
@@ -176,167 +163,48 @@ export default function Perfil() {
       {successMessage && (
         <div className="container mb-10">
           <AlertBanner
-            message="Por favor verifique o seu email. Enviamos todas as informações para alterar a sua senha."
+            message={translate["form"]["successMessage"]}
             type="success"
           />
         </div>
       )}
-      <DefaultCard className="p-6" title="Informações Básicas">
-        <Table>
-          <TableBody>
-            <TableRow>
-              <TableCell className="font-medium">Primeiro Nome</TableCell>
-              <TableCell>
-                {userProfileIsLoading || userProfileIsLoading ? (
-                  <Skeleton className="w-full h-6 w-32" />
-                ) : (
-                  userProfileData?.first_name
-                )}
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-medium">Último Nome</TableCell>
-              <TableCell>
-                {userProfileIsLoading || userProfileIsLoading ? (
-                  <Skeleton className="h-6 w-32" />
-                ) : (
-                  userProfileData?.last_name
-                )}
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-medium">Email</TableCell>
-              <TableCell>
-                {userProfileIsLoading || userProfileIsLoading ? (
-                  <Skeleton className="h-6 w-32" />
-                ) : (
-                  userProfileData?.email
-                )}
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-medium">Plano Atual</TableCell>
-              <TableCell>
-                {userProfileIsLoading || userProfileIsLoading ? (
-                  <Skeleton className="h-6 w-32" />
-                ) : (
-                  userProfileData?.plan
-                )}
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-        {!isShowPasswordComponent && (
-          <div className="mt-6">
-            <Button
-              onClick={() => {
-                if (userProfileData?.email) {
-                  setIsLoading(true);
-                  mutation.mutate();
-                }
-              }}
-              disabled={isLoading}
-              variant="outline"
-            >
-              {isLoading ? (
-                <div className="flex flex-row items-center italic">
-                  Processando...
-                  <LoaderCircle className="animate-spin h-6 w-5 ml-2" />
-                </div>
-              ) : (
-                "Alterar Password"
-              )}
-            </Button>
-          </div>
-        )}
-        {isShowPasswordComponent && (
-          <div className="pt-16 pb-16 px-4">
-            <DefaultCard>
-              <div className="space-y-6">
-                <div className="space-y-2 text-center">
-                  <h1 className="text-2xl font-bold">Crie uma senha nova</h1>
-                  <p className="text-muted-foreground">
-                    Por favor insira uma senha nova para acessar o nosso
-                    sistema.
-                  </p>
-                </div>
-
-                <form
-                  className="space-y-4"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    form.handleSubmit();
-                    setServerError(false);
-                  }}
-                >
-                  <div className="space-y-2 relative">
-                    <Label htmlFor="password">Senha</Label>
-                    <form.Field name="password">
-                      {(field) => (
-                        <>
-                          <Input
-                            id="password"
-                            onBlur={field.handleBlur}
-                            onChange={(e: any) => {
-                              field.handleChange(e.target.value);
-                              const checkRules = PasswordRulesValidation(
-                                e.target.value
-                              );
-                              setPasswordValidation((prevState: any) => ({
-                                ...prevState,
-                                ...checkRules,
-                              }));
-                            }}
-                            maxLength={20}
-                            type={isShowPassword ? "text" : "password"}
-                            required
-                            value={field.state.value}
-                          />
-                          {isShowPassword ? (
-                            <div
-                              className="flex w-[25px] absolute right-2 top-8 cursor-pointer text-center justify-center"
-                              onClick={() => setIsShowPassword(!isShowPassword)}
-                            >
-                              <EyeOff className="h-6 w-6 text-primary" />
-                            </div>
-                          ) : (
-                            <div
-                              className="flex w-[25px] absolute right-2 top-8 cursor-pointer text-center justify-center"
-                              onClick={() => setIsShowPassword(!isShowPassword)}
-                            >
-                              <Eye className="h-6 w-6 text-primary" />
-                            </div>
-                          )}
-                          {field.state.meta.errors && (
-                            <p className="text-sm text-destructive">
-                              {field.state.meta.errors[0]}
-                            </p>
-                          )}
-                        </>
-                      )}
-                    </form.Field>
-                    <PasswordRules passwordValidation={passwordValidation} />
-                  </div>
-                  <Button
-                    className="w-full"
-                    disabled={form.state.isSubmitting}
-                    type="submit"
-                  >
-                    {form.state.isSubmitting ? (
-                      <div className="flex flex-row items-center italic">
-                        Atualizando senha...
-                        <LoaderCircle className="animate-spin h-5 w-5 ml-2" />
-                      </div>
-                    ) : (
-                      "Atualizar"
-                    )}
-                  </Button>
-                </form>
-              </div>
-            </DefaultCard>
-          </div>
-        )}
-      </DefaultCard>
+      {!isShowPasswordComponent && (
+        <DefaultCard
+          className="p-6"
+          title={translate["profileCard"]["cardTitle"]}
+        >
+          <ProfileTable
+            isLoading={isLoading}
+            mutation={mutation}
+            setIsLoading={setIsLoading}
+            translate={translate}
+            userProfileData={userProfileData}
+            userProfileIsLoading={userProfileIsLoading}
+          />
+        </DefaultCard>
+      )}
+      {isShowPasswordComponent && (
+        <DefaultCard
+          description={translate["form"]["cardDescription"]}
+          title={translate["form"]["cardTitle"]}
+        >
+          <Form
+            cancelButtonLabel={translate["form"]["cancelLabel"]}
+            fieldsToRender={[
+              {
+                label: translate["form"]["fields"]["password"]["label"],
+                name: translate["form"]["fields"]["password"]["name"],
+                type: "password",
+              },
+            ]}
+            form={form}
+            onCancel={onCancelHandler}
+            showPasswordRules
+            submitLabel={translate["form"]["submitLabel"]}
+            submitLoadingLabel={translate["form"]["submitLoadingLabel"]}
+          />
+        </DefaultCard>
+      )}
     </PageLayout>
   );
 }

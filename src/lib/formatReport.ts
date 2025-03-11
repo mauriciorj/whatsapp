@@ -17,44 +17,46 @@ const getGroupedCounts: any = (data: any) => {
   } = {};
 
   data?.map((item: any) => {
-    const city = item.city;
-    const country = item.country;
-    const deviceSize = item.device_size;
-    const deviceSystem = item.device_system;
+    const city = item?.city || null;
+    const country = item?.country || null;
+    const deviceSize = item?.device_size || null;
+    const deviceSystem = item?.device_system || null;
     const formatedDate = formatDate(item?.created_at);
 
     // Report Per Date
-    if (getReportPerDay.hasOwnProperty(formatedDate)) {
+    if (formatedDate && getReportPerDay.hasOwnProperty(formatedDate)) {
       getReportPerDay[formatedDate] += 1;
     } else {
       getReportPerDay[formatedDate] = 1;
     }
 
     // Report Per Device Size
-    if (getReportPerDeviceSize.hasOwnProperty(deviceSize)) {
+    if (deviceSize && getReportPerDeviceSize.hasOwnProperty(deviceSize)) {
       getReportPerDeviceSize[deviceSize] += 1;
     } else {
       getReportPerDeviceSize[deviceSize] = 1;
     }
 
     // Report Per Device System
-    if (getReportPerDeviceSystem.hasOwnProperty(deviceSystem)) {
+    if (deviceSystem && getReportPerDeviceSystem.hasOwnProperty(deviceSystem)) {
       getReportPerDeviceSystem[deviceSystem] += 1;
     } else {
       getReportPerDeviceSystem[deviceSystem] = 1;
     }
 
     // Report Per Country and City
-    if (
-      getReportPerCountryAndCity.hasOwnProperty(country) &&
-      getReportPerCountryAndCity[country][city]
-    ) {
-      getReportPerCountryAndCity[country][city] += 1;
-    } else {
-      getReportPerCountryAndCity[country] = {
-        ...getReportPerCountryAndCity[country],
-        [city]: 1,
-      };
+    if (city && country) {
+      if (
+        getReportPerCountryAndCity.hasOwnProperty(country) &&
+        getReportPerCountryAndCity[country][city]
+      ) {
+        getReportPerCountryAndCity[country][city] += 1;
+      } else {
+        getReportPerCountryAndCity[country] = {
+          ...getReportPerCountryAndCity[country],
+          [city]: 1,
+        };
+      }
     }
   });
 

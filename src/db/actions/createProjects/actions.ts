@@ -13,7 +13,6 @@ const CreateProjects = async ({ title }: { title: string }) => {
       .from("projects")
       .insert({ title, user_id: userData?.user_id });
     if (error) {
-      console.log("error", error);
       throw new Error("Error");
     }
   }

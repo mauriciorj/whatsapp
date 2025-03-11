@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 export default function Password({
   field,
   fieldToRender,
+  isLoading,
   isShowPassword,
   onBlur,
   onChange,
@@ -19,9 +20,9 @@ export default function Password({
     <div className="relative">
       <Label htmlFor={field.name}>{fieldToRender.label}</Label>
       <Input
-      className="mt-2"
+        className="mt-2"
+        disabled={fieldToRender.disabled || isLoading}
         id={field.name}
-        disabled={fieldToRender.disabled}
         name={field.name}
         onBlur={onBlur}
         onChange={onChange}

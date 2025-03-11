@@ -3,13 +3,19 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-export default function Email({ field, fieldToRender, onBlur, onChange }: any) {
+export default function Email({
+  field,
+  fieldToRender,
+  isLoading,
+  onBlur,
+  onChange,
+}: any) {
   return (
     <>
       <Label htmlFor={field.name}>{fieldToRender.label}</Label>
       <Input
         id={field.name}
-        disabled={fieldToRender.disabled}
+        disabled={fieldToRender.disabled || isLoading}
         name={field.name}
         onBlur={onBlur}
         onChange={onChange}
