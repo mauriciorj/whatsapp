@@ -2,23 +2,26 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { PanelsTopLeft, Plus } from "lucide-react";
+import { PanelsTopLeft, Plus, Trash2 } from "lucide-react";
 // import CreateProjects from "@/actions/createProjects/actions";
 // import GetUserProjects from "@/actions/getUserProjects/actions";
+import DeleteProject from "@/actions/deleteProject/actions";
 import GetUserProfile from "@/actions/getUserProfile/actions";
 import PageLayout from "@/components/dashboard/pageLayout";
+import ProjectsDialog from "@/components/dashboard/projects/projectsDialog";
 import Form from "@/components/form";
 import DefaultCard from "@/components/layout/defaultCard";
 import { AlertBanner } from "@/components/ui/alert-banner";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import useTranslations from "@/hooks/useTranslations";
 import BusinessRules from "@/lib/businessRules";
 import generateRandomCode from "@/lib/generateCode";
+import { deleteDialogSchema } from "@/lib/validations/schemas";
 import { createClient } from "@/supabase/client";
 // import { useMutation } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "@tanstack/react-form";
-import { Skeleton } from "@/components/ui/skeleton";
 
 type FormType = {
   project: string;
@@ -32,9 +35,11 @@ export default function DashboardPage() {
   const projectName = searchParams.get("project");
 
   // const [isLoading, setIsLoading] = useState(false);
+  const [projectToBeDeleted, setProjectToBeDeleted] = useState<any>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isOpenForm, setIsOpenForm] = useState<boolean>(false);
   const [serverError, setServerError] = useState<boolean | null>(null);
-  const [successMessage, setSuccessMessage] = useState<boolean | null>(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const { data: userProfileData, isLoading: isProfileDataLoading } = useQuery({
     queryKey: ["userProfile"],
@@ -53,7 +58,7 @@ export default function DashboardPage() {
 
       const { data, error }: any = await supabase
         .from("projects")
-        .select("title")
+        .select("id, title, user_id")
         .eq("user_id", userProfileData?.user_id);
 
       if (error) {
@@ -70,20 +75,43 @@ export default function DashboardPage() {
     enabled: !!userProfileData?.user_id,
   }) as any;
 
-  // const mutation = useMutation({
-  //   mutationFn: ({ title }: { title: string }) => CreateProjects({ title }),
-  //   onError: () => {
-  //     setServerError(true);
-  //     setIsLoading(false);
-  //   },
-  //   onSuccess: () => {
-  //     form.reset();
-  //     setIsOpenForm(false);
-  //     setIsLoading(false);
-  //     setSuccessMessage(true);
-  //     refetch();
-  //   },
-  // });
+  const deleteForm = useForm({
+    defaultValues: {
+      deleteWord: "",
+    },
+    validators: {
+      onSubmit: deleteDialogSchema,
+    },
+    onSubmit: async ({ value }: any) => {
+      setServerError(false);
+      setSuccessMessage(null);
+      if (value?.deleteWord === "deletar") {
+        try {
+          const result = await DeleteProject(projectToBeDeleted);
+          if (result?.status >= 400) {
+            setServerError(true);
+            setProjectToBeDeleted(null);
+            setIsModalOpen(false);
+            refetch();
+          } else {
+            if (projectName) {
+              router.replace("/dashboard/projetos");
+              router.refresh();
+            }
+            setProjectToBeDeleted(null);
+            setIsModalOpen(false);
+            setSuccessMessage(translate["deleteProjectForm"]["successMessage"]);
+            form.reset();
+            refetch();
+          }
+        } catch {
+          setServerError(true);
+        }
+      } else {
+        setServerError(true);
+      }
+    },
+  });
 
   const form = useForm({
     defaultValues: {
@@ -98,7 +126,10 @@ export default function DashboardPage() {
         ) {
           return {
             fields: {
-              project: translate["form"]["fields"]["project"]["fieldError"],
+              project:
+                translate["createProjectForm"]["fields"]["project"][
+                  "fieldError"
+                ],
             },
           };
         }
@@ -107,7 +138,7 @@ export default function DashboardPage() {
     },
     onSubmit: async ({ value }: { value: FormType }) => {
       setServerError(false);
-      setSuccessMessage(false);
+      setSuccessMessage(null);
       // mutation.mutate({ title: value?.project });
       try {
         const supabase = await createClient();
@@ -142,7 +173,7 @@ export default function DashboardPage() {
           form.reset();
           setIsOpenForm(false);
           setServerError(false);
-          setSuccessMessage(true);
+          setSuccessMessage(translate["createProjectForm"]["successMessage"]);
           refetch();
         }
       } catch {
@@ -162,12 +193,12 @@ export default function DashboardPage() {
   );
 
   const getCardTitle = hasProject
-    ? translate["form"]["cardTitleTwo"]
-    : translate["form"]["cardTitle"];
+    ? translate["createProjectForm"]["cardTitleTwo"]
+    : translate["createProjectForm"]["cardTitle"];
 
   const getCardDescription = hasProject
-    ? translate["form"]["cardDescriptionTwo"]
-    : translate["form"]["cardDescription"];
+    ? translate["createProjectForm"]["cardDescriptionTwo"]
+    : translate["createProjectForm"]["cardDescription"];
 
   const breadcrumbItems = [
     { href: "/dashboard/projetos", label: "Projetos", icon: PanelsTopLeft },
@@ -185,17 +216,14 @@ export default function DashboardPage() {
       {serverError && (
         <div className="container mb-10">
           <AlertBanner
-            message={translate["form"]["alertMessage"]}
+            message={translate["createProjectForm"]["alertMessage"]}
             type="error"
           />
         </div>
       )}
       {successMessage && (
         <div className="container mb-10">
-          <AlertBanner
-            message={translate["form"]["successMessage"]}
-            type="success"
-          />
+          <AlertBanner message={successMessage} type="success" />
         </div>
       )}
       {isUserProjectsLoading || isProfileDataLoading ? (
@@ -225,8 +253,29 @@ export default function DashboardPage() {
                   key={`${index}-${project.title}`}
                   onClick={() => onClickHandler({ project: project.title })}
                 >
-                  {translate["projectCardTitle"]}{" "}
-                  <span className="font-bold">{project.title}</span>
+                  <div className="w-full flex flex-row items-center justify-between">
+                    <div>
+                      {translate["projectCardTitle"]}{" "}
+                      <span className="font-bold">{project.title}</span>
+                    </div>
+                    <div>
+                      <Button
+                        className="w-[50px] h-[50px] z-10 hover:bg-destructive/10"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsModalOpen(true);
+                          setProjectToBeDeleted((prevState: any) => ({
+                            ...prevState,
+                            ...project,
+                          }));
+                        }}
+                        size="icon"
+                        variant="ghost"
+                      >
+                        <Trash2 className="h-5 w-5 text-destructive" />
+                      </Button>
+                    </div>
+                  </div>
                 </DefaultCard>
               )
             )}
@@ -236,16 +285,25 @@ export default function DashboardPage() {
               <div className="mt-10">
                 <div className="h-[1px] border-b mb-5"></div>
                 <Form
-                  cancelButtonLabel={translate["form"]["cancelLabel"]}
+                  cancelButtonLabel={
+                    translate["createProjectForm"]["cancelLabel"]
+                  }
                   fieldsToRender={[
                     {
                       countChar: true,
                       countCharMaxChar: 50,
-                      label: translate["form"]["fields"]["project"]["label"],
+                      label:
+                        translate["createProjectForm"]["fields"]["project"][
+                          "label"
+                        ],
                       maxLength: 50,
-                      name: translate["form"]["fields"]["project"]["name"],
+                      name: translate["createProjectForm"]["fields"]["project"][
+                        "name"
+                      ],
                       placeholder:
-                        translate["form"]["fields"]["project"]["placeholder"],
+                        translate["createProjectForm"]["fields"]["project"][
+                          "placeholder"
+                        ],
                       type: "text",
                     },
                   ]}
@@ -254,8 +312,10 @@ export default function DashboardPage() {
                     form.reset();
                     setIsOpenForm(false);
                   }}
-                  submitLabel={translate["form"]["submitLabel"]}
-                  submitLoadingLabel={translate["form"]["submitLoadingLabel"]}
+                  submitLabel={translate["createProjectForm"]["submitLabel"]}
+                  submitLoadingLabel={
+                    translate["createProjectForm"]["submitLoadingLabel"]
+                  }
                 />
               </div>
             )}
@@ -264,7 +324,7 @@ export default function DashboardPage() {
               <Button
                 onClick={() => {
                   setIsOpenForm(true);
-                  setSuccessMessage(false);
+                  setSuccessMessage(null);
                 }}
                 variant="outline"
               >
@@ -277,6 +337,13 @@ export default function DashboardPage() {
           </div>
         </DefaultCard>
       )}
+      <ProjectsDialog
+        form={deleteForm}
+        isModalOpen={isModalOpen}
+        projectToBeDeleted={projectToBeDeleted}
+        setIsModalOpen={setIsModalOpen}
+        translate={translate["deleteProjectForm"]["dialog"]}
+      />
     </PageLayout>
   );
 }

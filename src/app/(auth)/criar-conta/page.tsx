@@ -34,7 +34,7 @@ export default function CriarConta() {
       email: "",
       password: "",
       plan: getPlano
-        ? `${BusinessRules[getPlano].name} - R$${BusinessRules[getPlano].price}`
+        ? `${BusinessRules[getPlano]?.name} - R$${BusinessRules[getPlano]?.price}`
         : null,
     },
     validators: {
@@ -47,7 +47,7 @@ export default function CriarConta() {
       const supabase = await createClient();
 
       if (
-        !Object.values(BusinessRules).some((plan) => plan.name === getPlano)
+        !Object.values(BusinessRules).some((plan) => plan?.name === getPlano)
       ) {
         setServerError(true);
         setServerErrorMessage(

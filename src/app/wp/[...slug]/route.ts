@@ -7,10 +7,8 @@ import { createServer } from "@/db/supabase/server";
 
 type whatsappApp = {
   id: string;
-  numbers: [
-    { number: string; message: string },
-    { number: string; message: string }
-  ];
+  wp_numbers: string[];
+  wp_message?: string;
   user_id: string;
   redirect_to: number;
   user_profile: { subscription_status: string };
@@ -26,31 +24,30 @@ export async function GET(request: NextRequest) {
 
   // Fetch the Whatsapp's User's Info
   const { data, error } = await supabase
-    .from("whatsapp")
+    .from("projects")
     .select(
-      "id, numbers,redirect_to, user_id, user_profile(subscription_status)"
+      "id, wp_numbers,wp_message, redirect_to, user_id, user_profile(subscription_status)"
     )
-    .eq("link", pathname)
+    .eq("wp_link", pathname)
     .returns<whatsappApp>();
 
   if (error || !data?.length) {
     return NextResponse.redirect(new URL("/not-found", request.url));
   }
 
-  const { id, numbers, redirect_to, user_profile, user_id } = data[0];
+  const { id, wp_numbers, wp_message, redirect_to, user_profile, user_id } =
+    data[0];
 
   if (user_profile?.subscription_status === "active") {
-    const whatsappNumbers = numbers;
+    const whatsappNumbers = wp_numbers;
     const currentIndex = redirect_to || 0;
     const nextRedirectTo = (currentIndex + 1) % whatsappNumbers?.length;
 
-    const whatsappCurrentNumber = whatsappNumbers[currentIndex][
-      "number"
-    ]?.replace(/[^0-9]/g, "");
+    const whatsappCurrentNumber = whatsappNumbers[currentIndex];
 
     // Update the Whatsapp's next redirect_to index
     await supabase
-      .from("whatsapp")
+      .from("projects")
       .update({ redirect_to: nextRedirectTo })
       .eq("id", id);
 
@@ -58,6 +55,7 @@ export async function GET(request: NextRequest) {
     const { device, os } = userAgent(request);
 
     const trackingInfo = {
+      project_id: id,
       user_id: user_id,
       number: whatsappCurrentNumber,
       country: country,
@@ -71,12 +69,10 @@ export async function GET(request: NextRequest) {
 
     let whatsappLink = "";
 
-    if (!whatsappNumbers[currentIndex]["message"]?.length) {
+    if (!wp_message) {
       whatsappLink = `https://wa.me/${whatsappCurrentNumber}`;
     } else {
-      const msg_encoded = encodeURIComponent(
-        whatsappNumbers[currentIndex]["message"]
-      );
+      const msg_encoded = encodeURIComponent(wp_message);
       whatsappLink = `https://wa.me/${whatsappCurrentNumber}?text=${msg_encoded}`;
     }
 

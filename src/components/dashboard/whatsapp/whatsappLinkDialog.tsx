@@ -7,10 +7,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import Form from "../form";
+import Form from "../../form";
 
 const WhatsAppLinkDialog = ({
   form,
+  isLoading,
   isModalOpen,
   personalizedLink,
   setIsModalOpen,
@@ -18,6 +19,7 @@ const WhatsAppLinkDialog = ({
   translate,
 }: {
   form: any;
+  isLoading: boolean;
   isModalOpen: boolean;
   personalizedLink: string | null;
   setIsModalOpen: (value: boolean) => void;
@@ -64,6 +66,7 @@ const WhatsAppLinkDialog = ({
               type: "text",
             },
           ]}
+          isLoading={isLoading}
           onCancel={() => {
             setIsModalOpen(false);
             form.reset();

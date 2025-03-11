@@ -3,14 +3,14 @@ interface PlansProps {
     maxNumbers: number;
     name: string;
     projects: number;
-    price: number;
+    price: number | string;
   };
 }
 
 const BusinessRules: PlansProps = {
   basico: {
     maxNumbers: 50,
-    name: "Básico",
+    name: "Personalizável",
     projects: 1,
     price: 55,
   },
@@ -18,7 +18,13 @@ const BusinessRules: PlansProps = {
     maxNumbers: 50,
     name: "Avançado",
     projects: 4,
-    price: 55,
+    price: 97,
+  },
+  customizavel: {
+    maxNumbers: 50,
+    name: "Customizavel",
+    projects: 4,
+    price: ' - Sob Consulta',
   },
 };
 

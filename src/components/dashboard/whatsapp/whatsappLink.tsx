@@ -1,17 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import WhatsAppLinkDialog from "./whatsapp-link-dialog";
-import WhatsAppLinkHoverCards from "./whatsapp-link-hovers";
+import WhatsAppLinkDialog from "./whatsappLinkDialog";
+import WhatsAppLinkHoverCards from "./whatsappLinkHovers";
 import DefaultCard from "@/components/layout/defaultCard";
+import { AlertBanner } from "@/components/ui/alert-banner";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import { createClient } from "@/db/supabase/client";
+import useTranslations from "@/hooks/useTranslations";
+import generateRandomCode from "@/lib/generateCode";
 import { linkSchema } from "@/lib/validations/schemas";
 import { useForm } from "@tanstack/react-form";
-import useTranslations from "@/hooks/useTranslations";
-import { createClient } from "@/db/supabase/client";
-import generateRandomCode from "@/lib/generateCode";
-import { AlertBanner } from "../ui/alert-banner";
+import { useMutation } from "@tanstack/react-query";
 
 const WhatsAppLink = ({
   isLoading,
@@ -25,6 +26,8 @@ const WhatsAppLink = ({
   refetch: () => void;
 }) => {
   const translate = useTranslations("Pages.Dashboard.Whatsapp.LinkComponent");
+
+  const [isFormLoading, setIsFormLoading] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [personalizedLink, setPersonalizedLink] = useState<string | null>(null);
   const [isCopied, setIsCopied] = useState(false);
@@ -105,6 +108,45 @@ const WhatsAppLink = ({
     }
   }, [isCopied]);
 
+  const mutation = useMutation({
+    mutationFn: async (entries) => {
+      setServerErrorMessage(null);
+      setSuccessMessage(null);
+
+      // CLIENT SIDE
+      const supabase = await createClient();
+      const { error } = await supabase
+        .from("projects")
+        .update({
+          wp_link: entries,
+        })
+        .eq("id", projectId);
+
+      if (error) {
+        setServerErrorMessage(translate["alertMessage"]);
+        return false;
+      } else {
+        return true;
+      }
+    },
+    onError: () => {
+      setIsFormLoading(false);
+      setSuccessMessage(null);
+      setIsModalOpen(false);
+      form.reset();
+      return setServerErrorMessage(translate["dialog"]["alertMessage"]);
+    },
+    onSuccess: () => {
+      setIsFormLoading(false);
+      setSuccessMessage(translate["dialog"]["successMessage"]);
+      setIsModalOpen(false);
+      setServerErrorMessage(null);
+      form.reset();
+      refetch();
+      return setSuccessMessage(translate["dialog"]["successMessage"]);
+    },
+  });
+
   const form = useForm({
     defaultValues: {
       link: "",
@@ -113,7 +155,8 @@ const WhatsAppLink = ({
       onSubmit: linkSchema,
     },
     onSubmit: async ({ value }: any) => {
-      console.log("value => ", value);
+      setIsFormLoading(true);
+      return await mutation.mutate(value?.link as any);
     },
   });
 
@@ -160,6 +203,7 @@ const WhatsAppLink = ({
       </DefaultCard>
       <WhatsAppLinkDialog
         form={form}
+        isLoading={isFormLoading}
         isModalOpen={isModalOpen}
         personalizedLink={personalizedLink}
         setIsModalOpen={setIsModalOpen}

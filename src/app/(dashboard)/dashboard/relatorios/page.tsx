@@ -48,8 +48,37 @@ export default function DashboardPage() {
     queryFn: async () => GetUserProfile(),
   });
 
+  const { data: userProjects, isLoading: isUserProjectsLoading } = useQuery({
+    queryKey: ["userProjects"],
+    queryFn: async () => {
+      // CLIENT SIDE
+      const supabase = await createClient();
+
+      const { data, error }: any = await supabase
+        .from("projects")
+        .select("id, title, user_id")
+        .eq("user_id", userProfileData?.user_id);
+
+      if (error) {
+        setServerError(true);
+      }
+
+      return (
+        data?.sort((a: any, b: any) => a.title.localeCompare(b.title)) || []
+      );
+
+      // SERVER SIDE
+      // GetUserProjects({ userId: userProfileData?.user_id });
+    },
+    enabled: !!userProfileData?.user_id,
+  }) as any;
+
+  const getCurrentProject = userProjects?.find(
+    (project: any) => project.title === projectName
+  );
+
   const { data, isFetching, refetch } = useQuery<any>({
-    queryKey: ["whatsappTracking", reportPeriod],
+    queryKey: ["whatsappTracking", getCurrentProject?.id, reportPeriod],
     queryFn: async () => {
       const supabase = createClient();
       const { data, error } = await supabase
@@ -58,15 +87,19 @@ export default function DashboardPage() {
           count: "exact",
         })
         .eq("user_id", userProfileData.user_id)
+        .eq("project_id", getCurrentProject?.id)
         .gte("created_at", timeTemp)
         .order("created_at", { ascending: true });
 
       if (error) {
         setServerError(true);
       }
+      
       return data || [];
     },
-    enabled: Boolean(!!userProfileData?.user_id && !!projectName),
+    enabled: Boolean(
+      !!userProfileData?.user_id && !!projectName && !!userProjects
+    ),
   });
 
   useEffect(() => {
@@ -74,13 +107,14 @@ export default function DashboardPage() {
   }, [projectName, refetch]);
 
   useEffect(() => {
-    if (data?.data) {
+    if (data?.length) {
       const {
         reportPerDay,
         reportPerDeviceSize,
         reportPerDeviceSystem,
         reportPerCountryAndCity,
-      } = getGroupedCounts(data?.data);
+      } = getGroupedCounts(data);
+
       if (reportPerDay) {
         setReportPerDayData(reportPerDay);
       }
@@ -94,7 +128,7 @@ export default function DashboardPage() {
         setreportPerCountryAndCityData(reportPerCountryAndCity);
       }
     }
-  }, [data?.data]);
+  }, [data?.length]);
 
   const breadcrumbItems = [
     { href: "/dashboard/relatorios", label: "Relatórios", icon: ChartSpline },
@@ -103,7 +137,7 @@ export default function DashboardPage() {
   return (
     <PageLayout
       breadcrumbItems={breadcrumbItems}
-      isLoading={isProfileDataLoading}
+      isLoading={isProfileDataLoading || isUserProjectsLoading}
       pageTitle={translate["pageTitle"]}
       pageDescription={translate["pageDescription"]}
     >
@@ -148,7 +182,7 @@ export default function DashboardPage() {
             <AlertBanner message={translate["alertMessage"]} type="error" />
           </div>
         )}
-        {Boolean(data?.data?.length) ? (
+        {Boolean(data?.length) ? (
           <>
             <LineChart data={reportPerDayData} isLoading={isFetching} />
             <TableRegion

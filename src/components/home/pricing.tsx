@@ -27,54 +27,54 @@ const Pricing = () => {
   const searchParams = useSearchParams();
 
   const plans = [
-    {
-      name: BusinessRules.basico.name,
-      value: "basico",
-      price: `R$${BusinessRules.basico.price}`,
-      description: "Perfeito para quem está começando",
-      features: [
-        {
-          icon: <Check className="h-5 w-5 text-primary" />,
-          label: "Um link",
-          special: false,
-        },
-        {
-          icon: <Check className="h-5 w-5 text-primary" />,
-          label: "Até 2 WhatsApp",
-          special: false,
-        },
-        {
-          icon: <Check className="h-5 w-5 text-primary" />,
-          label: "Relatório básico",
-          special: false,
-        },
-        {
-          icon: (
-            <ChartNoAxesCombined
-              className="h-5 w-5 text-primary"
-              color={theme === "light" ? "#475569" : "#b8c2d1"}
-            />
-          ),
-          label: "Total de cliques diários",
-          special: true,
-        },
-      ],
-    },
+    // {
+    //   name: BusinessRules.basico.name,
+    //   value: "basico",
+    //   price: `R$${BusinessRules.basico.price}`,
+    //   description: "Perfeito para quem está começando",
+    //   features: [
+    //     {
+    //       icon: <Check className="h-5 w-5 text-primary" />,
+    //       label: "Um link",
+    //       special: false,
+    //     },
+    //     {
+    //       icon: <Check className="h-5 w-5 text-primary" />,
+    //       label: "Até 2 WhatsApp",
+    //       special: false,
+    //     },
+    //     {
+    //       icon: <Check className="h-5 w-5 text-primary" />,
+    //       label: "Relatório básico",
+    //       special: false,
+    //     },
+    //     {
+    //       icon: (
+    //         <ChartNoAxesCombined
+    //           className="h-5 w-5 text-primary"
+    //           color={theme === "light" ? "#475569" : "#b8c2d1"}
+    //         />
+    //       ),
+    //       label: "Total de cliques diários",
+    //       special: true,
+    //     },
+    //   ],
+    // },
     {
       name: BusinessRules.avancado.name,
       value: "avancado",
       price: `R$${BusinessRules.avancado.price}`,
-      description: "Para quem já tem uma operação rodando",
+      description: "O plano ideal para quase todas os casos.",
       popular: true,
       features: [
         {
           icon: <Check className="h-5 w-5 text-primary" />,
-          label: "Um link",
+          label: "Até 4 projetos",
           special: false,
         },
         {
           icon: <Check className="h-5 w-5 text-primary" />,
-          label: "Até 4 WhatsApps",
+          label: "Cada projeto com um link personalizável",
           special: false,
         },
         {
@@ -125,14 +125,24 @@ const Pricing = () => {
       ],
     },
     {
-      name: "Customizado",
+      name: BusinessRules.customizavel.name,
       value: "customizado",
-      price: null,
+      price: `R$${BusinessRules.customizavel.price}`,
       description: "Para operações robustas e complexas",
       features: [
         {
-          icon: <UserRound className="h-5 w-5 text-primary" />,
-          label: "Entre em contato com o nosso time!",
+          icon: <Check className="h-5 w-5 text-primary" />,
+          label: "Projetos de acordo com a sua necessidade",
+          special: false,
+        },
+        {
+          icon: <Check className="h-5 w-5 text-primary" />,
+          label: "Um sistema ainda mais personalizável",
+          special: false,
+        },
+        {
+          icon: <Check className="h-5 w-5 text-primary" />,
+          label: "Relatórios completos",
           special: false,
         },
       ],
@@ -157,7 +167,7 @@ const Pricing = () => {
         <h2 className="text-4xl font-bold text-center mb-12">
           Preço Simplificado
         </h2>
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {plans.map((plan) => (
             <Card
               className={`flex flex-col relative p-8 justify-between ${
@@ -176,7 +186,7 @@ const Pricing = () => {
                   <div className="mb-2">
                     <span className="text-4xl font-bold">{plan.price}</span>
                     {plan.price !== "Free" && (
-                      <span className="text-muted-foreground">/month</span>
+                      <span className="text-muted-foreground">/mês</span>
                     )}
                   </div>
                   <p className="text-muted-foreground">{plan.description}</p>
@@ -204,6 +214,17 @@ const Pricing = () => {
                     )
                   )}
                 </ul>
+                {plan?.name === BusinessRules.customizavel.name && (
+                  <ul className="mt-10 mb-8">
+                    <li
+                      key="keep-in-touch"
+                      className="w-full flex justify-center gap-2"
+                    >
+                      <UserRound className="h-5 w-5 text-primary" />
+                      <span>Entre em contato com o nosso time!</span>
+                    </li>
+                  </ul>
+                )}
               </div>
               <div>
                 <Button
@@ -214,12 +235,16 @@ const Pricing = () => {
                     // } else {
                     //   redirect("https://pay.kiwify.com.br/tA9jJEx");
                     // }
-                    router.push(
-                      pathname +
-                        "criar-conta/" +
-                        "?" +
-                        createQueryString("plano", plan.value)
-                    );
+                    if (plan?.name === BusinessRules.customizavel.name) {
+                      router.push('/contato');
+                    } else {
+                      router.push(
+                        pathname +
+                          "criar-conta/" +
+                          "?" +
+                          createQueryString("plano", plan.value)
+                      );
+                    }
                   }}
                   variant={plan.popular ? "default" : "outline"}
                 >

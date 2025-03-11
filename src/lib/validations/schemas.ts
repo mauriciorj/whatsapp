@@ -9,6 +9,14 @@ export const contactSchema = z.object({
     .min(10, { message: "A mensagem deve ter pelo menos 10 caracteres" }),
 });
 
+export const deleteDialogSchema = z.object({
+  deleteWord: z.literal("deletar", {
+    errorMap: () => ({
+      message: "Por favor insira a palavra 'deletar' corretamente.",
+    }),
+  }),
+});
+
 export const forgotPasswordSchema = z.object({
   email: z.string().email("Endereço de email inválido"),
 });
@@ -20,6 +28,12 @@ export const linkSchema = z.object({
 export const loginSchema = z.object({
   email: z.string().email({ message: "Por favor insira um email válido." }),
   password: z.string().min(1, { message: "Por favor insira uma senha." }),
+});
+
+export const phoneNumber = z.object({
+  phoneNumber: z
+    .string()
+    .min(5, { message: "Por favor insira um número de telefone válido" }),
 });
 
 export const projectTitleSchema = z.object({

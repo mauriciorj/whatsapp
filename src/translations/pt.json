@@ -135,7 +135,7 @@
         "addProjectCtaLabel": "Adicionar Projeto",
         "pageTitle": "Bem vindo, ",
         "projectCardTitle": "Projeto: ",
-        "form": {
+        "createProjectForm": {
           "addProjectLabel": "Adicionar Projeto",
           "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
           "cancelLabel": "Cancelar",
@@ -154,6 +154,28 @@
           "submitLabel": "Criar projeto",
           "submitLoadingLabel": "Criando projeto...",
           "successMessage": "Projeto criado com sucesso!"
+        },
+        "deleteProjectForm": {
+          "dialog": {
+            "title": "Deletar Projeto",
+            "alertBannerTitle": "Atenção!",
+            "alertBannerDescription": "Todos os dados relacionados a esse projeto serão apagados e não poderão ser acessados ou recuperados!",
+            "alertBannerFooter": "Essa operação é irreversível",
+            "instruction": "Para prosseguir insira a palavra 'deletar' e confirme.",
+            "form": {
+              "cancelLabel": "Cancelar",
+              "fields": {
+                "deleteProject": {
+                  "label": "Deletar o Projeto:",
+                  "name": "deleteWord",
+                  "placeholder": "deletar"
+                }
+              },
+              "submitLabel": "Deletar projeto",
+              "submitLoadingLabel": "Deletando projeto..."
+            }
+          },
+          "successMessage": "Projeto deletado com sucesso"
         }
       },
       "Reports": {
@@ -172,6 +194,8 @@
         "LinkComponent": {
           "componentTitle": "Link de divulgação",
           "dialog": {
+            "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+            "successMessage": "Link atualizado com sucesso",
             "title": "Personalize o seu link",
             "description": "Por favor insira o seu link abaixo para confirmar a disponibilidade",
             "instruction": "Seu link só deve conter letras e \"-\".",
@@ -215,16 +239,58 @@
           "successMessage": "Mensagem salva com sucesso"
         },
         "NumberComponent": {
-          "addNumberCtaLabel": "Adicionar Número",
           "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
-          "cancelCtaLabel": "Cancelar",
           "componentTitle": "Numeros de WhatsApp",
+          "addNumberForm": {
+            "fields": {
+              "addNumber": {
+                "label": "Adicionar número",
+                "name": "phoneNumber",
+                "placeholder": "ex: 21 99999-9999"
+              }
+            },
+            "submitLabel": "Adicionar Número",
+            "submitLoadingLabel": "Adicionando Número..."
+          },
+          "editNumberDialog": {
+            "title": "Editar número",
+            "form": {
+              "cancelLabel": "Cancelar",
+              "fields": {
+                "phoneNumber": {
+                  "label": "Número",
+                  "name": "phoneNumber"
+                }
+              },
+              "submitLabel": "Editar número",
+              "submitLoadingLabel": "Editando número..."
+            }
+          },
+          "deleteNumberDialog": {
+            "title": "Deletar número",
+            "alertBannerTitle": "Atenção!",
+            "alertBannerDescription": "Os dados relacionados a esse número não serão apagados do seu projeto!",
+            "alertBannerFooter": "Essa operação é irreversível",
+            "instruction": "Para prosseguir insira a palavra 'deletar' e confirme.",
+            "form": {
+              "fields": {
+                "cancelLabel": "Cancelar",
+                "deleteNumber": {
+                  "label": "Deletar número",
+                  "name": "deleteWord",
+                  "placeholder": "deletar"
+                }
+              },
+              "submitLabel": "Adicionar Número",
+              "submitLoadingLabel": "Adicionando Número..."
+            }
+          },
+          "cancelCtaLabel": "Cancelar",
           "noProject": "Selecione um projeto para carregar os dados.",
           "noData": "Você não tem nenhum número cadastrado! Por favor cadastre um número para começar.",
-          "placeholder": "Insira o número de telefone",
-          "successMessage": "Alteração salva com sucesso.",
-          "saveCtaLabel": "Salvar alterações",
-          "saveCtaLoadingLabel": "Salvando alterações..."
+          "numbersUpdateCta": "Editar",
+          "numbersRegistered": "Números cadastrados",
+          "successMessage": "Alteração salva com sucesso."
         },
         "pageTitle": "Whatsapp",
         "pageDescription": "Gerencie seu link e números.",

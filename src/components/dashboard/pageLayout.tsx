@@ -55,7 +55,7 @@ const PageLayout = ({
 
       const { data }: any = await supabase
         .from("projects")
-        .select("title")
+        .select("id, title, user_id")
         .eq("user_id", userProfileData?.user_id);
 
       return (

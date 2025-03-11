@@ -3,6 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { LoaderCircle } from "lucide-react";
+import PhoneInput from "react-phone-number-input";
+import flags from "react-phone-number-input/flags";
+import pt from "react-phone-number-input/locale/pt";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import PasswordRulesValidation from "@/lib/passwordRulesValidation";
@@ -18,6 +21,7 @@ export default function Form({
   fieldsToRender,
   forgotPasswordLabel,
   form,
+  isLoading,
   makeLoginLabel,
   onCancel,
   onChange,
@@ -35,11 +39,21 @@ export default function Form({
     rule5: false,
   });
 
-  function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
+  function FieldInfo({
+    field,
+    fieldToRender,
+  }: {
+    field: FieldApi<any, any, any, any>;
+    fieldToRender: any;
+  }) {
     return (
       <>
         {field.state.meta.errors ? (
-          <div className="text-red-500 text-sm italic mt-1">
+          <div
+            className={`text-red-500 text-sm italic mt-1 ${
+              fieldToRender.type === "countryPhone" ? "ml-[65px]" : null
+            }`}
+          >
             {field.state.meta.errors}
           </div>
         ) : null}
@@ -69,7 +83,7 @@ export default function Form({
                       <Textarea
                         field={field}
                         fieldToRender={fieldToRender}
-                        isLoading={form.state.isSubmitting}
+                        isLoading={form.state.isSubmitting || isLoading}
                         onBlur={field.handleBlur}
                         onChange={(e: { target: { value: string } }) => {
                           field.handleChange(e.target.value);
@@ -81,7 +95,7 @@ export default function Form({
                     <Password
                       field={field}
                       fieldToRender={fieldToRender}
-                      isLoading={form.state.isSubmitting}
+                      isLoading={form.state.isSubmitting || isLoading}
                       isShowPassword={isShowPassword}
                       onBlur={field.handleBlur}
                       onChange={(e: any) => {
@@ -103,7 +117,7 @@ export default function Form({
                     <Text
                       field={field}
                       fieldToRender={fieldToRender}
-                      isLoading={form.state.isSubmitting}
+                      isLoading={form.state.isSubmitting || isLoading}
                       onBlur={field.handleBlur}
                       onChange={(e: any) => {
                         if (fieldToRender?.isPersonalizedLink) {
@@ -117,7 +131,7 @@ export default function Form({
                         } else {
                           field.handleChange(e.target.value);
                         }
-                        onChange(e.target.value);
+                        return onChange;
                       }}
                       // onChange={(e: { target: { value: string } }) => {
                       //   field.handleChange(e.target.value);
@@ -128,14 +142,42 @@ export default function Form({
                     <Email
                       field={field}
                       fieldToRender={fieldToRender}
-                      isLoading={form.state.isSubmitting}
+                      isLoading={form.state.isSubmitting || isLoading}
                       onBlur={field.handleBlur}
                       onChange={(e: { target: { value: string } }) => {
                         field.handleChange(e.target.value);
                       }}
                     />
                   )}
-                  <FieldInfo field={field} />
+                  {fieldToRender.type === "countryPhone" && (
+                    <>
+                      <Label className="text-base" htmlFor={field.name}>
+                        {fieldToRender.label}
+                      </Label>
+                      <div className="pt-3">
+                        <PhoneInput
+                          countryCallingCodeEditable={false}
+                          defaultCountry="BR"
+                          disabled={form.state.isSubmitting || isLoading}
+                          flags={flags}
+                          id={field.name}
+                          international
+                          labels={pt}
+                          name={field.name}
+                          numberInputProps={{
+                            className:
+                              "flex h-10 w-full bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+                          }}
+                          onChange={(e: any) => {
+                            field.handleChange(e);
+                          }}
+                          placeholder={fieldToRender.placeholder}
+                          value={field.state.value}
+                        />
+                      </div>
+                    </>
+                  )}
+                  <FieldInfo field={field} fieldToRender={fieldToRender} />
                 </div>
               );
             }}
@@ -154,10 +196,10 @@ export default function Form({
         {submitLabel && (
           <Button
             className="w-full"
-            disabled={form.state.isSubmitting}
+            disabled={form.state.isSubmitting || isLoading}
             type="submit"
           >
-            {form.state.isSubmitting ? (
+            {form.state.isSubmitting || isLoading ? (
               <div className="flex flex-row items-center italic">
                 {submitLoadingLabel}
                 <LoaderCircle className="animate-spin h-5 w-5 ml-2" />
@@ -185,7 +227,7 @@ export default function Form({
       {cancelButtonLabel && (
         <Button
           className="w-full mt-3"
-          disabled={form.state.isSubmitting}
+          disabled={form.state.isSubmitting || isLoading}
           onClick={() => onCancel()}
           variant="outline"
         >
