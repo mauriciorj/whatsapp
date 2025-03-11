@@ -248,7 +248,7 @@ const Pricing = () => {
                   }}
                   variant={plan.popular ? "default" : "outline"}
                 >
-                  Get Started
+                  Começar
                 </Button>
               </div>
             </Card>
