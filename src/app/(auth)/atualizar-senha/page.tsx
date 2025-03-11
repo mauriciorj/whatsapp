@@ -3,12 +3,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ShieldCheck } from "lucide-react";
-// import UpdateUserPassword from "@/actions/updateUserPassword/actions";
 import AuthCard from "@/components/auth/auth-card";
 import PageLayout from "@/components/layout/pageLayout";
 import Form from "@/components/form";
 import { AlertBanner } from "@/components/ui/alert-banner";
 import useTranslations from "@/hooks/useTranslations";
+import { PAGES } from "@/lib/constants";
 import { updatePasswordSchema } from "@/lib/validations/schemas";
 import { createClient } from "@/supabase/client";
 import { useForm } from "@tanstack/react-form";
@@ -17,7 +17,7 @@ export default function ResetPassword() {
   const router = useRouter();
   const translate = useTranslations("Pages.UpdatePassword");
 
-  const [serverError, setServerError] = useState<boolean | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleSignOut = async () => {
     const supabase = createClient();
@@ -36,41 +36,33 @@ export default function ResetPassword() {
     },
     onSubmit: async ({ value }) => {
       try {
-        // CLIENT SIDE
         const supabase = await createClient();
         const { error } = await supabase.auth.updateUser({
           password: value?.password,
         });
         if (error) {
-          setServerError(true);
+          setErrorMessage(translate["form"]["alertMessage"]);
         } else {
+          setErrorMessage(null);
           handleSignOut();
         }
-
-        // SERVER SIDE
-        // const response = await UpdateUserPassword(
-        //   value as { password: string }
-        // );
-        // if (response === false) {
-        //   setServerError(true);
-        // } else {
-        //   handleSignOut();
-        // }
       } catch {
-        setServerError(true);
+        setErrorMessage(translate["form"]["alertMessage"]);
       }
     },
   });
 
   const breadcrumbItems = [
-    { href: "/atualizar-senha", label: "Atualizar Senha", icon: ShieldCheck },
+    {
+      href: PAGES.auth.atualizarSenha,
+      label: translate["form"]["breadcrumbTitle"],
+      icon: ShieldCheck,
+    },
   ];
 
   return (
     <PageLayout breadcrumbItems={breadcrumbItems}>
-      {serverError && (
-        <AlertBanner message={translate["form"]["alertMessage"]} type="error" />
-      )}
+      {errorMessage && <AlertBanner message={errorMessage} type="error" />}
       <AuthCard
         title={translate["cardTitle"]}
         description={translate["cardDescription"]}

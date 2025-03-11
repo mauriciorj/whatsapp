@@ -3,29 +3,26 @@
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { UserPlus } from "lucide-react";
-// import CreateUserAccount from "@/actions/createUserAccount/actions";
+import { v4 as uuidv4 } from "uuid";
 import AuthCard from "@/components/auth/auth-card";
 import Form from "@/components/form";
+import PageLayout from "@/components/layout/pageLayout";
 import { AlertBanner } from "@/components/ui/alert-banner";
 import useTranslations from "@/hooks/useTranslations";
 import BusinessRules from "@/lib/businessRules";
+import { PAGES } from "@/lib/constants";
 import { signupSchema } from "@/lib/validations/schemas";
 import { createClient } from "@/supabase/client";
 import { useForm } from "@tanstack/react-form";
-import PageLayout from "@/components/layout/pageLayout";
-import { v4 as uuidv4 } from "uuid";
 
 export default function CriarConta() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const translate = useTranslations("Pages.CreateAccount");
 
-  const getPlano = searchParams.get("plano") as "basico" | "avancado";
+  const getPlano = searchParams.get("plano") as string;
 
-  const [serverError, setServerError] = useState<boolean | null>(null);
-  const [serverErrorMessage, setServerErrorMessage] = useState<string | null>(
-    null
-  );
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const form = useForm({
     defaultValues: {
@@ -41,18 +38,14 @@ export default function CriarConta() {
       onSubmit: signupSchema,
     },
     onSubmit: async ({ value }: any) => {
-      setServerError(null);
-      setServerErrorMessage(null);
-      // CLIENT SIDE
+      setErrorMessage(null);
+
       const supabase = await createClient();
 
       if (
         !Object.values(BusinessRules).some((plan) => plan?.name === getPlano)
       ) {
-        setServerError(true);
-        setServerErrorMessage(
-          "Ops... algo deu errado. Por favor tente de novo."
-        );
+        setErrorMessage(translate["form"]["alertMessage"]);
       }
 
       const data = {
@@ -67,8 +60,7 @@ export default function CriarConta() {
         .eq("email", value.email);
 
       if (hasUser && hasUser[0]?.email) {
-        setServerError(true);
-        setServerErrorMessage("Esse email já existe, por favor faça o login.");
+        setErrorMessage(translate["form"]["alertMessageEmailExists"]);
       }
 
       // Step 2 - Create account
@@ -76,10 +68,7 @@ export default function CriarConta() {
       const { data: signUpData, error } = await supabase.auth.signUp(data);
 
       if (error) {
-        setServerError(true);
-        setServerErrorMessage(
-          "Ops... algo deu errado. Por favor tente de novo."
-        );
+        setErrorMessage(translate["form"]["alertMessage"]);
       }
 
       // Step 3 - Update account after create it
@@ -92,70 +81,30 @@ export default function CriarConta() {
             last_name: value.lastName,
             plan: getPlano,
             user_id: signUpData?.user?.id,
-            role: "admin",
+            role: "accountAdmin",
             account_id: uuidv4(),
           })
           .eq("user_id", signUpData?.user?.id);
 
         if (error) {
-          setServerError(true);
-          setServerErrorMessage(
-            "Ops... algo deu errado. Por favor tente de novo."
-          );
+          setErrorMessage(translate["form"]["alertMessage"]);
         }
       }
-
-      router.push("https://pay.kiwify.com.br/JeIpGkP");
-
-      // if (getPlano === "basico") {
-      //   router.push("https://pay.kiwify.com.br/vNY2XvG");
-      // } else if (getPlano === "avancado") {
-      //   router.push("https://pay.kiwify.com.br/JeIpGkP");
-      // } else {
-      //   setServerError(true);
-      //   setServerErrorMessage(
-      //     "Ops... algo deu errado. Por favor tente de novo."
-      //   );
-      // }
-
-      // SERVER SIDE
-      // try {
-      //   const response = await CreateUserAccount({
-      //     email: value.email,
-      //     firstName: value.firstName,
-      //     lastName: value.lastName,
-      //     password: value.password,
-      //     plan: getPlano,
-      //   });
-      //   if (response?.status === 500) {
-      //     setServerErrorMessage(
-      //       "Ops... algo deu errado. Por favor tente de novo."
-      //     );
-      //     setServerError(true);
-      //   } else if (response?.status === 400) {
-      //     setServerErrorMessage(
-      //       "Esse email já existe, por favor faça o login."
-      //     );
-      //     setServerError(true);
-      //   }
-      // } catch {
-      //   setServerErrorMessage(
-      //     "Ops... algo deu errado. Por favor tente de novo."
-      //   );
-      //   setServerError(true);
-      // }
+      if (BusinessRules[getPlano]?.url) {
+        router.push(BusinessRules[getPlano]?.url);
+      }
     },
   });
   const breadcrumbItems = [
     {
-      href: `/criar-conta?plano=${getPlano}`,
-      label: "Criar Conta",
+      href: `${PAGES.auth.criarConta}?plano=${getPlano}`,
+      label: translate["breadcrumbTitle"],
       icon: UserPlus,
     },
   ];
   return (
     <PageLayout breadcrumbItems={breadcrumbItems}>
-      {serverError && <AlertBanner message={serverErrorMessage} type="error" />}
+      {errorMessage && <AlertBanner message={errorMessage} type="error" />}
       <AuthCard
         title={translate["cardTitle"]}
         description={translate["cardDescription"]}

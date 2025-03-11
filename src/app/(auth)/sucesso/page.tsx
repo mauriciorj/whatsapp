@@ -6,13 +6,14 @@ import PageLayout from "@/components/layout/pageLayout";
 import { Button } from "@/components/ui/button";
 import DefaultCard from "@/components/layout/defaultCard";
 import useTranslations from "@/hooks/useTranslations";
+import { PAGES } from "@/lib/constants";
 
 export default function Successo() {
   const translate = useTranslations("Pages.PaymentSuccess");
   const breadcrumbItems = [
     {
-      href: "/sucesso",
-      label: "Sucesso",
+      href: PAGES.auth.success,
+      label: translate["breadcrumbTitle"],
       icon: Check,
     },
   ];
@@ -24,7 +25,7 @@ export default function Successo() {
       >
         <div className="flex flex-row w-full items-center justify-center">
           <Button asChild>
-            <Link href="/login">{translate["buttonLabel"]}</Link>
+            <Link href={PAGES.auth.login}>{translate["buttonLabel"]}</Link>
           </Button>
         </div>
       </DefaultCard>
