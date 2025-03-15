@@ -2,78 +2,50 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { PanelsTopLeft, Plus, Trash2 } from "lucide-react";
-// import CreateProjects from "@/actions/createProjects/actions";
-// import GetUserProjects from "@/actions/getUserProjects/actions";
+import { PanelsTopLeft, Plus } from "lucide-react";
 import DeleteProject from "@/actions/deleteProject/actions";
-import GetUserProfile from "@/actions/getUserProfile/actions";
 import PageLayout from "@/components/dashboard/pageLayout";
+import ProjectsCard from "@/components/dashboard/projects/projectsCard";
 import ProjectsDialog from "@/components/dashboard/projects/projectsDialog";
+import ProjectsLoadingCard from "@/components/dashboard/projects/projectsLoadingCard";
 import Form from "@/components/form";
 import DefaultCard from "@/components/layout/defaultCard";
 import { AlertBanner } from "@/components/ui/alert-banner";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { ProjectsType } from "@/db/types/types";
+import { useUserProfile } from "@/hooks/useUserProfile";
+import { useUserProjects } from "@/hooks/useUserProjects";
 import useTranslations from "@/hooks/useTranslations";
 import BusinessRules from "@/lib/businessRules";
+import { DELETE_MAGIC_WORD, PAGES } from "@/lib/constants";
 import generateRandomCode from "@/lib/generateCode";
 import { deleteDialogSchema } from "@/lib/validations/schemas";
 import { createClient } from "@/supabase/client";
-// import { useMutation } from "@tanstack/react-query";
-import { useQuery } from "@tanstack/react-query";
 import { useForm } from "@tanstack/react-form";
-
-type FormType = {
-  project: string;
-};
 
 export default function DashboardPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
+
   const translate = useTranslations("Pages.Dashboard.Projects");
 
-  const projectName = searchParams.get("project");
+  const projectName = searchParams?.get("project") || null;
 
-  // const [isLoading, setIsLoading] = useState(false);
-  const [projectToBeDeleted, setProjectToBeDeleted] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isOpenForm, setIsOpenForm] = useState<boolean>(false);
-  const [serverError, setServerError] = useState<boolean | null>(null);
+  const [projectToBeDeleted, setProjectToBeDeleted] =
+    useState<ProjectsType | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  const { data: userProfileData, isLoading: isProfileDataLoading } = useQuery({
-    queryKey: ["userProfile"],
-    queryFn: async () => GetUserProfile(),
-  });
+  const { user: userProfileData, isLoading: isUserProfileDataLoading } =
+    useUserProfile();
 
   const {
-    data: userProjects,
+    projects: userProjects,
     isLoading: isUserProjectsLoading,
     refetch,
-  } = useQuery({
-    queryKey: ["userProjects"],
-    queryFn: async () => {
-      // CLIENT SIDE
-      const supabase = await createClient();
-
-      const { data, error }: any = await supabase
-        .from("projects")
-        .select("id, title, user_id")
-        .eq("user_id", userProfileData?.user_id);
-
-      if (error) {
-        setServerError(true);
-      }
-
-      return (
-        data?.sort((a: any, b: any) => a.title.localeCompare(b.title)) || []
-      );
-
-      // SERVER SIDE
-      // GetUserProjects({ userId: userProfileData?.user_id });
-    },
-    enabled: !!userProfileData?.user_id,
-  }) as any;
+  } = useUserProjects();
 
   const deleteForm = useForm({
     defaultValues: {
@@ -82,33 +54,37 @@ export default function DashboardPage() {
     validators: {
       onSubmit: deleteDialogSchema,
     },
-    onSubmit: async ({ value }: any) => {
-      setServerError(false);
+    onSubmit: async ({ value }: { value: { deleteWord: string } }) => {
+      setErrorMessage(null);
       setSuccessMessage(null);
-      if (value?.deleteWord === "deletar") {
+      if (value?.deleteWord === DELETE_MAGIC_WORD) {
         try {
           const result = await DeleteProject(projectToBeDeleted);
           if (result?.status >= 400) {
-            setServerError(true);
-            setProjectToBeDeleted(null);
             setIsModalOpen(false);
+            setProjectToBeDeleted(null);
+            setSuccessMessage(null);
+            setErrorMessage(translate["createProjectForm"]["alertMessage"]);
             refetch();
           } else {
             if (projectName) {
-              router.replace("/dashboard/projetos");
+              router.replace(PAGES.dashboard.projetos);
               router.refresh();
             }
-            setProjectToBeDeleted(null);
             setIsModalOpen(false);
+            setErrorMessage(null);
+            setProjectToBeDeleted(null);
             setSuccessMessage(translate["deleteProjectForm"]["successMessage"]);
             form.reset();
             refetch();
           }
         } catch {
-          setServerError(true);
+          setSuccessMessage(null);
+          setErrorMessage(translate["createProjectForm"]["alertMessage"]);
         }
       } else {
-        setServerError(true);
+        setSuccessMessage(null);
+        setErrorMessage(translate["createProjectForm"]["alertMessage"]);
       }
     },
   });
@@ -121,7 +97,7 @@ export default function DashboardPage() {
       onChange({ value }) {
         if (
           userProjects?.some(
-            (item: { title: string }) => item.title === value.project
+            (item: ProjectsType) => item.title === value.project
           )
         ) {
           return {
@@ -136,10 +112,9 @@ export default function DashboardPage() {
         return undefined;
       },
     },
-    onSubmit: async ({ value }: { value: FormType }) => {
-      setServerError(false);
+    onSubmit: async ({ value }: { value: { project: string } }) => {
+      setErrorMessage(null);
       setSuccessMessage(null);
-      // mutation.mutate({ title: value?.project });
       try {
         const supabase = await createClient();
 
@@ -168,16 +143,18 @@ export default function DashboardPage() {
           user_id: userProfileData?.user_id,
         });
         if (error) {
-          setServerError(true);
+          setSuccessMessage(null);
+          setErrorMessage(translate["createProjectForm"]["alertMessage"]);
         } else {
           form.reset();
           setIsOpenForm(false);
-          setServerError(false);
+          setErrorMessage(null);
           setSuccessMessage(translate["createProjectForm"]["successMessage"]);
           refetch();
         }
       } catch {
-        setServerError(true);
+        setSuccessMessage(null);
+        setErrorMessage(translate["createProjectForm"]["alertMessage"]);
       }
     },
   });
@@ -186,8 +163,10 @@ export default function DashboardPage() {
     router.push(`/dashboard/relatorios?project=${project}`);
   };
 
-  const maxProjectsNumbers = BusinessRules[userProfileData?.plan]?.projects;
   const hasProject = Boolean(userProjects?.length > 0);
+  const maxProjectsNumbers = userProfileData?.plan
+    ? BusinessRules[userProfileData?.plan]?.projects
+    : 0;
   const canAddMoreProjects = Boolean(
     userProjects?.length > 0 || userProjects?.length < maxProjectsNumbers
   );
@@ -207,13 +186,13 @@ export default function DashboardPage() {
   return (
     <PageLayout
       breadcrumbItems={breadcrumbItems}
-      isLoading={isProfileDataLoading}
+      isLoading={isUserProfileDataLoading}
       pageTitle={
         userProfileData?.first_name &&
         `${translate["pageTitle"]} ${userProfileData?.first_name}`
       }
     >
-      {serverError && (
+      {errorMessage && (
         <div className="container mb-10">
           <AlertBanner
             message={translate["createProjectForm"]["alertMessage"]}
@@ -226,61 +205,22 @@ export default function DashboardPage() {
           <AlertBanner message={successMessage} type="success" />
         </div>
       )}
-      {isUserProjectsLoading || isProfileDataLoading ? (
-        <DefaultCard>
-          <div className="text-2xl mb-6">
-            <Skeleton className="h-5 w-56" />
-          </div>
-          <div className="flex flex-col items-center">
-            <Skeleton className="h-5 w-56" />
-          </div>
-          <div className="flex flex-col items-center mt-10">
-            <Skeleton className="h-28 w-[90%]" />
-          </div>
-        </DefaultCard>
+      {isUserProjectsLoading || isUserProfileDataLoading ? (
+        <ProjectsLoadingCard />
       ) : (
         <DefaultCard description={getCardDescription} title={getCardTitle}>
-          {hasProject &&
-            userProjects?.map(
-              (project: { title: string }, index: { index: number }) => (
-                <DefaultCard
-                  className={`${
-                    projectName === project?.title
-                      ? "border-2 border-primary"
-                      : ""
-                  } mt-5`}
-                  isHoverable
-                  key={`${index}-${project.title}`}
-                  onClick={() => onClickHandler({ project: project.title })}
-                >
-                  <div className="w-full flex flex-row items-center justify-between">
-                    <div>
-                      {translate["projectCardTitle"]}{" "}
-                      <span className="font-bold">{project.title}</span>
-                    </div>
-                    <div>
-                      <Button
-                        className="w-[50px] h-[50px] z-10 hover:bg-destructive/10"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setIsModalOpen(true);
-                          setProjectToBeDeleted((prevState: any) => ({
-                            ...prevState,
-                            ...project,
-                          }));
-                        }}
-                        size="icon"
-                        variant="ghost"
-                      >
-                        <Trash2 className="h-5 w-5 text-destructive" />
-                      </Button>
-                    </div>
-                  </div>
-                </DefaultCard>
-              )
-            )}
+          {hasProject && (
+            <ProjectsCard
+              onClickHandler={onClickHandler}
+              projectCardTitle={translate["projectCardTitle"]}
+              projectName={projectName}
+              setIsModalOpen={setIsModalOpen}
+              setProjectToBeDeleted={setProjectToBeDeleted}
+              userProjects={userProjects}
+            />
+          )}
           {!isUserProjectsLoading &&
-            !isProfileDataLoading &&
+            !isUserProfileDataLoading &&
             (isOpenForm || !hasProject) && (
               <div className="mt-10">
                 <div className="h-[1px] border-b mb-5"></div>

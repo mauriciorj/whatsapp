@@ -77,10 +77,10 @@ const PageLayout = ({
         {isLoading || isProfileDataLoading || isUserProjectsLoading ? (
           <Skeleton className="h-10 w-72 mb-4" />
         ) : (
-          <div className=" flex flex-row justify-between">
+          <div className="flex flex-col-reverse md:flex-row justify-between">
             <PageTitle title={pageTitle} description={pageDescription} />
             {userProjects && (
-              <div className="w-full md:w-fit flex flex-row mb-5 items-center justify-end">
+              <div className="w-full mb-5 md:mt-0 md:w-fit flex flex-row mb-5 items-center justify-end">
                 <Select
                   onValueChange={(e) => router.push(`${pathname}?project=${e}`)}
                 >

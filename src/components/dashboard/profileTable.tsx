@@ -7,18 +7,18 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
 export default function ProfileTable({
   isLoading,
+  isUserProfileDataLoading,
   mutation,
   setIsLoading,
   translate,
   userProfileData,
-  userProfileIsLoading,
 }: {
   isLoading: boolean;
+  isUserProfileDataLoading: boolean;
   mutation: any;
   setIsLoading: (param: boolean) => void;
   translate: any;
   userProfileData: any;
-  userProfileIsLoading: boolean;
 }) {
   return (
     <>
@@ -29,7 +29,7 @@ export default function ProfileTable({
               {translate["profileCard"]["firstName"]["label"]}
             </TableCell>
             <TableCell>
-              {userProfileIsLoading ? (
+              {isUserProfileDataLoading ? (
                 <Skeleton className="w-full h-6 w-32" />
               ) : (
                 userProfileData?.first_name
@@ -41,7 +41,7 @@ export default function ProfileTable({
               {translate["profileCard"]["lastName"]["label"]}
             </TableCell>
             <TableCell>
-              {userProfileIsLoading ? (
+              {isUserProfileDataLoading ? (
                 <Skeleton className="h-6 w-32" />
               ) : (
                 userProfileData?.last_name
@@ -53,7 +53,7 @@ export default function ProfileTable({
               {translate["profileCard"]["email"]["label"]}
             </TableCell>
             <TableCell>
-              {userProfileIsLoading ? (
+              {isUserProfileDataLoading ? (
                 <Skeleton className="h-6 w-32" />
               ) : (
                 userProfileData?.email
@@ -65,7 +65,7 @@ export default function ProfileTable({
               {translate["profileCard"]["plan"]["label"]}
             </TableCell>
             <TableCell>
-              {userProfileIsLoading ? (
+              {isUserProfileDataLoading ? (
                 <Skeleton className="h-6 w-32" />
               ) : (
                 userProfileData?.plan

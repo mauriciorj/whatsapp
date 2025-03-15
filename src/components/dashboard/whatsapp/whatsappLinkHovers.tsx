@@ -23,12 +23,12 @@ const WhatsAppLinkHoverCards = ({
   translate: any;
 }) => {
   return (
-    <>
+    <div className="w-full justify-end flex flex-row mt-3">
       <HoverCard>
         <HoverCardTrigger asChild>
           <div
             onClick={() => setIsModalOpen(true)}
-            className="absolute right-[60px] top-[10px] cursor-pointer text-center justify-center"
+            className="cursor-pointer text-center justify-center"
           >
             <Fingerprint className="h-5 w-5" />
           </div>
@@ -45,10 +45,10 @@ const WhatsAppLinkHoverCards = ({
         </HoverCardContent>
       </HoverCard>
       <HoverCard>
-        <HoverCardTrigger asChild>
+        <HoverCardTrigger asChild className="ml-2">
           <div
             onClick={() => generateRandomLink()}
-            className="absolute right-[35px] top-[10px] cursor-pointer text-center justify-center"
+            className="cursor-pointer text-center justify-center"
           >
             <RefreshCcw
               className={`${
@@ -66,9 +66,9 @@ const WhatsAppLinkHoverCards = ({
         </HoverCardContent>
       </HoverCard>
       <HoverCard>
-        <HoverCardTrigger asChild>
+        <HoverCardTrigger asChild className="ml-2">
           <div
-            className="absolute right-[10px] top-[10px] cursor-pointer text-center justify-center"
+            className="cursor-pointer text-center justify-center"
             onClick={() => copyToClipboard()}
           >
             {isCopied ? (
@@ -86,7 +86,7 @@ const WhatsAppLinkHoverCards = ({
           </div>
         </HoverCardContent>
       </HoverCard>
-    </>
+    </div>
   );
 };
 

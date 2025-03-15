@@ -133,7 +133,7 @@ const WhatsAppLink = ({
       setIsFormLoading(false);
       setSuccessMessage(null);
       setIsModalOpen(false);
-      form.reset();
+      linkForm.reset();
       return setServerErrorMessage(translate["dialog"]["alertMessage"]);
     },
     onSuccess: () => {
@@ -141,13 +141,13 @@ const WhatsAppLink = ({
       setSuccessMessage(translate["dialog"]["successMessage"]);
       setIsModalOpen(false);
       setServerErrorMessage(null);
-      form.reset();
+      linkForm.reset();
       refetch();
       return setSuccessMessage(translate["dialog"]["successMessage"]);
     },
   });
 
-  const form = useForm({
+  const linkForm = useForm({
     defaultValues: {
       link: "",
     },
@@ -186,23 +186,23 @@ const WhatsAppLink = ({
               readOnly
               value={baseLink}
             />
-            <WhatsAppLinkHoverCards
-              copyToClipboard={copyToClipboard}
-              generateRandomLink={generateRandomLink}
-              isCopied={isCopied}
-              isGenerateRandomLinkLoading={isGenerateRandomLinkLoading}
-              setIsModalOpen={() => {
-                setIsModalOpen(true);
-                setServerErrorMessage(null);
-                setSuccessMessage(null);
-              }}
-              translate={translate}
-            />
           </div>
         </div>
+        <WhatsAppLinkHoverCards
+          copyToClipboard={copyToClipboard}
+          generateRandomLink={generateRandomLink}
+          isCopied={isCopied}
+          isGenerateRandomLinkLoading={isGenerateRandomLinkLoading}
+          setIsModalOpen={() => {
+            setIsModalOpen(true);
+            setServerErrorMessage(null);
+            setSuccessMessage(null);
+          }}
+          translate={translate}
+        />
       </DefaultCard>
       <WhatsAppLinkDialog
-        form={form}
+        form={linkForm}
         isLoading={isFormLoading}
         isModalOpen={isModalOpen}
         personalizedLink={personalizedLink}
