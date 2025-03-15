@@ -22,7 +22,7 @@ export const forgotPasswordSchema = z.object({
 });
 
 export const linkSchema = z.object({
-  link: z.string().regex(/^[A-Za-z\b-]{4,20}$/, "Link inválido"),
+  link: z.string().regex(/^[A-Za-z\b-]{4,50}$/, "Link inválido"),
 });
 
 export const loginSchema = z.object({
