@@ -94,7 +94,7 @@ export default function DashboardPage() {
       if (error) {
         setServerError(true);
       }
-      
+
       return data || [];
     },
     enabled: Boolean(
@@ -128,7 +128,7 @@ export default function DashboardPage() {
         setreportPerCountryAndCityData(reportPerCountryAndCity);
       }
     }
-  }, [data?.length]);
+  }, [data]);
 
   const breadcrumbItems = [
     { href: "/dashboard/relatorios", label: "Relatórios", icon: ChartSpline },
