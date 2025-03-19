@@ -58,6 +58,7 @@ const ProjectsDialog = ({
               type: "text",
             },
           ]}
+          isDeleteForm
           onCancel={() => {
             setIsModalOpen(false);
             form.reset();

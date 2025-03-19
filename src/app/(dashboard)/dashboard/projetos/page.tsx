@@ -149,8 +149,9 @@ export default function DashboardPage() {
           form.reset();
           setIsOpenForm(false);
           setErrorMessage(null);
-          setSuccessMessage(translate["createProjectForm"]["successMessage"]);
+          // setSuccessMessage(translate["createProjectForm"]["successMessage"]);
           refetch();
+          router.push(`/dashboard/whatsapp?project=${value.project}`);
         }
       } catch {
         setSuccessMessage(null);

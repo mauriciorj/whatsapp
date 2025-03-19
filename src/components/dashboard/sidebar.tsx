@@ -58,12 +58,10 @@ const Sidebar = () => {
   return (
     <div className="flex flex-row min-h-screen">
       <Button
-        className="md:hidden fixed top-3 left-4 z-50"
+        className="fixed top-3 px-7 right-10 md:hidden z-50"
         onClick={() => setIsOpen(!isOpen)}
-        size="icon"
-        variant="ghost"
       >
-        <Menu className="h-6 w-6" />
+        Menu
       </Button>
 
       <div
