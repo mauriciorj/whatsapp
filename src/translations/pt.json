@@ -3,6 +3,14 @@
     "dashboard": "Dashboard",
     "login": "Login",
     "signUp": "Começar",
+    "sideBar": {
+      "openCloseCtaLabel": "Menu",
+      "title": "Menu",
+      "projects": "Projetos",
+      "reports": "Relatórios",
+      "whatsapp": "Whatsapp",
+      "help": "Ajuda"
+    },
     "footer": {
       "product": {
         "title": "Dashboard",

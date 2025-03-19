@@ -8,17 +8,19 @@ import {
   ChartSpline,
   HelpCircle,
   MessageCircle,
-  Menu,
   PanelsTopLeft,
 } from "lucide-react";
 import GetUserProfile from "@/actions/getUserProfile/actions";
 // import GetUserProjects from "@/actions/getUserProjects/actions";
 import { Button } from "@/components/ui/button";
+import useTranslations from "@/hooks/useTranslations";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 
 const Sidebar = () => {
+  const translate = useTranslations("main.sideBar");
+  
   const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
@@ -61,7 +63,7 @@ const Sidebar = () => {
         className="fixed top-3 px-7 right-10 md:hidden z-50"
         onClick={() => setIsOpen(!isOpen)}
       >
-        Menu
+        {translate["openCloseCtaLabel"]}
       </Button>
 
       <div
@@ -71,8 +73,8 @@ const Sidebar = () => {
         )}
       >
         <div className="space-y-4">
-          <div className="mb-8">
-            <h2 className="text-xl font-bold">Menu</h2>
+          <div>
+            <h2 className="text-xl font-bold">{translate["title"]}</h2>
           </div>
           <nav className="space-y-2">
             <Link
@@ -85,7 +87,7 @@ const Sidebar = () => {
               onClick={() => setIsOpen(false)}
             >
               <PanelsTopLeft className="h-5 w-5" />
-              Projetos
+              {translate["projects"]}
             </Link>
             {Boolean(userProjects?.length) && (
               <>
@@ -99,7 +101,7 @@ const Sidebar = () => {
                   onClick={() => setIsOpen(false)}
                 >
                   <ChartSpline className="h-5 w-5" />
-                  Relatórios
+                  {translate["reports"]}
                 </Link>
                 <Link
                   className={cn(
@@ -112,7 +114,7 @@ const Sidebar = () => {
                   prefetch
                 >
                   <MessageCircle className="h-5 w-5" />
-                  WhatsApp
+                  {translate["whatsapp"]}
                 </Link>
               </>
             )}
@@ -126,7 +128,7 @@ const Sidebar = () => {
               onClick={() => setIsOpen(false)}
             >
               <HelpCircle className="h-5 w-5" />
-              Ajuda
+              {translate["help"]}
             </Link>
           </nav>
         </div>
