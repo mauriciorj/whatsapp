@@ -34,7 +34,7 @@ const Header = () => {
             : null
         } ${
           userProfileData?.email && isInsideDashboard
-            ? "pl-16 pr-2 md:pl-20 md:pr-20"
+            ? "pl-5 pr-2 md:pl-20 md:pr-20"
             : null
         } ${
           !userProfileData?.email ? "pl-5 pr-5 md:pl-20 md:pr-20" : null
@@ -45,14 +45,19 @@ const Header = () => {
         </Link>
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          {userProfileData?.email ? (
+          {userProfileData?.email && !isInsideDashboard && (
             <>
               <Button asChild>
                 <Link href="/dashboard">{translate["dashboard"]}</Link>
               </Button>
-              <UserNav />
             </>
-          ) : (
+          )}
+          {userProfileData?.email && isInsideDashboard && (
+            <div className="ml-28 md:ml-2">
+              <UserNav />
+            </div>
+          )}
+          {!userProfileData?.email && !isInsideDashboard && (
             <div className="flex items-center gap-2">
               <Button asChild variant="ghost">
                 <Link prefetch href="/login">
