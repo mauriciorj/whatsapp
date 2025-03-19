@@ -66,6 +66,7 @@ const WhatsappDeleteNumbersDialog = ({
               type: "text",
             },
           ]}
+          isDeleteForm
           isLoading={isLoading}
           onCancel={() => {
             setIsModalOpen(false);

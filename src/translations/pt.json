@@ -285,7 +285,7 @@
                   "placeholder": "deletar"
                 }
               },
-              "submitLabel": "Adicionar Número",
+              "submitLabel": "Deletar Número",
               "submitLoadingLabel": "Adicionando Número..."
             }
           },

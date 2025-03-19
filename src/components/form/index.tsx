@@ -21,6 +21,7 @@ export default function Form({
   fieldsToRender,
   forgotPasswordLabel,
   form,
+  isDeleteForm,
   isLoading,
   makeLoginLabel,
   onCancel,
@@ -195,7 +196,7 @@ export default function Form({
         )}
         {submitLabel && (
           <Button
-            className="w-full"
+            className={`w-full ${isDeleteForm ? "bg-destructive" : null}`}
             disabled={form.state.isSubmitting || isLoading}
             type="submit"
           >
