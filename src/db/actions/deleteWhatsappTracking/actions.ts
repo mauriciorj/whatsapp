@@ -8,7 +8,7 @@ const DeleteWhatsappTracking = async (id: string) => {
   const response = await supabase
   .from('whatsapp_tracking')
   .delete()
-  .eq('project_id', id)
+  .eq('campaign_id', id)
 
   return response
 

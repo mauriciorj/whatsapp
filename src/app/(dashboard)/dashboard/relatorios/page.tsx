@@ -26,7 +26,7 @@ export default function DashboardPage() {
   const searchParams = useSearchParams();
   const translate = useTranslations("Pages.Dashboard.Reports");
 
-  const projectName = searchParams.get("project");
+  const campaignName = searchParams.get("campaign");
 
   const [serverError, setServerError] = useState<boolean | null>(null);
 
@@ -48,14 +48,14 @@ export default function DashboardPage() {
     queryFn: async () => GetUserProfile(),
   });
 
-  const { data: userProjects, isLoading: isUserProjectsLoading } = useQuery({
-    queryKey: ["userProjects"],
+  const { data: userCampaigns, isLoading: isUserCampaignsLoading } = useQuery({
+    queryKey: ["userCampaigns"],
     queryFn: async () => {
       // CLIENT SIDE
       const supabase = await createClient();
 
       const { data, error }: any = await supabase
-        .from("projects")
+        .from("campaigns")
         .select("id, title, user_id")
         .eq("user_id", userProfileData?.user_id);
 
@@ -66,19 +66,16 @@ export default function DashboardPage() {
       return (
         data?.sort((a: any, b: any) => a.title.localeCompare(b.title)) || []
       );
-
-      // SERVER SIDE
-      // GetUserProjects({ userId: userProfileData?.user_id });
     },
     enabled: !!userProfileData?.user_id,
   }) as any;
 
-  const getCurrentProject = userProjects?.find(
-    (project: any) => project.title === projectName
+  const getCurrentCampaign = userCampaigns?.find(
+    (campaign: any) => campaign.title === campaignName
   );
 
   const { data, isFetching, refetch } = useQuery<any>({
-    queryKey: ["whatsappTracking", getCurrentProject?.id, reportPeriod],
+    queryKey: ["whatsappTracking", getCurrentCampaign?.id, reportPeriod],
     queryFn: async () => {
       const supabase = createClient();
       const { data, error } = await supabase
@@ -87,7 +84,7 @@ export default function DashboardPage() {
           count: "exact",
         })
         .eq("user_id", userProfileData.user_id)
-        .eq("project_id", getCurrentProject?.id)
+        .eq("campaign_id", getCurrentCampaign?.id)
         .gte("created_at", timeTemp)
         .order("created_at", { ascending: true });
 
@@ -98,13 +95,13 @@ export default function DashboardPage() {
       return data || [];
     },
     enabled: Boolean(
-      !!userProfileData?.user_id && !!projectName && !!userProjects
+      !!userProfileData?.user_id && !!campaignName && !!userCampaigns
     ),
   });
 
   useEffect(() => {
     refetch();
-  }, [projectName, refetch]);
+  }, [campaignName, refetch]);
 
   useEffect(() => {
     if (data?.length) {
@@ -137,7 +134,7 @@ export default function DashboardPage() {
   return (
     <PageLayout
       breadcrumbItems={breadcrumbItems}
-      isLoading={isProfileDataLoading || isUserProjectsLoading}
+      isLoading={isProfileDataLoading || isUserCampaignsLoading}
       pageTitle={translate["pageTitle"]}
       pageDescription={translate["pageDescription"]}
     >
@@ -201,7 +198,7 @@ export default function DashboardPage() {
         ) : (
           <div className="w-full flex flex-col items-center justify-center h-[100px]">
             <div className="border rounded-md py-5 px-7 text-center">
-              {!projectName ? translate["noProject"] : translate["noData"]}
+              {!campaignName ? translate["noCampaign"] : translate["noData"]}
             </div>
           </div>
         )}

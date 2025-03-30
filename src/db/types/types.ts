@@ -1,4 +1,4 @@
-export interface ProjectsType {
+export interface CampaignsType {
   id: string;
   created_at: string;
   updated_at?: string;

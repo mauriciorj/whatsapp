@@ -36,11 +36,11 @@ export const phoneNumber = z.object({
     .min(5, { message: "Por favor insira um número de telefone válido" }),
 });
 
-export const projectTitleSchema = z.object({
-  project: z.string().min(1, { message: "Por favor insira um nome válido." }),
+export const campaignTitleSchema = z.object({
+  campaign: z.string().min(1, { message: "Por favor insira um nome válido." }),
 });
 
-export const projectMessageSchema = z.object({
+export const campaignMessageSchema = z.object({
   message: z
     .string()
     .min(1, { message: "Por favor insira uma mensagem válida." })

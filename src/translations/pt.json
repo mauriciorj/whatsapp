@@ -6,9 +6,10 @@
     "sideBar": {
       "openCloseCtaLabel": "Menu",
       "title": "Menu",
-      "projects": "Projetos",
+      "campaigns": "Campanhas",
       "reports": "Relatórios",
       "whatsapp": "Whatsapp",
+      "numbersRotation": "Rotação de Números",
       "help": "Ajuda"
     },
     "footer": {
@@ -143,51 +144,51 @@
           "submitLoadingLabel": "Processando..."
         }
       },
-      "Projects": {
-        "addProjectCtaLabel": "Adicionar Projeto",
+      "Campaigns": {
+        "addCampaignCtaLabel": "Adicionar Campanha",
         "pageTitle": "Bem vindo, ",
-        "projectCardTitle": "Projeto: ",
-        "createProjectForm": {
-          "addProjectLabel": "Adicionar Projeto",
+        "campaignCardTitle": "Campanha: ",
+        "createCampaignForm": {
+          "addCampaignLabel": "Adicionar Campanha",
           "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
           "cancelLabel": "Cancelar",
-          "cardTitle": "Para começar, crie um projeto!",
-          "cardTitleTwo": "Projetos",
-          "cardDescription": "Escolha um nome para o seu projeto.",
-          "cardDescriptionTwo": "Gerencie os seus projetos",
+          "cardTitle": "Para começar, crie um campanha!",
+          "cardTitleTwo": "Campanhas",
+          "cardDescription": "Escolha um nome para o seu campanha.",
+          "cardDescriptionTwo": "Gerencie os seus campanhas",
           "fields": {
-            "project": {
+            "campaign": {
               "label": "Nome *",
-              "name": "project",
-              "placeholder": "Ex: Projeto Suporte Online",
-              "fieldError": "Já existe um projeto com esse nome."
+              "name": "Campanha",
+              "placeholder": "Ex: Campanha Suporte Online",
+              "fieldError": "Já existe um campanha com esse nome."
             }
           },
-          "submitLabel": "Criar projeto",
-          "submitLoadingLabel": "Criando projeto...",
-          "successMessage": "Projeto criado com sucesso!"
+          "submitLabel": "Criar campanha",
+          "submitLoadingLabel": "Criando campanha...",
+          "successMessage": "Campanha criado com sucesso!"
         },
-        "deleteProjectForm": {
+        "deleteCampaignForm": {
           "dialog": {
-            "title": "Deletar Projeto",
+            "title": "Deletar Campanha",
             "alertBannerTitle": "Atenção!",
-            "alertBannerDescription": "Todos os dados relacionados a esse projeto serão apagados e não poderão ser acessados ou recuperados!",
+            "alertBannerDescription": "Todos os dados relacionados a esse campanha serão apagados e não poderão ser acessados ou recuperados!",
             "alertBannerFooter": "Essa operação é irreversível",
             "instruction": "Para prosseguir insira a palavra 'deletar' e confirme.",
             "form": {
               "cancelLabel": "Cancelar",
               "fields": {
-                "deleteProject": {
-                  "label": "Deletar o Projeto:",
+                "deleteCampaign": {
+                  "label": "Deletar o Campanha:",
                   "name": "deleteWord",
                   "placeholder": "deletar"
                 }
               },
-              "submitLabel": "Deletar projeto",
-              "submitLoadingLabel": "Deletando projeto..."
+              "submitLabel": "Deletar campanha",
+              "submitLoadingLabel": "Deletando campanha..."
             }
           },
-          "successMessage": "Projeto deletado com sucesso"
+          "successMessage": "Campanha deletado com sucesso"
         }
       },
       "Reports": {
@@ -198,7 +199,115 @@
           "fourteenDays": "Periodo: 14 dias",
           "thirtiehDays": "Periodo: 30 dias"
         },
-        "noProject": "Selecione um projeto para carregar os dados.",
+        "noCampaign": "Selecione um campanha para carregar os dados.",
+        "noData": "Sem dados para serem mostrados no momento."
+      },
+      "NumbersRotation": {
+        "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+        "LinkComponent": {
+          "componentTitle": "Link de divulgação",
+          "dialog": {
+            "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+            "successMessage": "Link atualizado com sucesso",
+            "title": "Personalize o seu link",
+            "description": "Por favor insira o seu link abaixo para confirmar a disponibilidade",
+            "instruction": "Seu link só deve conter letras e \"-\".",
+            "form": {
+              "cancelLabel": "Cancelar",
+              "fields": {
+                "link": {
+                  "label": "Link",
+                  "name": "link",
+                  "placeholder": "ex: seu-link"
+                }
+              },
+              "submitLabel": "Checar disponibilidade",
+              "submitLoadingLabel": "Checando disponibilidade..."
+            }
+          },
+          "hoverCards": {
+            "createLinkTitle": "Personalize o seu link",
+            "createLinkDescription": "Tenha um link da sua maneira",
+            "generateRandomLinkTitle": "Gere um link aleatório",
+            "generateRandomLinkErrorMessage": "Ops... Erro ao gerar um novo link.",
+            "generateRandomLinkSuccessMessage": "Um novo link foi gerado com sucesso",
+            "copyLinkTitle": "Copie o seu link"
+          }
+        },
+        "MessageComponent": {
+          "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+          "componentDescription": "Essa mensagem será exibida assim que os usuários forem adicionados ao WhatsApp",
+          "componentTitle": "Mensagem de Boas Vindas",
+          "form": {
+            "cancelLabel": "Cancelar",
+            "fields": {
+              "message": {
+                "label": "Mensagem",
+                "name": "message"
+              }
+            },
+            "submitLabel": "Salvar Mensagem",
+            "submitLoadingLabel": "Salvando mensagem..."
+          },
+          "successMessage": "Mensagem salva com sucesso"
+        },
+        "NumberComponent": {
+          "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+          "componentTitle": "Numeros de WhatsApp",
+          "addNumberForm": {
+            "fields": {
+              "addNumber": {
+                "label": "Adicionar número",
+                "name": "phoneNumber",
+                "placeholder": "ex: 21 99999-9999"
+              }
+            },
+            "submitLabel": "Adicionar Número",
+            "submitLoadingLabel": "Adicionando Número..."
+          },
+          "editNumberDialog": {
+            "title": "Editar número",
+            "form": {
+              "cancelLabel": "Cancelar",
+              "fields": {
+                "phoneNumber": {
+                  "label": "Número",
+                  "name": "phoneNumber"
+                }
+              },
+              "submitLabel": "Editar número",
+              "submitLoadingLabel": "Editando número..."
+            }
+          },
+          "deleteNumberDialog": {
+            "title": "Deletar número",
+            "alertBannerTitle": "Atenção!",
+            "alertBannerDescription": "Os dados relacionados a esse número não serão apagados do seu campanha!",
+            "alertBannerFooter": "Essa operação é irreversível",
+            "instruction": "Para prosseguir insira a palavra 'deletar' e confirme.",
+            "form": {
+              "fields": {
+                "cancelLabel": "Cancelar",
+                "deleteNumber": {
+                  "label": "Deletar número",
+                  "name": "deleteWord",
+                  "placeholder": "deletar"
+                }
+              },
+              "submitLabel": "Deletar Número",
+              "submitLoadingLabel": "Adicionando Número..."
+            }
+          },
+          "cancelCtaLabel": "Cancelar",
+          "noCampaign": "Selecione um campanha para carregar os dados.",
+          "noData": "Você não tem nenhum número cadastrado! Por favor cadastre um número para começar.",
+          "numbersUpdateCta": "Editar",
+          "numbersRegistered": "Números cadastrados",
+          "successMessage": "Alteração salva com sucesso."
+        },
+        "pageTitle": "Rotação de Números",
+        "pageDescription": "Tenha um número e vários Whatsapps.",
+        "noCampaign": "Selecione um campanha para carregar os dados.",
         "noData": "Sem dados para serem mostrados no momento."
       },
       "Whatsapp": {
@@ -281,7 +390,7 @@
           "deleteNumberDialog": {
             "title": "Deletar número",
             "alertBannerTitle": "Atenção!",
-            "alertBannerDescription": "Os dados relacionados a esse número não serão apagados do seu projeto!",
+            "alertBannerDescription": "Os dados relacionados a esse número não serão apagados do seu campanha!",
             "alertBannerFooter": "Essa operação é irreversível",
             "instruction": "Para prosseguir insira a palavra 'deletar' e confirme.",
             "form": {
@@ -298,7 +407,7 @@
             }
           },
           "cancelCtaLabel": "Cancelar",
-          "noProject": "Selecione um projeto para carregar os dados.",
+          "noCampaign": "Selecione um campanha para carregar os dados.",
           "noData": "Você não tem nenhum número cadastrado! Por favor cadastre um número para começar.",
           "numbersUpdateCta": "Editar",
           "numbersRegistered": "Números cadastrados",
@@ -306,7 +415,7 @@
         },
         "pageTitle": "Whatsapp",
         "pageDescription": "Gerencie seu link e números.",
-        "noProject": "Selecione um projeto para carregar os dados.",
+        "noCampaign": "Selecione um campanha para carregar os dados.",
         "noData": "Sem dados para serem mostrados no momento."
       }
     },

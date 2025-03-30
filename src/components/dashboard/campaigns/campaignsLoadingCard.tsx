@@ -3,7 +3,7 @@
 import DefaultCard from "@/components/layout/defaultCard";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function ProjectsLoadingCard() {
+export default function CampaignsLoadingCard() {
   return (
     <DefaultCard>
       <div className="text-2xl mb-6">

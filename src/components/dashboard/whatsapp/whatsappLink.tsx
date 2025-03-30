@@ -17,12 +17,12 @@ import { useMutation } from "@tanstack/react-query";
 const WhatsAppLink = ({
   isLoading,
   link,
-  projectId,
+  campaignId,
   refetch,
 }: {
   isLoading: boolean;
   link: string;
-  projectId: string;
+  campaignId: string;
   refetch: () => void;
 }) => {
   const translate = useTranslations("Pages.Dashboard.Whatsapp.LinkComponent");
@@ -58,7 +58,7 @@ const WhatsAppLink = ({
 
       const checkIfCodeExists = async (randomCodeToLink: string) => {
         const { data } = await supabase
-          .from("projects")
+          .from("campaigns")
           .select()
           .eq("wp_link", randomCodeToLink);
         return data;
@@ -76,11 +76,11 @@ const WhatsAppLink = ({
 
       const randomUniqueCode = await getUniqueCode();
       const { error } = await supabase
-        .from("projects")
+        .from("campaigns")
         .update({
           wp_link: randomUniqueCode,
         })
-        .eq("id", projectId);
+        .eq("id", campaignId);
       if (error) {
         setServerErrorMessage(
           translate["hoverCards"]["generateRandomLinkErrorMessage"]
@@ -116,11 +116,11 @@ const WhatsAppLink = ({
       // CLIENT SIDE
       const supabase = await createClient();
       const { error } = await supabase
-        .from("projects")
+        .from("campaigns")
         .update({
           wp_link: entries,
         })
-        .eq("id", projectId);
+        .eq("id", campaignId);
 
       if (error) {
         setServerErrorMessage(translate["alertMessage"]);

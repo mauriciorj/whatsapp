@@ -4,38 +4,38 @@ import { Dispatch, SetStateAction } from "react";
 import { Trash2 } from "lucide-react";
 import DefaultCard from "@/components/layout/defaultCard";
 import { Button } from "@/components/ui/button";
-import { ProjectsType } from "@/db/types/types";
+import { CampaignsType } from "@/db/types/types";
 
-export default function ProjectsCard({
+export default function CampaignsCard({
   onClickHandler,
-  projectCardTitle,
-  projectName,
+  campaignCardTitle,
+  campaignName,
   setIsModalOpen,
-  setProjectToBeDeleted,
-  userProjects,
+  setCampaignToBeDeleted,
+  userCampaigns,
 }: {
-  onClickHandler: (arg0: { project: string }) => void;
-  projectCardTitle: string;
-  projectName?: string | null;
+  onClickHandler: (arg0: { campaign: string }) => void;
+  campaignCardTitle: string;
+  campaignName?: string | null;
   setIsModalOpen: (arg0: boolean) => void;
-  setProjectToBeDeleted: Dispatch<SetStateAction<ProjectsType | null>>;
-  userProjects: ProjectsType[];
+  setCampaignToBeDeleted: Dispatch<SetStateAction<CampaignsType | null>>;
+  userCampaigns: CampaignsType[];
 }) {
-  return userProjects?.map((project: ProjectsType, index: number) => (
+  return userCampaigns?.map((campaign: CampaignsType, index: number) => (
     <DefaultCard
       className={`${
-        projectName === project?.title ? "border-2 border-primary" : ""
+        campaignName === campaign?.title ? "border-2 border-primary" : ""
       } mt-5`}
       isHoverable
-      key={`${index}-${project.title}`}
+      key={`${index}-${campaign.title}`}
       onClick={() =>
-        project.title ? onClickHandler({ project: project.title }) : null
+        campaign.title ? onClickHandler({ campaign: campaign.title }) : null
       }
     >
       <div className="w-full flex flex-row items-center justify-between">
         <div>
-          {projectCardTitle}
-          <span className="font-bold">{project.title}</span>
+          {campaignCardTitle}
+          <span className="font-bold">{campaign.title}</span>
         </div>
         <div>
           <Button
@@ -43,13 +43,13 @@ export default function ProjectsCard({
             onClick={(e) => {
               e.stopPropagation();
               setIsModalOpen(true);
-              setProjectToBeDeleted((prevState) => {
+              setCampaignToBeDeleted((prevState) => {
                 if (prevState === null) {
-                  return project;
+                  return campaign;
                 } else {
                   return {
                     ...prevState,
-                    ...project,
+                    ...campaign,
                   };
                 }
               });

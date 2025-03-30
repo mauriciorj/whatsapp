@@ -2,13 +2,13 @@
 
 import { createServer } from "@/supabase/server";
 
-const GetUserProjects = async ({ userId }: { userId?: string }) => {
+const GetUserCampaigns = async ({ userId }: { userId?: string }) => {
   if (!userId) return null;
 
   const supabase = await createServer();
 
   const { data, error }: any = await supabase
-    .from("projects")
+    .from("campaigns")
     .select("title")
     .eq("user_id", userId);
 
@@ -19,4 +19,4 @@ const GetUserProjects = async ({ userId }: { userId?: string }) => {
   return data?.sort((a: any, b: any) => a.title.localeCompare(b.title)) || [];
 };
 
-export default GetUserProjects;
+export default GetUserCampaigns;

@@ -69,12 +69,12 @@ const Pricing = () => {
       features: [
         {
           icon: <Check className="h-5 w-5 text-primary" />,
-          label: "Até 4 projetos",
+          label: "Até 4 Campanhas",
           special: false,
         },
         {
           icon: <Check className="h-5 w-5 text-primary" />,
-          label: "Cada projeto com um link personalizável",
+          label: "Cada campanha com um link personalizável",
           special: false,
         },
         {
@@ -132,7 +132,7 @@ const Pricing = () => {
       features: [
         {
           icon: <Check className="h-5 w-5 text-primary" />,
-          label: "Projetos de acordo com a sua necessidade",
+          label: "Campanhas de acordo com a sua necessidade",
           special: false,
         },
         {

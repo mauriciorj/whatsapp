@@ -40,30 +40,27 @@ const PageLayout = ({
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const projectName = searchParams.get("project");
+  const campaignName = searchParams.get("campaign");
 
   const { data: userProfileData, isLoading: isProfileDataLoading } = useQuery({
     queryKey: ["userProfile"],
     queryFn: async () => GetUserProfile(),
   });
 
-  const { data: userProjects, isLoading: isUserProjectsLoading } = useQuery({
-    queryKey: ["userProjects"],
+  const { data: userCampaigns, isLoading: isUserCampaignsLoading } = useQuery({
+    queryKey: ["userCampaigns"],
     queryFn: async () => {
       // CLIENT SIDE
       const supabase = await createClient();
 
       const { data }: any = await supabase
-        .from("projects")
+        .from("campaigns")
         .select("id, title, user_id")
         .eq("user_id", userProfileData?.user_id);
 
       return (
         data?.sort((a: any, b: any) => a.title.localeCompare(b.title)) || []
       );
-
-      // SERVER SIDE
-      // GetUserProjects({ userId: userProfileData?.user_id });
     },
     enabled: !!userProfileData?.user_id,
   }) as any;
@@ -74,29 +71,29 @@ const PageLayout = ({
         <Breadcrumb items={breadcrumbItems} />
       </div>
       <div className="container mb-10 md:pl-10">
-        {isLoading || isProfileDataLoading || isUserProjectsLoading ? (
+        {isLoading || isProfileDataLoading || isUserCampaignsLoading ? (
           <Skeleton className="h-10 w-72 mb-4" />
         ) : (
           <div className="flex flex-col-reverse md:flex-row justify-between">
             <PageTitle title={pageTitle} description={pageDescription} />
-            {userProjects && (
+            {userCampaigns && (
               <div className="w-full mb-5 md:mt-0 md:w-fit flex flex-row mb-5 items-center justify-end">
                 <Select
-                  onValueChange={(e) => router.push(`${pathname}?project=${e}`)}
+                  onValueChange={(e) => router.push(`${pathname}?campaign=${e}`)}
                 >
                   <SelectTrigger>
                     <SelectValue
-                      placeholder={projectName || "Selecione um Projeto"}
+                      placeholder={campaignName || "Selecione uma Campanha"}
                     />
                   </SelectTrigger>
                   <SelectContent>
-                    {userProjects.map(
-                      (project: { title: string }, index: number) => (
+                    {userCampaigns.map(
+                      (campaign: { title: string }, index: number) => (
                         <SelectItem
-                          key={`${index}-${project.title}`}
-                          value={project.title}
+                          key={`${index}-${campaign.title}`}
+                          value={campaign.title}
                         >
-                          {project.title}
+                          {campaign.title}
                         </SelectItem>
                       )
                     )}

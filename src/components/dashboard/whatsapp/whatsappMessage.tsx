@@ -6,18 +6,18 @@ import DefaultCard from "@/components/layout/defaultCard";
 import { AlertBanner } from "@/components/ui/alert-banner";
 import { Skeleton } from "@/components/ui/skeleton";
 import useTranslations from "@/hooks/useTranslations";
-import { projectMessageSchema } from "@/lib/validations/schemas";
+import { campaignMessageSchema } from "@/lib/validations/schemas";
 import { createClient } from "@/supabase/client";
 import { useForm } from "@tanstack/react-form";
 
 const WhatsAppMessage = ({
   isLoading,
   message,
-  projectId,
+  campaignId,
 }: {
   isLoading: boolean;
   message: string;
-  projectId: string;
+  campaignId: string;
 }) => {
   const translate = useTranslations(
     "Pages.Dashboard.Whatsapp.MessageComponent"
@@ -32,7 +32,7 @@ const WhatsAppMessage = ({
       message: message || "",
     },
     validators: {
-      onSubmit: projectMessageSchema,
+      onSubmit: campaignMessageSchema,
       onChange({ value }) {
         if (value?.message !== message) {
           setIsShowSaveButton(true);
@@ -51,11 +51,11 @@ const WhatsAppMessage = ({
       setSuccessMessage(false);
 
       const { error } = await supabase
-        .from("projects")
+        .from("campaigns")
         .update({
           wp_message: value.message,
         })
-        .eq("id", projectId);
+        .eq("id", campaignId);
 
       if (error) {
         setServerError(true);

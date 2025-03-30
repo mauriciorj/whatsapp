@@ -8,7 +8,7 @@ export const PAGES = {
     recuperarSenha: "/recuperar-senha",
     success: "/sucesso"
   },
-  dashboard: { dashboard: "/dashboard", projetos: "/dashboard/projetos" },
+  dashboard: { dashboard: "/dashboard", campaigns: "/dashboard/campaigns" },
 };
 
 export const UPDATE_PASSWORD_REDIRECT_TO_URL =

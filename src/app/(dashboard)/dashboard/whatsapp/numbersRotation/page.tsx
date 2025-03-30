@@ -15,7 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const WhatsAppPage = () => {
   const searchParams = useSearchParams();
-  const translate = useTranslations("Pages.Dashboard.Whatsapp");
+  const translate = useTranslations("Pages.Dashboard.NumbersRotation");
 
   const [serverError, setServerError] = useState<boolean | null>(null);
 

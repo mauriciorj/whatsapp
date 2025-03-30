@@ -21,13 +21,13 @@ import { useMutation } from "@tanstack/react-query";
 export function WhatsAppNumbers({
   isLoading,
   numbers,
-  projectId,
+  campaignId,
   refetch,
   userPlan,
 }: {
   isLoading: boolean;
   numbers: string[];
-  projectId: string;
+  campaignId: string;
   refetch: () => void;
   userPlan: string;
 }) {
@@ -56,9 +56,9 @@ export function WhatsAppNumbers({
       // CLIENT SIDE
       const supabase = await createClient();
       const { error } = await supabase
-        .from("projects")
+        .from("campaigns")
         .update({ wp_numbers: entries })
-        .eq("id", projectId);
+        .eq("id", campaignId);
 
       if (error) {
         setErrorMessage(translate["alertMessage"]);
@@ -187,7 +187,7 @@ export function WhatsAppNumbers({
         {Boolean(!isLoading && !numbers?.length) && (
           <div className="w-full flex flex-col items-center justify-center h-[100px]">
             <div className="border rounded-md py-5 px-7 text-center text-center">
-              {!projectId ? translate["noProject"] : translate["noData"]}
+              {!campaignId ? translate["noCampaign"] : translate["noData"]}
             </div>
           </div>
         )}

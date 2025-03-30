@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
 
   // Fetch the Whatsapp's User's Info
   const { data, error } = await supabase
-    .from("projects")
+    .from("campaigns")
     .select(
       "id, wp_numbers,wp_message, redirect_to, user_id, user_profile(subscription_status)"
     )
@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
 
     // Update the Whatsapp's next redirect_to index
     await supabase
-      .from("projects")
+      .from("campaigns")
       .update({ redirect_to: nextRedirectTo })
       .eq("id", id);
 
@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
     const { device, os } = userAgent(request);
 
     const trackingInfo = {
-      project_id: id,
+      campaign_id: id,
       user_id: user_id,
       number: whatsappCurrentNumber,
       country: country,

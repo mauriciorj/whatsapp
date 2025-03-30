@@ -9,9 +9,9 @@ import {
   HelpCircle,
   MessageCircle,
   PanelsTopLeft,
+  Rotate3d,
 } from "lucide-react";
 import GetUserProfile from "@/actions/getUserProfile/actions";
-// import GetUserProjects from "@/actions/getUserProjects/actions";
 import { Button } from "@/components/ui/button";
 import useTranslations from "@/hooks/useTranslations";
 import { cn } from "@/lib/utils";
@@ -20,37 +20,34 @@ import { useQuery } from "@tanstack/react-query";
 
 const Sidebar = () => {
   const translate = useTranslations("main.sideBar");
-  
+
   const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
   const isInsideDashboard = Boolean(pathname.split("/")[1] === "dashboard");
 
-  const params = new URLSearchParams(searchParams.toString())
+  const params = new URLSearchParams(searchParams.toString());
 
   const { data: userProfileData } = useQuery({
     queryKey: ["userProfile"],
     queryFn: async () => GetUserProfile(),
   });
 
-  const { data: userProjects } = useQuery({
-    queryKey: ["userProjects"],
+  const { data: userCampaigns } = useQuery({
+    queryKey: ["userCampaigns"],
     queryFn: async () => {
       // CLIENT SIDE
       const supabase = await createClient();
 
       const { data }: any = await supabase
-        .from("projects")
+        .from("campaigns")
         .select("id, title, user_id")
         .eq("user_id", userProfileData?.user_id);
 
       return (
         data?.sort((a: any, b: any) => a.title.localeCompare(b.title)) || []
       );
-
-      // SERVER SIDE
-      // GetUserProjects({ userId: userProfileData?.user_id });
     },
     enabled: !!userProfileData?.user_id,
   });
@@ -80,16 +77,16 @@ const Sidebar = () => {
             <Link
               className={cn(
                 "flex items-center gap-3 px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors",
-                pathname === "/dashboard/projetos" &&
+                pathname === "/dashboard/campaigns" &&
                   "bg-secondary text-foreground"
               )}
-              href={`/dashboard/projetos?${params.toString()}`}
+              href={`/dashboard/campaigns?${params.toString()}`}
               onClick={() => setIsOpen(false)}
             >
               <PanelsTopLeft className="h-5 w-5" />
-              {translate["projects"]}
+              {translate["campaigns"]}
             </Link>
-            {Boolean(userProjects?.length) && (
+            {Boolean(userCampaigns?.length) && (
               <>
                 <Link
                   className={cn(
@@ -115,6 +112,19 @@ const Sidebar = () => {
                 >
                   <MessageCircle className="h-5 w-5" />
                   {translate["whatsapp"]}
+                </Link>
+                <Link
+                  className={cn(
+                    "flex items-center gap-3 pl-10 pr-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors",
+                    pathname === "/dashboard/whatsapp/numbersRotation" &&
+                      "bg-secondary text-foreground"
+                  )}
+                  href={`/dashboard/whatsapp/numbersRotation?${params.toString()}`}
+                  onClick={() => setIsOpen(false)}
+                  prefetch
+                >
+                  <Rotate3d className="h-5 w-5" />
+                  {translate["numbersRotation"]}
                 </Link>
               </>
             )}

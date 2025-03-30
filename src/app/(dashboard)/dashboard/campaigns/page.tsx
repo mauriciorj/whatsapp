@@ -3,18 +3,18 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { PanelsTopLeft, Plus } from "lucide-react";
-import DeleteProject from "@/actions/deleteProject/actions";
+import DeleteCampaign from "@/actions/deleteProject/actions";
 import PageLayout from "@/components/dashboard/pageLayout";
-import ProjectsCard from "@/components/dashboard/projects/projectsCard";
-import ProjectsDialog from "@/components/dashboard/projects/projectsDialog";
-import ProjectsLoadingCard from "@/components/dashboard/projects/projectsLoadingCard";
+import CampaignsCard from "@/components/dashboard/campaigns/campaignsCard";
+import CampaignsDialog from "@/components/dashboard/campaigns/campaignsDialog";
+import CampaignsLoadingCard from "@/components/dashboard/campaigns/campaignsLoadingCard";
 import Form from "@/components/form";
 import DefaultCard from "@/components/layout/defaultCard";
 import { AlertBanner } from "@/components/ui/alert-banner";
 import { Button } from "@/components/ui/button";
-import { ProjectsType } from "@/db/types/types";
+import { CampaignsType } from "@/db/types/types";
 import { useUserProfile } from "@/hooks/useUserProfile";
-import { useUserProjects } from "@/hooks/useUserProjects";
+import { useUserCampaigns } from "@/hooks/useUserCampaigns";
 import useTranslations from "@/hooks/useTranslations";
 import BusinessRules from "@/lib/businessRules";
 import { DELETE_MAGIC_WORD, PAGES } from "@/lib/constants";
@@ -27,14 +27,14 @@ export default function DashboardPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const translate = useTranslations("Pages.Dashboard.Projects");
+  const translate = useTranslations("Pages.Dashboard.Campaigns");
 
-  const projectName = searchParams?.get("project") || null;
+  const campaignName = searchParams?.get("campaign") || null;
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isOpenForm, setIsOpenForm] = useState<boolean>(false);
-  const [projectToBeDeleted, setProjectToBeDeleted] =
-    useState<ProjectsType | null>(null);
+  const [campaignToBeDeleted, setCampaignToBeDeleted] =
+    useState<CampaignsType | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
@@ -42,10 +42,10 @@ export default function DashboardPage() {
     useUserProfile();
 
   const {
-    projects: userProjects,
-    isLoading: isUserProjectsLoading,
+    campaigns: userCampaigns,
+    isLoading: isCampaignsLoading,
     refetch,
-  } = useUserProjects();
+  } = useUserCampaigns();
 
   const deleteForm = useForm({
     defaultValues: {
@@ -59,51 +59,51 @@ export default function DashboardPage() {
       setSuccessMessage(null);
       if (value?.deleteWord === DELETE_MAGIC_WORD) {
         try {
-          const result = await DeleteProject(projectToBeDeleted);
+          const result = await DeleteCampaign(campaignToBeDeleted);
           if (result?.status >= 400) {
             setIsModalOpen(false);
-            setProjectToBeDeleted(null);
+            setCampaignToBeDeleted(null);
             setSuccessMessage(null);
-            setErrorMessage(translate["createProjectForm"]["alertMessage"]);
+            setErrorMessage(translate["createCampaignForm"]["alertMessage"]);
             refetch();
           } else {
-            if (projectName) {
-              router.replace(PAGES.dashboard.projetos);
+            if (campaignName) {
+              router.replace(PAGES.dashboard.campaigns);
               router.refresh();
             }
             setIsModalOpen(false);
             setErrorMessage(null);
-            setProjectToBeDeleted(null);
-            setSuccessMessage(translate["deleteProjectForm"]["successMessage"]);
+            setCampaignToBeDeleted(null);
+            setSuccessMessage(translate["deleteCampaignForm"]["successMessage"]);
             form.reset();
             refetch();
           }
         } catch {
           setSuccessMessage(null);
-          setErrorMessage(translate["createProjectForm"]["alertMessage"]);
+          setErrorMessage(translate["createCampaignForm"]["alertMessage"]);
         }
       } else {
         setSuccessMessage(null);
-        setErrorMessage(translate["createProjectForm"]["alertMessage"]);
+        setErrorMessage(translate["createCampaignForm"]["alertMessage"]);
       }
     },
   });
 
   const form = useForm({
     defaultValues: {
-      project: "",
+      campaign: "",
     },
     validators: {
       onChange({ value }) {
         if (
-          userProjects?.some(
-            (item: ProjectsType) => item.title === value.project
+          userCampaigns?.some(
+            (item: CampaignsType) => item.title === value.campaign
           )
         ) {
           return {
             fields: {
-              project:
-                translate["createProjectForm"]["fields"]["project"][
+              campaign:
+                translate["createCampaignForm"]["fields"]["campaign"][
                   "fieldError"
                 ],
             },
@@ -112,7 +112,7 @@ export default function DashboardPage() {
         return undefined;
       },
     },
-    onSubmit: async ({ value }: { value: { project: string } }) => {
+    onSubmit: async ({ value }: { value: { campaign: string } }) => {
       setErrorMessage(null);
       setSuccessMessage(null);
       try {
@@ -120,7 +120,7 @@ export default function DashboardPage() {
 
         const checkIfCodeExists = async (randomCodeToLink: string) => {
           const { data } = await supabase
-            .from("projects")
+            .from("campaigns")
             .select()
             .eq("wp_link", randomCodeToLink);
           return data;
@@ -137,51 +137,51 @@ export default function DashboardPage() {
         };
 
         const randomUniqueCode = await getUniqueCode();
-        const { error } = await supabase.from("projects").insert({
+        const { error } = await supabase.from("campaigns").insert({
           wp_link: randomUniqueCode,
-          title: value.project,
+          title: value.campaign,
           user_id: userProfileData?.user_id,
         });
         if (error) {
           setSuccessMessage(null);
-          setErrorMessage(translate["createProjectForm"]["alertMessage"]);
+          setErrorMessage(translate["createCampaignForm"]["alertMessage"]);
         } else {
           form.reset();
           setIsOpenForm(false);
           setErrorMessage(null);
-          // setSuccessMessage(translate["createProjectForm"]["successMessage"]);
+          // setSuccessMessage(translate["createCampaignForm"]["successMessage"]);
           refetch();
-          router.push(`/dashboard/whatsapp?project=${value.project}`);
+          router.push(`/dashboard/whatsapp?campaign=${value.campaign}`);
         }
       } catch {
         setSuccessMessage(null);
-        setErrorMessage(translate["createProjectForm"]["alertMessage"]);
+        setErrorMessage(translate["createCampaignForm"]["alertMessage"]);
       }
     },
   });
 
-  const onClickHandler = ({ project }: { project: string }) => {
-    router.push(`/dashboard/relatorios?project=${project}`);
+  const onClickHandler = ({ campaign }: { campaign: string }) => {
+    router.push(`/dashboard/relatorios?campaign=${campaign}`);
   };
 
-  const hasProject = Boolean(userProjects?.length > 0);
-  const maxProjectsNumbers = userProfileData?.plan
-    ? BusinessRules[userProfileData?.plan]?.projects
+  const hasCampaign = Boolean(userCampaigns?.length > 0);
+  const maxCampaignsNumbers = userProfileData?.plan
+    ? BusinessRules[userProfileData?.plan]?.campaigns
     : 0;
-  const canAddMoreProjects = Boolean(
-    userProjects?.length > 0 || userProjects?.length < maxProjectsNumbers
+  const canAddMoreCampaigns = Boolean(
+    userCampaigns?.length > 0 || userCampaigns?.length < maxCampaignsNumbers
   );
 
-  const getCardTitle = hasProject
-    ? translate["createProjectForm"]["cardTitleTwo"]
-    : translate["createProjectForm"]["cardTitle"];
+  const getCardTitle = hasCampaign
+    ? translate["createCampaignForm"]["cardTitleTwo"]
+    : translate["createCampaignForm"]["cardTitle"];
 
-  const getCardDescription = hasProject
-    ? translate["createProjectForm"]["cardDescriptionTwo"]
-    : translate["createProjectForm"]["cardDescription"];
+  const getCardDescription = hasCampaign
+    ? translate["createCampaignForm"]["cardDescriptionTwo"]
+    : translate["createCampaignForm"]["cardDescription"];
 
   const breadcrumbItems = [
-    { href: "/dashboard/projetos", label: "Projetos", icon: PanelsTopLeft },
+    { href: "/dashboard/campaigns", label: "Campanhas", icon: PanelsTopLeft },
   ];
 
   return (
@@ -196,7 +196,7 @@ export default function DashboardPage() {
       {errorMessage && (
         <div className="container mb-10">
           <AlertBanner
-            message={translate["createProjectForm"]["alertMessage"]}
+            message={translate["createCampaignForm"]["alertMessage"]}
             type="error"
           />
         </div>
@@ -206,43 +206,43 @@ export default function DashboardPage() {
           <AlertBanner message={successMessage} type="success" />
         </div>
       )}
-      {isUserProjectsLoading || isUserProfileDataLoading ? (
-        <ProjectsLoadingCard />
+      {isCampaignsLoading || isUserProfileDataLoading ? (
+        <CampaignsLoadingCard />
       ) : (
         <DefaultCard description={getCardDescription} title={getCardTitle}>
-          {hasProject && (
-            <ProjectsCard
+          {hasCampaign && (
+            <CampaignsCard
               onClickHandler={onClickHandler}
-              projectCardTitle={translate["projectCardTitle"]}
-              projectName={projectName}
+              campaignCardTitle={translate["campaignCardTitle"]}
+              campaignName={campaignName}
               setIsModalOpen={setIsModalOpen}
-              setProjectToBeDeleted={setProjectToBeDeleted}
-              userProjects={userProjects}
+              setCampaignToBeDeleted={setCampaignToBeDeleted}
+              userCampaigns={userCampaigns}
             />
           )}
-          {!isUserProjectsLoading &&
+          {!isCampaignsLoading &&
             !isUserProfileDataLoading &&
-            (isOpenForm || !hasProject) && (
+            (isOpenForm || !hasCampaign) && (
               <div className="mt-10">
                 <div className="h-[1px] border-b mb-5"></div>
                 <Form
                   cancelButtonLabel={
-                    translate["createProjectForm"]["cancelLabel"]
+                    translate["createCampaignForm"]["cancelLabel"]
                   }
                   fieldsToRender={[
                     {
                       countChar: true,
                       countCharMaxChar: 50,
                       label:
-                        translate["createProjectForm"]["fields"]["project"][
+                        translate["createCampaignForm"]["fields"]["campaign"][
                           "label"
                         ],
                       maxLength: 50,
-                      name: translate["createProjectForm"]["fields"]["project"][
+                      name: translate["createCampaignForm"]["fields"]["campaign"][
                         "name"
                       ],
                       placeholder:
-                        translate["createProjectForm"]["fields"]["project"][
+                        translate["createCampaignForm"]["fields"]["campaign"][
                           "placeholder"
                         ],
                       type: "text",
@@ -253,15 +253,15 @@ export default function DashboardPage() {
                     form.reset();
                     setIsOpenForm(false);
                   }}
-                  submitLabel={translate["createProjectForm"]["submitLabel"]}
+                  submitLabel={translate["createCampaignForm"]["submitLabel"]}
                   submitLoadingLabel={
-                    translate["createProjectForm"]["submitLoadingLabel"]
+                    translate["createCampaignForm"]["submitLoadingLabel"]
                   }
                 />
               </div>
             )}
           <div className="flex flex-row w-full justify-end mt-8">
-            {canAddMoreProjects && hasProject && (
+            {canAddMoreCampaigns && hasCampaign && (
               <Button
                 onClick={() => {
                   setIsOpenForm(true);
@@ -270,7 +270,7 @@ export default function DashboardPage() {
                 variant="outline"
               >
                 <div className="flex flex-row items-center">
-                  <span>{translate["addProjectCtaLabel"]}</span>{" "}
+                  <span>{translate["addCampaignLabel"]}</span>{" "}
                   <Plus className="h-4 w-4 ml-2" />
                 </div>
               </Button>
@@ -278,12 +278,12 @@ export default function DashboardPage() {
           </div>
         </DefaultCard>
       )}
-      <ProjectsDialog
+      <CampaignsDialog
         form={deleteForm}
         isModalOpen={isModalOpen}
-        projectToBeDeleted={projectToBeDeleted}
+        campaignToBeDeleted={campaignToBeDeleted}
         setIsModalOpen={setIsModalOpen}
-        translate={translate["deleteProjectForm"]["dialog"]}
+        translate={translate["deleteCampaignForm"]["dialog"]}
       />
     </PageLayout>
   );

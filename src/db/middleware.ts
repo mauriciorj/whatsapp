@@ -6,7 +6,7 @@ export async function updateSession(request: NextRequest) {
     "dashboard",
     "perfil",
     "relatorios",
-    "projetos",
+    "campaigns",
     "whatsapp",
   ];
   const isProtectedPage = protectedPages.some((page: string) =>
