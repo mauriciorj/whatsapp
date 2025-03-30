@@ -1,22 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { Trash2 } from "lucide-react";
-import WhatsAppNumbersLoading from "./loading";
+import WhatsAppNumbersLoading from "../loading";
 import "./style.css";
 import WhatsappDeleteNumbersDialog from "./whatsappDeleteNumbersDialog";
 import WhatsappEditNumbersDialog from "./whatsappEditNumbersDialog";
 import Form from "@/components/form";
 import DefaultCard from "@/components/layout/defaultCard";
 import { AlertBanner } from "@/components/ui/alert-banner";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import useTranslations from "@/hooks/useTranslations";
 import BusinessRules from "@/lib/businessRules";
 import { deleteDialogSchema, phoneNumber } from "@/lib/validations/schemas";
 import { createClient } from "@/supabase/client";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
+import WhatsAppPhoneNumberCard from "./whatsappNumbersCard";
 
 export function WhatsAppNumbers({
   isLoading,
@@ -197,33 +195,20 @@ export function WhatsAppNumbers({
         {!isLoading &&
           numbers?.map((entry, index) => (
             <div key={index} className="mt-6">
-              <div className="w-full flex flex-row">
-                <Input disabled readOnly value={entry} />
-                <Button
-                  className="w-[100px] ml-5 px-5"
-                  onClick={() => {
-                    setNumberToBeEdited(entry);
-                    setIsModalDeleteNumberOpen(false);
-                    setIsModalEditNumberOpen(true);
-                  }}
-                  size="icon"
-                  variant="outline"
-                >
-                  {translate["numbersUpdateCta"]}
-                </Button>
-                <Button
-                  className="w-[50px] mr-2"
-                  onClick={() => {
-                    setNumberToBeDeleted(entry);
-                    setIsModalDeleteNumberOpen(true);
-                    setIsModalEditNumberOpen(false);
-                  }}
-                  size="icon"
-                  variant="ghost"
-                >
-                  <Trash2 className="h-5 w-5 text-destructive" />
-                </Button>
-              </div>
+              <WhatsAppPhoneNumberCard
+                entry={entry}
+                translate={translate}
+                onEdit={(phoneNumber) => {
+                  setNumberToBeEdited(phoneNumber);
+                  setIsModalDeleteNumberOpen(false);
+                  setIsModalEditNumberOpen(true);
+                }}
+                onDelete={(phoneNumber) => {
+                  setNumberToBeDeleted(phoneNumber);
+                  setIsModalDeleteNumberOpen(true);
+                  setIsModalEditNumberOpen(false);
+                }}
+              />
             </div>
           ))}
         <WhatsappEditNumbersDialog

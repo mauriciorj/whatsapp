@@ -6,15 +6,14 @@ import { MessageCircle } from "lucide-react";
 import GetUserProfile from "@/actions/getUserProfile/actions";
 import PageLayout from "@/components/dashboard/pageLayout";
 import { AlertBanner } from "@/components/ui/alert-banner";
-import WhatsAppLink from "@/components/dashboard/whatsapp/whatsappLink";
 import { WhatsAppNumbers } from "@/components/dashboard/whatsapp/numbers/whatsappNumbers";
 import useTranslations from "@/hooks/useTranslations";
 import { createClient } from "@/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 
-const WhatsAppPage = () => {
+const PhoneNumbersPage = () => {
   const searchParams = useSearchParams();
-  const translate = useTranslations("Pages.Dashboard.Whatsapp");
+  const translate = useTranslations("Pages.Dashboard.PhoneNumbers");
 
   const [serverError, setServerError] = useState<boolean | null>(null);
 
@@ -25,11 +24,7 @@ const WhatsAppPage = () => {
 
   const campaignName = decodeURIComponent(searchParams.get("campaign") || "");
 
-  const {
-    data: userCampaigns,
-    isLoading: isUserCampaignsLoading,
-    refetch,
-  } = useQuery({
+  const { data: userCampaigns, refetch } = useQuery({
     queryKey: ["userCampaigns", campaignName],
     queryFn: async () => {
       // CLIENT SIDE
@@ -73,12 +68,6 @@ const WhatsAppPage = () => {
         </div>
       ) : (
         <>
-          <WhatsAppLink
-            isLoading={userProfileIsLoading || isUserCampaignsLoading}
-            link={userCampaigns?.wp_link}
-            campaignId={userCampaigns?.id}
-            refetch={refetch}
-          />
           <WhatsAppNumbers
             isLoading={userProfileIsLoading}
             numbers={userCampaigns?.wp_numbers}
@@ -92,4 +81,4 @@ const WhatsAppPage = () => {
   );
 };
 
-export default WhatsAppPage;
+export default PhoneNumbersPage;

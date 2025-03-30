@@ -9,7 +9,8 @@
       "campaigns": "Campanhas",
       "reports": "Relatórios",
       "whatsapp": "Whatsapp",
-      "numbersRotation": "Rotação de Números",
+      "messages": "Mensagens",
+      "phoneNumbers": "Números Conectados",
       "help": "Ajuda"
     },
     "footer": {
@@ -191,6 +192,11 @@
           "successMessage": "Campanha deletado com sucesso"
         }
       },
+      "Messages": {
+        "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+        "pageTitle": "Mensagens",
+        "pageDescription": "Gerencie as mensagens da sua campanha"
+      },
       "Reports": {
         "pageTitle": "Relatórios",
         "pageDescription": "Seus relatórios com as últimas informações",
@@ -202,7 +208,7 @@
         "noCampaign": "Selecione um campanha para carregar os dados.",
         "noData": "Sem dados para serem mostrados no momento."
       },
-      "NumbersRotation": {
+      "PhoneNumbers": {
         "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
         "LinkComponent": {
           "componentTitle": "Link de divulgação",
@@ -305,7 +311,7 @@
           "numbersRegistered": "Números cadastrados",
           "successMessage": "Alteração salva com sucesso."
         },
-        "pageTitle": "Rotação de Números",
+        "pageTitle": "Números Conectados",
         "pageDescription": "Tenha um número e vários Whatsapps.",
         "noCampaign": "Selecione um campanha para carregar os dados.",
         "noData": "Sem dados para serem mostrados no momento."
@@ -345,11 +351,35 @@
         "MessageComponent": {
           "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
           "componentDescription": "Essa mensagem será exibida assim que os usuários forem adicionados ao WhatsApp",
-          "componentTitle": "Mensagem de Boas Vindas",
-          "form": {
+          "componentTitle": "Adicionar nova mensagem",
+          "addMessageForm": {
             "cancelLabel": "Cancelar",
             "fields": {
-              "message": {
+              "attachmentFile": {
+                "label": "Adicionar Arquivo",
+                "name": "attachmentFile",
+                "Procurar arquivo": "Procurar arquivo"
+              },
+              "messageContent": {
+                "label": "Mensagem",
+                "name": "messageContent"
+              },
+              "messageTitle": {
+                "label": "Título",
+                "name": "messageTitle"
+              }
+            },
+            "submitLabel": "Salvar Mensagem",
+            "submitLoadingLabel": "Salvando mensagem..."
+          },
+          "editMessageForm": {
+            "cancelLabel": "Cancelar",
+            "fields": {
+              "messageTitle": {
+                "label": "Mensagem",
+                "name": "message"
+              },
+              "messageContent": {
                 "label": "Mensagem",
                 "name": "message"
               }
@@ -357,6 +387,19 @@
             "submitLabel": "Salvar Mensagem",
             "submitLoadingLabel": "Salvando mensagem..."
           },
+          "deleteMessageForm": {
+            "cancelLabel": "Cancelar",
+            "fields": {
+              "deleteWord": {
+                "label": "Mensagem",
+                "name": "message"
+              }
+            },
+            "submitLabel": "Salvar Mensagem",
+            "submitLoadingLabel": "Salvando mensagem..."
+          },
+          "noCampaign": "Selecione um campanha para carregar os dados.",
+          "noData": "Você não tem nenhuma mensagem adicionada a campanha!",
           "successMessage": "Mensagem salva com sucesso"
         },
         "NumberComponent": {

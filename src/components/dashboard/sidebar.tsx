@@ -8,6 +8,7 @@ import {
   ChartSpline,
   HelpCircle,
   MessageCircle,
+  MessageCircleMore,
   PanelsTopLeft,
   Rotate3d,
 } from "lucide-react";
@@ -83,7 +84,7 @@ const Sidebar = () => {
               href={`/dashboard/campaigns?${params.toString()}`}
               onClick={() => setIsOpen(false)}
             >
-              <PanelsTopLeft className="h-5 w-5" />
+              <PanelsTopLeft className="min-h-5 max-h-5 min-w-5 max-w-5" />
               {translate["campaigns"]}
             </Link>
             {Boolean(userCampaigns?.length) && (
@@ -91,13 +92,13 @@ const Sidebar = () => {
                 <Link
                   className={cn(
                     "flex items-center gap-3 pl-6 pr-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors",
-                    pathname === "/dashboard/relatorios" &&
+                    pathname === "/dashboard/reports" &&
                       "bg-secondary text-foreground"
                   )}
-                  href={`/dashboard/relatorios?${params.toString()}`}
+                  href={`/dashboard/reports?${params.toString()}`}
                   onClick={() => setIsOpen(false)}
                 >
-                  <ChartSpline className="h-5 w-5" />
+                  <ChartSpline className="min-h-5 max-h-5 min-w-5 max-w-5" />
                   {translate["reports"]}
                 </Link>
                 <Link
@@ -110,21 +111,34 @@ const Sidebar = () => {
                   onClick={() => setIsOpen(false)}
                   prefetch
                 >
-                  <MessageCircle className="h-5 w-5" />
+                  <MessageCircle className="min-h-5 max-h-5 min-w-5 max-w-5" />
                   {translate["whatsapp"]}
                 </Link>
                 <Link
                   className={cn(
                     "flex items-center gap-3 pl-10 pr-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors",
-                    pathname === "/dashboard/whatsapp/numbersRotation" &&
+                    pathname === "/dashboard/whatsapp/phoneNumbers" &&
                       "bg-secondary text-foreground"
                   )}
-                  href={`/dashboard/whatsapp/numbersRotation?${params.toString()}`}
+                  href={`/dashboard/whatsapp/phoneNumbers?${params.toString()}`}
                   onClick={() => setIsOpen(false)}
                   prefetch
                 >
-                  <Rotate3d className="h-5 w-5" />
-                  {translate["numbersRotation"]}
+                  <Rotate3d className="min-h-5 max-h-5 min-w-5 max-w-5" />
+                  {translate["phoneNumbers"]}
+                </Link>
+                <Link
+                  className={cn(
+                    "flex items-center gap-3 pl-10 pr-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors",
+                    pathname === "/dashboard/whatsapp/messages" &&
+                      "bg-secondary text-foreground"
+                  )}
+                  href={`/dashboard/whatsapp/messages?${params.toString()}`}
+                  onClick={() => setIsOpen(false)}
+                  prefetch
+                >
+                  <MessageCircleMore className="min-h-5 max-h-5 min-w-5 max-w-5" />
+                  {translate["messages"]}
                 </Link>
               </>
             )}
@@ -137,7 +151,7 @@ const Sidebar = () => {
               href="/ajuda"
               onClick={() => setIsOpen(false)}
             >
-              <HelpCircle className="h-5 w-5" />
+              <HelpCircle className="min-h-5 max-h-5 min-w-5 max-w-5" />
               {translate["help"]}
             </Link>
           </nav>

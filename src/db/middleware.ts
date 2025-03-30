@@ -5,7 +5,8 @@ export async function updateSession(request: NextRequest) {
   const protectedPages = [
     "dashboard",
     "perfil",
-    "relatorios",
+    "phoneNumbers",
+    "reports",
     "campaigns",
     "whatsapp",
   ];

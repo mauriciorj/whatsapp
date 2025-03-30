@@ -77,7 +77,8 @@ const PageLayout = ({
           <div className="flex flex-col-reverse md:flex-row justify-between">
             <PageTitle title={pageTitle} description={pageDescription} />
             {userCampaigns && (
-              <div className="w-full mb-5 md:mt-0 md:w-fit flex flex-row mb-5 items-center justify-end">
+              <div className="w-full mb-5 md:mt-0 md:w-fit flex flex-col mb-5 items-center justify-end">
+                <div className="w-full text-left md:text-right pb-1 pr-1">Campanha Selecionada</div>
                 <Select
                   onValueChange={(e) => router.push(`${pathname}?campaign=${e}`)}
                 >

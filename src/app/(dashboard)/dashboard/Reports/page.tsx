@@ -22,7 +22,7 @@ import { createClient } from "@/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { AlertBanner } from "@/components/ui/alert-banner";
 
-export default function DashboardPage() {
+export default function ReportsPage() {
   const searchParams = useSearchParams();
   const translate = useTranslations("Pages.Dashboard.Reports");
 

@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import Form from "../../form";
+import Form from "../../../form";
 
 const WhatsappEditNumbersDialog = ({
   form,

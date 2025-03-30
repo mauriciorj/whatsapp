@@ -14,6 +14,7 @@ import Email from "./email";
 import Textarea from "./textArea";
 import Password from "./password";
 import Text from "./text";
+import FileUpload from "./file";
 
 export default function Form({
   cancelButtonLabel,
@@ -73,8 +74,11 @@ export default function Form({
           form.handleSubmit();
         }}
       >
-        {fieldsToRender?.map((fieldToRender: any) => (
-          <form.Field name={fieldToRender.name} key={fieldToRender.name}>
+        {fieldsToRender?.map((fieldToRender: any, index: any) => (
+          <form.Field
+            name={fieldToRender.name}
+            key={`${fieldToRender.name}-${index}`}
+          >
             {(field: any) => {
               return (
                 <div className="space-y-2">
@@ -147,6 +151,19 @@ export default function Form({
                       onBlur={field.handleBlur}
                       onChange={(e: { target: { value: string } }) => {
                         field.handleChange(e.target.value);
+                      }}
+                    />
+                  )}
+                  {fieldToRender.type === "file" && (
+                    <FileUpload
+                      field={field}
+                      fieldToRender={fieldToRender}
+                      isLoading={form.state.isSubmitting || isLoading}
+                      onBlur={field.handleBlur}
+                      onChange={(files) => {
+                        if (files && files.length > 0) {
+                          field.handleChange(files[0]);
+                        }
                       }}
                     />
                   )}

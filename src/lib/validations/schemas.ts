@@ -47,6 +47,11 @@ export const campaignMessageSchema = z.object({
     .max(200, { message: "A mensagem não pode ter mais de 200 caracteres." }),
 });
 
+export const messageSchema = z.object({
+  messageTitle: z.string(),
+  messageContent: z.string(),
+});
+
 export const signupSchema = z.object({
   email: z.string().email({ message: "Por favor insira um e-mail válido" }),
   password: z

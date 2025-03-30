@@ -23,7 +23,7 @@ import { deleteDialogSchema } from "@/lib/validations/schemas";
 import { createClient } from "@/supabase/client";
 import { useForm } from "@tanstack/react-form";
 
-export default function DashboardPage() {
+export default function CampaignsPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -161,7 +161,7 @@ export default function DashboardPage() {
   });
 
   const onClickHandler = ({ campaign }: { campaign: string }) => {
-    router.push(`/dashboard/relatorios?campaign=${campaign}`);
+    router.push(`/dashboard/reports?campaign=${campaign}`);
   };
 
   const hasCampaign = Boolean(userCampaigns?.length > 0);
