@@ -1,22 +1,19 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { MessageCircle } from "lucide-react";
 import PageLayout from "@/components/dashboard/pageLayout";
 import { AlertBanner } from "@/components/ui/alert-banner";
 import useTranslations from "@/hooks/useTranslations";
+import WhatsappGroups from "@/components/dashboard/whatsapp/groups/whatsappGroups";
 
-const WhatsAppPage = () => {
-  const searchParams = useSearchParams();
-  const translate = useTranslations("Pages.Dashboard.Whatsapp");
+const GroupsPage = () => {
+  const translate = useTranslations("Pages.Dashboard.Groups");
 
   const [serverError, setServerError] = useState<boolean | null>(null);
 
-  const campaignName = decodeURIComponent(searchParams.get("campaign") || "");
-
   const breadcrumbItems = [
-    { href: "/dashboard/whatsapp", label: "Whatsapp", icon: MessageCircle },
+    { href: "/dashboard/groups", label: "Grupos", icon: MessageCircle },
   ];
 
   return (
@@ -30,17 +27,9 @@ const WhatsAppPage = () => {
           <AlertBanner message={translate["alertMessage"]} type="error" />
         </div>
       )}
-      {!campaignName ? (
-        <div className="w-full flex flex-col items-center justify-center h-[100px]">
-          <div className="border rounded-md py-5 px-7 text-center">
-            {!campaignName ? translate["noCampaign"] : translate["noData"]}
-          </div>
-        </div>
-      ) : (
-        <>Visão Geral</>
-      )}
+      <WhatsappGroups />
     </PageLayout>
   );
 };
 
-export default WhatsAppPage;
+export default GroupsPage;

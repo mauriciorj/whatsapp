@@ -11,6 +11,8 @@ import {
   MessageCircleMore,
   PanelsTopLeft,
   Rotate3d,
+  Settings,
+  Users,
 } from "lucide-react";
 import GetUserProfile from "@/actions/getUserProfile/actions";
 import { Button } from "@/components/ui/button";
@@ -139,6 +141,32 @@ const Sidebar = () => {
                 >
                   <MessageCircleMore className="min-h-5 max-h-5 min-w-5 max-w-5" />
                   {translate["messages"]}
+                </Link>
+                <Link
+                  className={cn(
+                    "flex items-center gap-3 pl-10 pr-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors",
+                    pathname === "/dashboard/whatsapp/groups" &&
+                      "bg-secondary text-foreground"
+                  )}
+                  href={`/dashboard/whatsapp/groups?${params.toString()}`}
+                  onClick={() => setIsOpen(false)}
+                  prefetch
+                >
+                  <Users className="min-h-5 max-h-5 min-w-5 max-w-5" />
+                  {translate["groups"]}
+                </Link>
+                <Link
+                  className={cn(
+                    "flex items-center gap-3 pl-10 pr-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors",
+                    pathname === "/dashboard/whatsapp/settings" &&
+                      "bg-secondary text-foreground"
+                  )}
+                  href={`/dashboard/whatsapp/settings?${params.toString()}`}
+                  onClick={() => setIsOpen(false)}
+                  prefetch
+                >
+                  <Settings className="min-h-5 max-h-5 min-w-5 max-w-5" />
+                  {translate["settings"]}
                 </Link>
               </>
             )}

@@ -217,6 +217,7 @@ export default function CampaignsPage() {
               campaignName={campaignName}
               setIsModalOpen={setIsModalOpen}
               setCampaignToBeDeleted={setCampaignToBeDeleted}
+              translate={translate}
               userCampaigns={userCampaigns}
             />
           )}
@@ -270,7 +271,7 @@ export default function CampaignsPage() {
                 variant="outline"
               >
                 <div className="flex flex-row items-center">
-                  <span>{translate["addCampaignLabel"]}</span>{" "}
+                  <span>{translate["createCampaignForm"]["addCampaignLabel"]}</span>{" "}
                   <Plus className="h-4 w-4 ml-2" />
                 </div>
               </Button>

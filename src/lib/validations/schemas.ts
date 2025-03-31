@@ -1,5 +1,15 @@
 import * as z from "zod";
 
+export const campaignSettingsSchema = z.object({
+  campaignName: z.string(),
+  campaignDescription: z.string(),
+  startDate: z.string(),
+  endDate: z.string(),
+  leadsPerGroup: z.number(),
+  sameLeadsInGroups: z.string(),
+  redirectLink: z.string(),
+});
+
 export const contactSchema = z.object({
   name: z.string().min(2, { message: "Nome é obrigatório" }),
   email: z.string().email({ message: "Endereço de email inválido" }),

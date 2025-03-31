@@ -10,6 +10,8 @@
       "reports": "Relatórios",
       "whatsapp": "Whatsapp",
       "messages": "Mensagens",
+      "groups": "Grupos",
+      "settings": "Configurações",
       "phoneNumbers": "Números Conectados",
       "help": "Ajuda"
     },
@@ -149,6 +151,7 @@
         "addCampaignCtaLabel": "Adicionar Campanha",
         "pageTitle": "Bem vindo, ",
         "campaignCardTitle": "Campanha: ",
+        "editCampaign": "Editar",
         "createCampaignForm": {
           "addCampaignLabel": "Adicionar Campanha",
           "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
@@ -192,22 +195,21 @@
           "successMessage": "Campanha deletado com sucesso"
         }
       },
+      "Groups": {
+        "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+        "pageTitle": "Grupos",
+        "pageDescription": "Gerencie os seus grupos"
+      },
       "Messages": {
         "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
         "pageTitle": "Mensagens",
         "pageDescription": "Gerencie as mensagens da sua campanha",
         "messageListTitle": "Sequência de mensagens"
       },
-      "Reports": {
-        "pageTitle": "Relatórios",
-        "pageDescription": "Seus relatórios com as últimas informações",
-        "reportPeriods": {
-          "sevenDays": "Periodo: 7 dias",
-          "fourteenDays": "Periodo: 14 dias",
-          "thirtiehDays": "Periodo: 30 dias"
-        },
-        "noCampaign": "Selecione um campanha para carregar os dados.",
-        "noData": "Sem dados para serem mostrados no momento."
+      "Settings": {
+        "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+        "pageTitle": "Configurações da Campanha",
+        "pageDescription": "Gerencie todas as configurações da sua campanha"
       },
       "PhoneNumbers": {
         "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
@@ -314,6 +316,17 @@
         },
         "pageTitle": "Números Conectados",
         "pageDescription": "Tenha um número e vários Whatsapps.",
+        "noCampaign": "Selecione um campanha para carregar os dados.",
+        "noData": "Sem dados para serem mostrados no momento."
+      },
+      "Reports": {
+        "pageTitle": "Relatórios",
+        "pageDescription": "Seus relatórios com as últimas informações",
+        "reportPeriods": {
+          "sevenDays": "Periodo: 7 dias",
+          "fourteenDays": "Periodo: 14 dias",
+          "thirtiehDays": "Periodo: 30 dias"
+        },
         "noCampaign": "Selecione um campanha para carregar os dados.",
         "noData": "Sem dados para serem mostrados no momento."
       },

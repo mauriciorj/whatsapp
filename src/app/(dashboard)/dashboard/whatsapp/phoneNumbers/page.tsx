@@ -27,7 +27,6 @@ const PhoneNumbersPage = () => {
   const { data: userCampaigns, refetch } = useQuery({
     queryKey: ["userCampaigns", campaignName],
     queryFn: async () => {
-      // CLIENT SIDE
       const supabase = await createClient();
 
       const { data, error }: any = await supabase
@@ -46,7 +45,11 @@ const PhoneNumbersPage = () => {
   }) as any;
 
   const breadcrumbItems = [
-    { href: "/dashboard/whatsapp", label: "Whatsapp", icon: MessageCircle },
+    {
+      href: "/dashboard/phoneNumbers",
+      label: "Números Conectados",
+      icon: MessageCircle,
+    },
   ];
 
   return (

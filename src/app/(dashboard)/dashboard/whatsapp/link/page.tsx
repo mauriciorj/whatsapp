@@ -3,18 +3,18 @@
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { MessageCircle } from "lucide-react";
+import GetUserProfile from "@/actions/getUserProfile/actions";
 import PageLayout from "@/components/dashboard/pageLayout";
-import { WhatsAppMessages } from "@/components/dashboard/whatsapp/messages/whatsappMessages";
-import DraggableWhatsAppMessages from "@/components/dashboard/whatsapp/messages/draggableWhatsAppMessages";
 import { AlertBanner } from "@/components/ui/alert-banner";
+import WhatsAppLink from "@/components/dashboard/whatsapp/whatsappLink";
+import { WhatsAppNumbers } from "@/components/dashboard/whatsapp/numbers/whatsappNumbers";
 import useTranslations from "@/hooks/useTranslations";
 import { createClient } from "@/supabase/client";
-import { useQuery, useMutation } from "@tanstack/react-query";
-import GetUserProfile from "@/actions/getUserProfile/actions";
+import { useQuery } from "@tanstack/react-query";
 
-const MessagesPage = () => {
+const WhatsAppPage = () => {
   const searchParams = useSearchParams();
-  const translate = useTranslations("Pages.Dashboard.Messages");
+  const translate = useTranslations("Pages.Dashboard.Whatsapp");
 
   const [serverError, setServerError] = useState<boolean | null>(null);
 
@@ -25,9 +25,14 @@ const MessagesPage = () => {
 
   const campaignName = decodeURIComponent(searchParams.get("campaign") || "");
 
-  const { data: userCampaigns, refetch } = useQuery({
+  const {
+    data: userCampaigns,
+    isLoading: isUserCampaignsLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["userCampaigns", campaignName],
     queryFn: async () => {
+      // CLIENT SIDE
       const supabase = await createClient();
 
       const { data, error }: any = await supabase
@@ -40,36 +45,13 @@ const MessagesPage = () => {
         setServerError(true);
       }
 
-      return data?.[0];
+      return data[0];
     },
     enabled: Boolean(!!userProfileData?.user_id && !!campaignName),
   }) as any;
 
-  // const reorderMutation = useMutation({
-  //   mutationFn: async (reorderedMessages: any[]) => {
-  //     const supabase = await createClient();
-  //     const { error } = await supabase
-  //       .from("campaigns")
-  //       .update({ wp_messages: reorderedMessages })
-  //       .eq("id", userCampaigns?.id);
-
-  //     if (error) {
-  //       setServerError(true);
-  //       return false;
-  //     }
-  //     return true;
-  //   },
-  //   onSuccess: () => {
-  //     refetch();
-  //   },
-  // });
-
-  // const handleMessagesReorder = (reorderedMessages: any[]) => {
-  //   reorderMutation.mutate(reorderedMessages);
-  // };
-
   const breadcrumbItems = [
-    { href: "/dashboard/messages", label: "Mensagens", icon: MessageCircle },
+    { href: "/dashboard/whatsapp", label: "Whatsapp", icon: MessageCircle },
   ];
 
   return (
@@ -91,26 +73,23 @@ const MessagesPage = () => {
         </div>
       ) : (
         <>
-          <WhatsAppMessages
+          <WhatsAppLink
+            isLoading={userProfileIsLoading || isUserCampaignsLoading}
+            link={userCampaigns?.wp_link}
+            campaignId={userCampaigns?.id}
+            refetch={refetch}
+          />
+          <WhatsAppNumbers
             isLoading={userProfileIsLoading}
-            messages={userCampaigns?.wp_messages || []}
+            numbers={userCampaigns?.wp_numbers}
             campaignId={userCampaigns?.id}
             refetch={refetch}
             userPlan={userProfileData?.plan}
           />
-          {userCampaigns?.wp_messages?.length > 0 && (
-            <div className="mt-6">
-              <DraggableWhatsAppMessages
-                messages={userCampaigns?.wp_messages}
-                // onReorder={handleMessagesReorder}
-                title={translate["messageListTitle"]}
-              />
-            </div>
-          )}
         </>
       )}
     </PageLayout>
   );
 };
 
-export default MessagesPage;
+export default WhatsAppPage;
