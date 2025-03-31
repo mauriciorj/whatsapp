@@ -65,9 +65,9 @@ const MessagesPage = () => {
     },
   });
 
-  const handleMessagesReorder = (reorderedMessages: any[]) => {
-    reorderMutation.mutate(reorderedMessages);
-  };
+  // const handleMessagesReorder = (reorderedMessages: any[]) => {
+  //   reorderMutation.mutate(reorderedMessages);
+  // };
 
   const breadcrumbItems = [
     { href: "/dashboard/whatsapp", label: "Whatsapp", icon: MessageCircle },
@@ -109,13 +109,12 @@ const MessagesPage = () => {
             refetch={refetch}
             userPlan={userProfileData?.plan}
           />
-
           {/* {userCampaigns?.wp_messages?.length > 0 && ( */}
             <div className="mt-6">
               <DraggableWhatsAppMessages
                 messages={test}
-                onReorder={handleMessagesReorder}
-                title={translate["messagesQueueTitle"]}
+                // onReorder={handleMessagesReorder}
+                title={translate["messageListTitle"]}
               />
             </div>
           {/* )} */}

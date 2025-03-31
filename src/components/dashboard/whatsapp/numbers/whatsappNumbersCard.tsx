@@ -1,4 +1,4 @@
-import { Trash2 } from "lucide-react";
+import { QrCode, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface WhatsAppPhoneNumberCardProps {
@@ -6,6 +6,7 @@ interface WhatsAppPhoneNumberCardProps {
   translate: any;
   onEdit: (phoneNumber: string) => void;
   onDelete: (phoneNumber: string) => void;
+  onGenerateQrCode: (phoneNumber: string) => void;
 }
 
 export default function WhatsAppPhoneNumberCard({
@@ -13,6 +14,7 @@ export default function WhatsAppPhoneNumberCard({
   translate,
   onEdit,
   onDelete,
+  onGenerateQrCode,
 }: WhatsAppPhoneNumberCardProps) {
   return (
     <div className="w-full p-4 border rounded-lg shadow-sm">
@@ -20,12 +22,10 @@ export default function WhatsAppPhoneNumberCard({
         {/* Top Left: Connection Status + Phone Number */}
         <div className="flex items-center">
           <div className="mr-2">
-            {/* This is a placeholder for connection status - you'll need to add actual status logic */}
-            <div
-              className={`h-3 w-3 rounded-full ${
-                Math.random() > 0.5 ? "bg-green-500" : "bg-red-500"
-              }`}
-            />
+            <span className="relative flex size-3">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
+              <span className="relative inline-flex size-3 rounded-full bg-red-500"></span>
+            </span>
           </div>
           <div className="font-medium">{entry}</div>
         </div>
@@ -45,11 +45,15 @@ export default function WhatsAppPhoneNumberCard({
       </div>
 
       <div className="flex justify-end items-end mt-4 space-x-2">
+        <Button size="sm" variant="outline" onClick={() => onGenerateQrCode(entry)}>
+          <QrCode className="h-5 w-5 mr-2" />
+          {translate["generateQrCodeCta"]}
+        </Button>
         <Button size="sm" variant="outline" onClick={() => onEdit(entry)}>
-          {translate["numbersUpdateCta"]}
+          {translate["numbersEditCta"]}
         </Button>
         <Button size="sm" variant="ghost" onClick={() => onDelete(entry)}>
-          <Trash2 className="h-4 w-4 text-destructive" />
+          <Trash2 className="h-5 w-5 text-destructive" />
         </Button>
       </div>
     </div>

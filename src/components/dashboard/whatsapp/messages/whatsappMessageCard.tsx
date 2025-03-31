@@ -68,7 +68,7 @@ export default function WhatsAppMessageCard({
             {translate["messageUpdateCta"]}
           </Button>
           <Button size="sm" variant="ghost" onClick={() => onDelete(message)}>
-            <Trash2 className="h-4 w-4 text-destructive" />
+            <Trash2 className="h-5 w-5 text-destructive" />
           </Button>
         </div>
       </div>

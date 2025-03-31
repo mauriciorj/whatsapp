@@ -15,6 +15,7 @@ import { createClient } from "@/supabase/client";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import WhatsAppPhoneNumberCard from "./whatsappNumbersCard";
+import WhatsappQRCodeDialog from "../whatsappQrCodeDialog";
 
 export function WhatsAppNumbers({
   isLoading,
@@ -30,6 +31,23 @@ export function WhatsAppNumbers({
   userPlan: string;
 }) {
   const translate = useTranslations("Pages.Dashboard.Whatsapp.NumberComponent");
+
+  const [isQrCodeModalOpen, setIsQrCodeModalOpen] = useState<boolean>(false);
+  const [currentPhoneQrCode, setCurrentPhoneQrCode] = useState<any>(null);
+
+  // Function to show QR code for a specific phone number
+  const handleShowQrCode = async (phoneNumber: string) => {
+    // Here you would fetch the QR code URL for this number
+    // This is just a placeholder - implement actual QR code generation/fetching
+    // const qrCodeUrl = await fetch(
+    //   "http://api.qrserver.com/v1/create-qr-code/?data=HelloWorld!&size=100x100"
+    // );
+    // console.log('qrCodeUrl', qrCodeUrl)
+    setCurrentPhoneQrCode(
+      "https://api.qrserver.com/v1/create-qr-code/?data=HelloWorld&amp;size=100x100"
+    );
+    setIsQrCodeModalOpen(true);
+  };
 
   const [isFormLoading, setIsFormLoading] = useState<boolean>(false);
 
@@ -208,6 +226,7 @@ export function WhatsAppNumbers({
                   setIsModalDeleteNumberOpen(true);
                   setIsModalEditNumberOpen(false);
                 }}
+                onGenerateQrCode={handleShowQrCode}
               />
             </div>
           ))}
@@ -225,6 +244,14 @@ export function WhatsAppNumbers({
           isModalOpen={isModalDeleteNumberOpen}
           number={numberToBeDeleted}
           setIsModalOpen={setIsModalDeleteNumberOpen}
+          translate={translate}
+        />
+        <WhatsappQRCodeDialog
+          isModalOpen={isQrCodeModalOpen}
+          setIsModalOpen={setIsQrCodeModalOpen}
+          title={translate["qrCodeDialog"]["title"]}
+          description={translate["qrCodeDialog"]["description"]}
+          qrCodeUrl={currentPhoneQrCode || ""}
           translate={translate}
         />
       </div>

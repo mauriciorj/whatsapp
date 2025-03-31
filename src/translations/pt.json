@@ -195,7 +195,8 @@
       "Messages": {
         "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
         "pageTitle": "Mensagens",
-        "pageDescription": "Gerencie as mensagens da sua campanha"
+        "pageDescription": "Gerencie as mensagens da sua campanha",
+        "messageListTitle": "Sequência de mensagens"
       },
       "Reports": {
         "pageTitle": "Relatórios",
@@ -449,10 +450,15 @@
               "submitLoadingLabel": "Adicionando Número..."
             }
           },
+          "qrCodeDialog": {
+            "title": "Vamos conectar o seu número",
+            "description": "Abra o seu whatsapp e leia o código abaixo para conectar o seu WhatsApp."
+          },
           "cancelCtaLabel": "Cancelar",
           "noCampaign": "Selecione um campanha para carregar os dados.",
           "noData": "Você não tem nenhum número cadastrado! Por favor cadastre um número para começar.",
-          "numbersUpdateCta": "Editar",
+          "numbersEditCta": "Editar",
+          "generateQrCodeCta": "Gerar Novo Qr Code",
           "numbersRegistered": "Números cadastrados",
           "successMessage": "Alteração salva com sucesso."
         },
