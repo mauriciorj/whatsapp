@@ -23,7 +23,7 @@ import { GripVertical, Trash2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import DefaultCard from "@/components/layout/defaultCard";
+import ContentCard from "@/components/layout/contentCard";
 
 interface Message {
   id: string;
@@ -128,7 +128,7 @@ export default function DraggableWhatsAppMessages({
   }
 
   return (
-    <DefaultCard title={title}>
+    <ContentCard title={title}>
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -149,6 +149,6 @@ export default function DraggableWhatsAppMessages({
           </ScrollArea>
         </SortableContext>
       </DndContext>
-    </DefaultCard>
+    </ContentCard>
   );
 }

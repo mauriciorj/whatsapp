@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import WhatsAppLinkDialog from "./whatsappLinkDialog";
 import WhatsAppLinkHoverCards from "./whatsappLinkHovers";
-import DefaultCard from "@/components/layout/defaultCard";
+import ContentCard from "@/components/layout/contentCard";
 import { AlertBanner } from "@/components/ui/alert-banner";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -162,7 +162,7 @@ const WhatsAppLink = ({
 
   return (
     <div className="mb-10">
-      <DefaultCard title={translate["componentTitle"]}>
+      <ContentCard title={translate["componentTitle"]}>
         {serverErrorMessage && (
           <div className="container mb-10">
             <AlertBanner message={serverErrorMessage} type="error" />
@@ -200,7 +200,7 @@ const WhatsAppLink = ({
           }}
           translate={translate}
         />
-      </DefaultCard>
+      </ContentCard>
       <WhatsAppLinkDialog
         form={linkForm}
         isLoading={isFormLoading}

@@ -8,7 +8,7 @@ import ResetPasswordForEmail from "@/actions/resetPasswordForEmail/actions";
 import PageLayout from "@/components/dashboard/pageLayout";
 import ProfileTable from "@/components/dashboard/profileTable";
 import Form from "@/components/form";
-import DefaultCard from "@/components/layout/defaultCard";
+import ContentCard from "@/components/layout/contentCard";
 import { AlertBanner } from "@/components/ui/alert-banner";
 import useTranslations from "@/hooks/useTranslations";
 import { RESET_PASSWORD_REDIRECT_TO_URL } from "@/lib/constants";
@@ -36,7 +36,7 @@ export default function Perfil() {
 
   const isShowResetPasswordComponent = searchParams.get("showResetPassword");
 
-  const { user: userProfileData, isLoading: isUserProfileDataLoading } =
+  const { data: userProfileData, isLoading: isUserProfileDataLoading } =
     useUserProfile();
 
   useEffect(() => {
@@ -126,7 +126,7 @@ export default function Perfil() {
         </div>
       )}
       {!isShowPasswordComponent && (
-        <DefaultCard
+        <ContentCard
           className="p-6"
           title={translate["profileCard"]["cardTitle"]}
         >
@@ -138,10 +138,10 @@ export default function Perfil() {
             userProfileData={userProfileData}
             isUserProfileDataLoading={isUserProfileDataLoading}
           />
-        </DefaultCard>
+        </ContentCard>
       )}
       {isShowPasswordComponent && (
-        <DefaultCard
+        <ContentCard
           description={translate["form"]["cardDescription"]}
           title={translate["form"]["cardTitle"]}
         >
@@ -160,7 +160,7 @@ export default function Perfil() {
             submitLabel={translate["form"]["submitLabel"]}
             submitLoadingLabel={translate["form"]["submitLoadingLabel"]}
           />
-        </DefaultCard>
+        </ContentCard>
       )}
     </PageLayout>
   );

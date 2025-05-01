@@ -1,7 +1,6 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import GetUserProfile from "@/actions/getUserProfile/actions";
 import PageTitle from "@/components/layout/pageTitle";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import {
@@ -12,8 +11,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
-import { createClient } from "@/supabase/client";
-import { useQuery } from "@tanstack/react-query";
+import { Tables } from "@/db/types/database.types";
+import { useCampaigns } from "@/hooks/useCampaigns";
 
 export interface BreadcrumbItem {
   href: string;
@@ -42,28 +41,10 @@ const PageLayout = ({
 
   const campaignName = searchParams.get("campaign");
 
-  const { data: userProfileData, isLoading: isProfileDataLoading } = useQuery({
-    queryKey: ["userProfile"],
-    queryFn: async () => GetUserProfile(),
+  const { data: userCampaigns, isLoading: isCampaignsLoading } = useCampaigns({
+    campaignName,
+    translate: null,
   });
-
-  const { data: userCampaigns, isLoading: isUserCampaignsLoading } = useQuery({
-    queryKey: ["userCampaigns"],
-    queryFn: async () => {
-      // CLIENT SIDE
-      const supabase = await createClient();
-
-      const { data }: any = await supabase
-        .from("campaigns")
-        .select("id, title, user_id")
-        .eq("user_id", userProfileData?.user_id);
-
-      return (
-        data?.sort((a: any, b: any) => a.title.localeCompare(b.title)) || []
-      );
-    },
-    enabled: !!userProfileData?.user_id,
-  }) as any;
 
   return (
     <>
@@ -71,16 +52,20 @@ const PageLayout = ({
         <Breadcrumb items={breadcrumbItems} />
       </div>
       <div className="container mb-10 md:pl-10">
-        {isLoading || isProfileDataLoading || isUserCampaignsLoading ? (
+        {isLoading || isCampaignsLoading ? (
           <Skeleton className="h-10 w-72 mb-4" />
         ) : (
           <div className="flex flex-col-reverse md:flex-row justify-between">
             <PageTitle title={pageTitle} description={pageDescription} />
             {userCampaigns && (
               <div className="w-full mb-5 md:mt-0 md:w-fit flex flex-col mb-5 items-center justify-end">
-                <div className="w-full text-left md:text-right pb-1 pr-1">Campanha Selecionada</div>
+                <div className="w-full text-left md:text-right pb-1 pr-1">
+                  Campanha Selecionada
+                </div>
                 <Select
-                  onValueChange={(e) => router.push(`${pathname}?campaign=${e}`)}
+                  onValueChange={(e) =>
+                    router.push(`${pathname}?campaign=${e}`)
+                  }
                 >
                   <SelectTrigger>
                     <SelectValue
@@ -89,14 +74,15 @@ const PageLayout = ({
                   </SelectTrigger>
                   <SelectContent>
                     {userCampaigns.map(
-                      (campaign: { title: string }, index: number) => (
-                        <SelectItem
-                          key={`${index}-${campaign.title}`}
-                          value={campaign.title}
-                        >
-                          {campaign.title}
-                        </SelectItem>
-                      )
+                      (campaign: Tables<"campaigns">, index: number) =>
+                        campaign?.title && (
+                          <SelectItem
+                            key={`${index}-${campaign.title}`}
+                            value={campaign.title}
+                          >
+                            {campaign.title}
+                          </SelectItem>
+                        )
                     )}
                   </SelectContent>
                 </Select>

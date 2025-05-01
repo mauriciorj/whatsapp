@@ -1,32 +1,43 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import WhatsAppNumbersLoading from "../loading";
 import "./style.css";
 import WhatsappDeleteNumbersDialog from "./whatsappDeleteNumbersDialog";
 import WhatsappEditNumbersDialog from "./whatsappEditNumbersDialog";
 import Form from "@/components/form";
-import DefaultCard from "@/components/layout/defaultCard";
+import ContentCard from "@/components/layout/contentCard";
 import { AlertBanner } from "@/components/ui/alert-banner";
+import { Card } from "@/components/ui/card";
+import { Tables } from "@/db/types/database.types";
 import useTranslations from "@/hooks/useTranslations";
-import BusinessRules from "@/lib/businessRules";
-import { deleteDialogSchema, phoneNumber } from "@/lib/validations/schemas";
+import { useWhatsapp } from "@/hooks/useWhatsapp";
+import { deleteDialogSchema, phoneName } from "@/lib/validations/schemas";
 import { createClient } from "@/supabase/client";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import WhatsAppPhoneNumberCard from "./whatsappNumbersCard";
 import WhatsappQRCodeDialog from "../whatsappQrCodeDialog";
 
+type whatsappTable = {
+  id: string;
+  name: string;
+  status: string;
+};
+
 export function WhatsAppNumbers({
-  isLoading,
-  numbers,
+  addPhoneNameForm,
   campaignId,
+  isLoading,
+  whatsapps,
   refetch,
   userPlan,
 }: {
+  addPhoneNameForm: any;
+  campaignId?: string | null;
   isLoading: boolean;
-  numbers: string[];
-  campaignId: string;
+  whatsapps: whatsappTable[];
   refetch: () => void;
   userPlan: string;
 }) {
@@ -62,199 +73,201 @@ export function WhatsAppNumbers({
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  const maxNumbers = BusinessRules[userPlan]?.maxNumbers;
+  // const mutation = useMutation({
+  //   mutationFn: async (entries) => {
+  //     setErrorMessage(null);
+  //     setSuccessMessage(null);
 
-  const mutation = useMutation({
-    mutationFn: async (entries) => {
-      setErrorMessage(null);
-      setSuccessMessage(null);
+  //     // CLIENT SIDE
+  //     const supabase = await createClient();
+  //     const { error } = await supabase
+  //       .from("campaigns")
+  //       .update({ wp_numbers: entries })
+  //       .eq("id", campaignId);
 
-      // CLIENT SIDE
-      const supabase = await createClient();
-      const { error } = await supabase
-        .from("campaigns")
-        .update({ wp_numbers: entries })
-        .eq("id", campaignId);
+  //     if (error) {
+  //       setErrorMessage(translate["alertMessage"]);
+  //       return false;
+  //     } else {
+  //       return true;
+  //     }
+  //   },
+  //   onError: () => {
+  //     setIsFormLoading(false);
+  //     setIsModalEditNumberOpen(false);
+  //     setIsModalDeleteNumberOpen(false);
+  //     addNumberform.reset();
+  //     deleteNumberform.reset();
+  //     editNumberform.reset();
+  //     return setErrorMessage(translate["alertMessage"]);
+  //   },
+  //   onSuccess: () => {
+  //     setIsFormLoading(false);
+  //     setIsModalEditNumberOpen(false);
+  //     setIsModalDeleteNumberOpen(false);
+  //     addNumberform.reset();
+  //     deleteNumberform.reset();
+  //     editNumberform.reset();
+  //     refetch();
+  //     return setSuccessMessage(translate["successMessage"]);
+  //   },
+  // });
 
-      if (error) {
-        setErrorMessage(translate["alertMessage"]);
-        return false;
-      } else {
-        return true;
-      }
-    },
-    onError: () => {
-      setIsFormLoading(false);
-      setIsModalEditNumberOpen(false);
-      setIsModalDeleteNumberOpen(false);
-      addNumberform.reset();
-      deleteNumberform.reset();
-      editNumberform.reset();
-      return setErrorMessage(translate["alertMessage"]);
-    },
-    onSuccess: () => {
-      setIsFormLoading(false);
-      setIsModalEditNumberOpen(false);
-      setIsModalDeleteNumberOpen(false);
-      addNumberform.reset();
-      deleteNumberform.reset();
-      editNumberform.reset();
-      refetch();
-      return setSuccessMessage(translate["successMessage"]);
-    },
-  });
+  // const addNumberform = useForm({
+  //   defaultValues: {
+  //     phoneName: "",
+  //   },
+  //   validators: {
+  //     onSubmit: phoneName,
+  //   },
+  //   onSubmit: async ({ value }) => {
+  //     // setIsFormLoading(true);
+  //     console.log("value => ", value?.phoneName);
+  //     console.log("campaignId => ", campaignId);
+  //     console.log("companyId => ", companyId);
+  //   },
+  // });
 
-  const addNumberform = useForm({
-    defaultValues: {
-      phoneNumber: "",
-    },
-    validators: {
-      onSubmit: phoneNumber,
-    },
-    onSubmit: async ({ value }) => {
-      setIsFormLoading(true);
-      if (!numbers) {
-        return await mutation.mutate([value?.phoneNumber] as any);
-      }
-      const getNumbers = numbers;
-      getNumbers.push(value?.phoneNumber);
-      return await mutation.mutate(getNumbers as any);
-    },
-  });
+  // const deleteNumberform = useForm({
+  //   defaultValues: {
+  //     deleteWord: "",
+  //   },
+  //   validators: {
+  //     onSubmit: deleteDialogSchema,
+  //   },
+  //   onSubmit: async ({ value }) => {
+  //     setIsFormLoading(true);
+  //     if (value?.deleteWord === "deletar") {
+  //       const updatedNumbers = numbers.filter(
+  //         (number) => number !== numberToBeDeleted
+  //       );
+  //       mutation.mutate(updatedNumbers as any);
+  //     }
+  //   },
+  // });
 
-  const deleteNumberform = useForm({
-    defaultValues: {
-      deleteWord: "",
-    },
-    validators: {
-      onSubmit: deleteDialogSchema,
-    },
-    onSubmit: async ({ value }) => {
-      setIsFormLoading(true);
-      if (value?.deleteWord === "deletar") {
-        const updatedNumbers = numbers.filter(
-          (number) => number !== numberToBeDeleted
-        );
-        mutation.mutate(updatedNumbers as any);
-      }
-    },
-  });
-
-  const editNumberform = useForm({
-    defaultValues: {
-      phoneNumber: numberToBeEdited,
-    },
-    validators: {
-      onSubmit: phoneNumber,
-    },
-    onSubmit: async ({ value }) => {
-      setIsFormLoading(true);
-      const updatedNumbers = [...numbers]; // Create a copy of the array
-      const index = numbers.indexOf(numberToBeEdited);
-      if (index !== -1) {
-        updatedNumbers[index] = value.phoneNumber; // Replace the old number with the new one
-        return await mutation.mutate(updatedNumbers as any);
-      }
-    },
-  });
+  // const editNumberform = useForm({
+  //   defaultValues: {
+  //     phoneNumber: numberToBeEdited,
+  //   },
+  //   validators: {
+  //     onSubmit: phoneNumber,
+  //   },
+  //   onSubmit: async ({ value }) => {
+  //     setIsFormLoading(true);
+  //     const updatedNumbers = [...numbers]; // Create a copy of the array
+  //     const index = numbers.indexOf(numberToBeEdited);
+  //     if (index !== -1) {
+  //       updatedNumbers[index] = value.phoneNumber; // Replace the old number with the new one
+  //       return await mutation.mutate(updatedNumbers as any);
+  //     }
+  //   },
+  // });
 
   return (
-    <DefaultCard title={translate["componentTitle"]}>
-      {errorMessage && (
-        <div className="container mb-10">
-          <AlertBanner message={translate["alertMessage"]} type="error" />
-        </div>
-      )}
-      {successMessage && (
-        <div className="container mb-10">
-          <AlertBanner message={translate["successMessage"]} type="success" />
-        </div>
-      )}
-      <div className="w-full">
-        {Boolean(!numbers?.length || numbers?.length < maxNumbers) && (
-          <div className="mt-6">
-            <div className="mb-5">{translate["addNumberCtaLabel"]}</div>
-            <Form
-              fieldsToRender={[
-                {
-                  label:
-                    translate["addNumberForm"]["fields"]["addNumber"]["label"],
-                  name: translate["addNumberForm"]["fields"]["addNumber"][
-                    "name"
-                  ],
-                  placeholder:
-                    translate["addNumberForm"]["fields"]["addNumber"][
-                      "placeholder"
+    <>
+      <ContentCard title={translate["componentTitle"]}>
+        {errorMessage && (
+          <div className="container mb-10">
+            <AlertBanner message={translate["alertMessage"]} type="error" />
+          </div>
+        )}
+        {successMessage && (
+          <div className="container mb-10">
+            <AlertBanner message={translate["successMessage"]} type="success" />
+          </div>
+        )}
+        <div className="w-full items-center justify-center">
+          {isLoading && <WhatsAppNumbersLoading />}
+          {Boolean(!isLoading && !whatsapps?.length) && (
+            <div className="w-full flex flex-col items-center justify-center h-[100px]">
+              <div className="border rounded-md py-5 px-7 text-center text-center">
+                {!campaignId ? translate["noCampaign"] : translate["noData"]}
+              </div>
+            </div>
+          )}
+          <div className="flex flex-col w-full items-center justify-center">
+            <Card className="w-full max-w-lg px-10 pb-10">
+              <div className="mb-5">{translate["addNumberCtaLabel"]}</div>
+              <Form
+                fieldsToRender={[
+                  {
+                    label:
+                      translate["addNumberForm"]["fields"]["addNumber"][
+                        "label"
+                      ],
+                    name: translate["addNumberForm"]["fields"]["addNumber"][
+                      "name"
                     ],
-                  type: "countryPhone",
-                },
-              ]}
-              form={addNumberform}
-              isLoading={isFormLoading}
-              submitLabel={translate["addNumberForm"]["submitLabel"]}
-              submitLoadingLabel={
-                translate["addNumberForm"]["submitLoadingLabel"]
-              }
-            />
-            <div className="h-[1px] border-b mt-6 mb-6" />
-          </div>
-        )}
-        {isLoading && <WhatsAppNumbersLoading />}
-        {Boolean(!isLoading && !numbers?.length) && (
-          <div className="w-full flex flex-col items-center justify-center h-[100px]">
-            <div className="border rounded-md py-5 px-7 text-center text-center">
-              {!campaignId ? translate["noCampaign"] : translate["noData"]}
-            </div>
-          </div>
-        )}
-        {Boolean(!isLoading && numbers?.length) && (
-          <div className="mb-5">{translate["numbersRegistered"]}</div>
-        )}
-        {!isLoading &&
-          numbers?.map((entry, index) => (
-            <div key={index} className="mt-6">
-              <WhatsAppPhoneNumberCard
-                entry={entry}
-                translate={translate}
-                onEdit={(phoneNumber) => {
-                  setNumberToBeEdited(phoneNumber);
-                  setIsModalDeleteNumberOpen(false);
-                  setIsModalEditNumberOpen(true);
-                }}
-                onDelete={(phoneNumber) => {
-                  setNumberToBeDeleted(phoneNumber);
-                  setIsModalDeleteNumberOpen(true);
-                  setIsModalEditNumberOpen(false);
-                }}
-                onGenerateQrCode={handleShowQrCode}
+                    placeholder:
+                      translate["addNumberForm"]["fields"]["addNumber"][
+                        "placeholder"
+                      ],
+                    type: "text",
+                  },
+                ]}
+                form={addPhoneNameForm}
+                isLoading={isFormLoading}
+                submitLabel={translate["addNumberForm"]["submitLabel"]}
+                submitLoadingLabel={
+                  translate["addNumberForm"]["submitLoadingLabel"]
+                }
               />
+            </Card>
+          </div>
+          <div className="h-[1px] border-b mt-10 mb-10" />
+          {Boolean(!isLoading && whatsapps?.length) && (
+            <div className="mb-5 mt-5">{translate["numbersRegistered"]}</div>
+          )}
+          {!isLoading && whatsapps?.length && (
+            <div className="flex flex-col md:inline-grid md:grid-cols-2 md:gap-4 xl:inline-grid xl:grid-cols-3 xl:gap-4">
+              {whatsapps.map((entry, index) => (
+                <div key={index} className="mt-6">
+                  <WhatsAppPhoneNumberCard
+                    entry={entry}
+                    translate={translate}
+                    onEdit={(phoneNumber) => {
+                      setNumberToBeEdited(phoneNumber);
+                      setIsModalDeleteNumberOpen(false);
+                      setIsModalEditNumberOpen(true);
+                    }}
+                    onDelete={(phoneNumber) => {
+                      setNumberToBeDeleted(phoneNumber);
+                      setIsModalDeleteNumberOpen(true);
+                      setIsModalEditNumberOpen(false);
+                    }}
+                    onGenerateQrCode={handleShowQrCode}
+                  />
+                </div>
+              ))}
             </div>
-          ))}
-        <WhatsappEditNumbersDialog
+          )}
+          {/* <WhatsappEditNumbersDialog
           form={editNumberform}
           isLoading={isFormLoading}
           isModalOpen={isModalEditNumberOpen}
           number={numberToBeEdited}
           setIsModalOpen={setIsModalEditNumberOpen}
           translate={translate}
-        />
-        <WhatsappDeleteNumbersDialog
+        /> */}
+          {/* <WhatsappDeleteNumbersDialog
           form={deleteNumberform}
           isLoading={isFormLoading}
           isModalOpen={isModalDeleteNumberOpen}
           number={numberToBeDeleted}
           setIsModalOpen={setIsModalDeleteNumberOpen}
           translate={translate}
-        />
-        <WhatsappQRCodeDialog
-          isModalOpen={isQrCodeModalOpen}
-          setIsModalOpen={setIsQrCodeModalOpen}
-          title={translate["qrCodeDialog"]["title"]}
-          description={translate["qrCodeDialog"]["description"]}
-          qrCodeUrl={currentPhoneQrCode || ""}
-          translate={translate}
-        />
-      </div>
-    </DefaultCard>
+        /> */}
+          <WhatsappQRCodeDialog
+            isModalOpen={isQrCodeModalOpen}
+            setIsModalOpen={setIsQrCodeModalOpen}
+            title={translate["qrCodeDialog"]["title"]}
+            description={translate["qrCodeDialog"]["description"]}
+            qrCodeUrl={currentPhoneQrCode || ""}
+            translate={translate}
+          />
+        </div>
+      </ContentCard>
+    </>
   );
 }

@@ -9,7 +9,7 @@ interface AuthCardProps {
   title?: string;
 }
 
-const DefaultCard = ({
+const ContentCard = ({
   children,
   className = "",
   description,
@@ -19,7 +19,7 @@ const DefaultCard = ({
 }: AuthCardProps) => {
   return (
     <Card
-      className={`w-full max-w-lg mx-auto p-8 ${className} ${
+      className={`w-full mx-auto p-8 ${className} ${
         isHoverable &&
         "hover:bg-accent hover:text-accent-foreground cursor-pointer"
       }`}
@@ -27,11 +27,11 @@ const DefaultCard = ({
     >
       {title && <h1 className="text-2xl font-bold mb-6">{title}</h1>}
       {description && (
-        <p className="text-center text-muted-foreground pb-6">{description}</p>
+        <p className="ml-5 text-muted-foreground pb-6">{description}</p>
       )}
       {children}
     </Card>
   );
 };
 
-export default DefaultCard;
+export default ContentCard;

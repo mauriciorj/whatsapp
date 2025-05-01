@@ -27,6 +27,12 @@ export const deleteDialogSchema = z.object({
   }),
 });
 
+export const editDialogSchema = z.object({
+  campaignName: z.string(),
+  campaignStartDate: z.any(),
+  campaignEndDate: z.any(),
+});
+
 export const forgotPasswordSchema = z.object({
   email: z.string().email("Endereço de email inválido"),
 });
@@ -38,6 +44,10 @@ export const linkSchema = z.object({
 export const loginSchema = z.object({
   email: z.string().email({ message: "Por favor insira um email válido." }),
   password: z.string().min(1, { message: "Por favor insira uma senha." }),
+});
+
+export const phoneName = z.object({
+  phoneName: z.string().min(3, { message: "Por favor insira um nome válido" }),
 });
 
 export const phoneNumber = z.object({

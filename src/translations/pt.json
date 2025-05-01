@@ -183,7 +183,7 @@
               "cancelLabel": "Cancelar",
               "fields": {
                 "deleteCampaign": {
-                  "label": "Deletar o Campanha:",
+                  "label": "Deletar a Campanha:",
                   "name": "deleteWord",
                   "placeholder": "deletar"
                 }
@@ -193,6 +193,31 @@
             }
           },
           "successMessage": "Campanha deletado com sucesso"
+        },
+        "editCampaignForm": {
+          "dialog": {
+            "title": "Editar Campanha",
+            "form": {
+              "cancelLabel": "Editar",
+              "fields": {
+                "campaignName": {
+                  "label": "Nome:",
+                  "name": "campaignName"
+                },
+                "campaignStartDate": {
+                  "label": "Data de início:",
+                  "name": "campaignStartDate"
+                },
+                "campaignEndDate": {
+                  "label": "Data de fim:",
+                  "name": "editCampaign"
+                }
+              },
+              "submitLabel": "Editar campanha",
+              "submitLoadingLabel": "Editando campanha..."
+            }
+          },
+          "successMessage": "Campanha editada com sucesso"
         }
       },
       "Groups": {
@@ -312,7 +337,9 @@
           "noData": "Você não tem nenhum número cadastrado! Por favor cadastre um número para começar.",
           "numbersUpdateCta": "Editar",
           "numbersRegistered": "Números cadastrados",
-          "successMessage": "Alteração salva com sucesso."
+          "successMessage": "Alteração salva com sucesso.",
+          "whatsappAlreadyExist": "Esse nome de Whatsapp já existe.",
+          "whatsappSocketError": "Ops... algum erro ocorreu ao tentar iniciar uma nova sessão de Whatsapp. Por favor tente novamente ou entre em contato com o suporte."
         },
         "pageTitle": "Números Conectados",
         "pageDescription": "Tenha um número e vários Whatsapps.",
@@ -422,13 +449,13 @@
           "addNumberForm": {
             "fields": {
               "addNumber": {
-                "label": "Adicionar número",
-                "name": "phoneNumber",
-                "placeholder": "ex: 21 99999-9999"
+                "label": "Nome do telefone",
+                "name": "phoneName",
+                "placeholder": "ex: Whatsapp 01"
               }
             },
-            "submitLabel": "Adicionar Número",
-            "submitLoadingLabel": "Adicionando Número..."
+            "submitLabel": "Adicionar telefone",
+            "submitLoadingLabel": "Adicionando telefone..."
           },
           "editNumberDialog": {
             "title": "Editar número",

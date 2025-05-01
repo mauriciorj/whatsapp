@@ -1,11 +1,11 @@
 "use client";
 
-import DefaultCard from "@/components/layout/defaultCard";
+import ContentCard from "@/components/layout/contentCard";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function CampaignsLoadingCard() {
   return (
-    <DefaultCard>
+    <ContentCard>
       <div className="text-2xl mb-6">
         <Skeleton className="h-5 w-56" />
       </div>
@@ -15,6 +15,6 @@ export default function CampaignsLoadingCard() {
       <div className="flex flex-col items-center mt-10">
         <Skeleton className="h-28 w-[90%]" />
       </div>
-    </DefaultCard>
+    </ContentCard>
   );
 }

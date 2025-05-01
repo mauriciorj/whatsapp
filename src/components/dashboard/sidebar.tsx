@@ -14,12 +14,10 @@ import {
   Settings,
   Users,
 } from "lucide-react";
-import GetUserProfile from "@/actions/getUserProfile/actions";
 import { Button } from "@/components/ui/button";
+import { useCampaigns } from "@/hooks/useCampaigns";
 import useTranslations from "@/hooks/useTranslations";
 import { cn } from "@/lib/utils";
-import { createClient } from "@/supabase/client";
-import { useQuery } from "@tanstack/react-query";
 
 const Sidebar = () => {
   const translate = useTranslations("main.sideBar");
@@ -31,28 +29,11 @@ const Sidebar = () => {
   const isInsideDashboard = Boolean(pathname.split("/")[1] === "dashboard");
 
   const params = new URLSearchParams(searchParams.toString());
+  const campaignName = searchParams.get("campaign");
 
-  const { data: userProfileData } = useQuery({
-    queryKey: ["userProfile"],
-    queryFn: async () => GetUserProfile(),
-  });
-
-  const { data: userCampaigns } = useQuery({
-    queryKey: ["userCampaigns"],
-    queryFn: async () => {
-      // CLIENT SIDE
-      const supabase = await createClient();
-
-      const { data }: any = await supabase
-        .from("campaigns")
-        .select("id, title, user_id")
-        .eq("user_id", userProfileData?.user_id);
-
-      return (
-        data?.sort((a: any, b: any) => a.title.localeCompare(b.title)) || []
-      );
-    },
-    enabled: !!userProfileData?.user_id,
+  const { data: userCampaigns } = useCampaigns({
+    campaignName,
+    translate: null,
   });
 
   if (!isInsideDashboard) return null;

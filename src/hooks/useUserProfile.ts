@@ -1,10 +1,10 @@
 import GetUserProfile from "@/actions/getUserProfile/actions";
-import { UserType } from "@/db/types/types";
+import { Tables } from "@/db/types/database.types";
 import { useQuery } from "@tanstack/react-query";
 
 export function useUserProfile() {
   const {
-    data: user,
+    data,
     isLoading,
     error,
     refetch,
@@ -12,16 +12,17 @@ export function useUserProfile() {
     queryKey: ["userProfile"],
     queryFn: async () => GetUserProfile(),
   }) as {
-    data: UserType;
+    data: Tables<'user_profile'>;
     isLoading: boolean;
     error: any;
     refetch: () => void;
   };
 
   return {
-    user,
-    isLoading,
+    data,
     error,
+    isLoading,
+    errorMessage: error?.message,
     refetch,
   };
 }

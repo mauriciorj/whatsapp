@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Check } from "lucide-react";
 import PageLayout from "@/components/layout/pageLayout";
 import { Button } from "@/components/ui/button";
-import DefaultCard from "@/components/layout/defaultCard";
+import ContentCard from "@/components/layout/contentCard";
 import useTranslations from "@/hooks/useTranslations";
 import { PAGES } from "@/lib/constants";
 
@@ -19,7 +19,7 @@ export default function Successo() {
   ];
   return (
     <PageLayout breadcrumbItems={breadcrumbItems}>
-      <DefaultCard
+      <ContentCard
         title={translate["cardTitle"]}
         description={translate["cardDescription"]}
       >
@@ -28,7 +28,7 @@ export default function Successo() {
             <Link href={PAGES.auth.login}>{translate["buttonLabel"]}</Link>
           </Button>
         </div>
-      </DefaultCard>
+      </ContentCard>
     </PageLayout>
   );
 }

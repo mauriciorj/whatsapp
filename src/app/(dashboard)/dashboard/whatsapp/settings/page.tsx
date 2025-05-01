@@ -8,7 +8,7 @@ import useTranslations from "@/hooks/useTranslations";
 import { useForm } from "@tanstack/react-form";
 import Form from "@/components/form";
 import { campaignSettingsSchema } from "@/lib/validations/schemas";
-import DefaultCard from "@/components/layout/defaultCard";
+import ContentCard from "@/components/layout/contentCard";
 
 const SettingsPage = () => {
   const translate = useTranslations("Pages.Dashboard.Settings");
@@ -52,7 +52,7 @@ const SettingsPage = () => {
           <AlertBanner message={translate["alertMessage"]} type="error" />
         </div>
       )}
-      <DefaultCard>
+      <ContentCard>
         <Form
           fieldsToRender={[
             {
@@ -95,7 +95,7 @@ const SettingsPage = () => {
           submitLabel="Salvar"
           submitLoadingLabel="Salvando..."
         />
-      </DefaultCard>
+      </ContentCard>
     </PageLayout>
   );
 };

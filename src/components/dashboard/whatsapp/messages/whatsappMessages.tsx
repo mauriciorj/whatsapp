@@ -7,7 +7,7 @@ import WhatsappDeleteMessageDialog from "./whatsappDeleteMessageDialog";
 import WhatsappEditMessageDialog from "./whatsappEditMessageDialog";
 import WhatsAppMessageCard from "./whatsappMessageCard";
 import Form from "@/components/form";
-import DefaultCard from "@/components/layout/defaultCard";
+import ContentCard from "@/components/layout/contentCard";
 import { AlertBanner } from "@/components/ui/alert-banner";
 import useTranslations from "@/hooks/useTranslations";
 import BusinessRules from "@/lib/businessRules";
@@ -158,7 +158,7 @@ export function WhatsAppMessages({
   });
 
   return (
-    <DefaultCard title={translate["componentTitle"]}>
+    <ContentCard title={translate["componentTitle"]}>
       {errorMessage && (
         <div className="container mb-10">
           <AlertBanner message={translate["alertMessage"]} type="error" />
@@ -267,6 +267,6 @@ export function WhatsAppMessages({
           translate={translate}
         />
       </div>
-    </DefaultCard>
+    </ContentCard>
   );
 }

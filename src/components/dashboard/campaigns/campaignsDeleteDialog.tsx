@@ -10,16 +10,16 @@ import {
 } from "@/components/ui/dialog";
 import Form from "../../form";
 
-const CampaignsDialog = ({
+const CampaignsDeleteDialog = ({
   form,
   isModalOpen,
-  campaignToBeDeleted,
+  campaignToDialog,
   setIsModalOpen,
   translate,
 }: {
   form: any;
   isModalOpen: boolean;
-  campaignToBeDeleted: any;
+  campaignToDialog: any;
   setIsModalOpen: (value: boolean) => void;
   translate: any;
 }) => {
@@ -52,7 +52,7 @@ const CampaignsDialog = ({
           cancelButtonLabel="Cancelar"
           fieldsToRender={[
             {
-              label: `${translate["form"]["fields"]["deleteCampaign"]["label"]} ${campaignToBeDeleted?.title}`,
+              label: `${translate["form"]["fields"]["deleteCampaign"]["label"]} ${campaignToDialog?.title}`,
               name: translate["form"]["fields"]["deleteCampaign"]["name"],
               placeholder: "deletar",
               type: "text",
@@ -72,4 +72,4 @@ const CampaignsDialog = ({
   );
 };
 
-export default CampaignsDialog;
+export default CampaignsDeleteDialog;

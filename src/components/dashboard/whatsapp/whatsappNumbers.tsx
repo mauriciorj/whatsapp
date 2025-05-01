@@ -20,7 +20,7 @@ export function WhatsAppNumbers({
   // ... rest of component
 
   return (
-    <DefaultCard title={translate["componentTitle"]}>
+    <ContentCard title={translate["componentTitle"]}>
       {/* ... existing JSX */}
       
       <WhatsappQRCodeDialog
@@ -31,6 +31,6 @@ export function WhatsAppNumbers({
         qrCodeUrl={currentPhoneQrCode || ""}
         translate={translate}
       />
-    </DefaultCard>
+    </ContentCard>
   );
 } 

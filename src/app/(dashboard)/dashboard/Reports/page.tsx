@@ -3,7 +3,6 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ChartSpline, RefreshCcw } from "lucide-react";
-import GetUserProfile from "@/actions/getUserProfile/actions";
 import PageLayout from "@/components/dashboard/pageLayout";
 import LineChart from "@/components/dashboard/lineChart";
 import TableDeviceSystem from "@/components/dashboard/tableDeviceSystem";
@@ -18,17 +17,14 @@ import {
 } from "@/components/ui/select";
 import useTranslations from "@/hooks/useTranslations";
 import getGroupedCounts from "@/lib/formatReport";
-import { createClient } from "@/supabase/client";
-import { useQuery } from "@tanstack/react-query";
 import { AlertBanner } from "@/components/ui/alert-banner";
+import { useReports } from "@/hooks/useReports";
 
 export default function ReportsPage() {
   const searchParams = useSearchParams();
   const translate = useTranslations("Pages.Dashboard.Reports");
 
   const campaignName = searchParams.get("campaign");
-
-  const [serverError, setServerError] = useState<boolean | null>(null);
 
   const [reportPeriod, setReportPeriod] = useState<number>(7);
   const [reportPerDayData, setReportPerDayData] = useState<any>(null);
@@ -39,64 +35,9 @@ export default function ReportsPage() {
   const [reportPerCountryAndCityData, setreportPerCountryAndCityData] =
     useState<any>(null);
 
-  const timeTemp = new Date(
-    new Date().setDate(new Date().getDate() - reportPeriod)
-  ).toISOString();
-
-  const { data: userProfileData, isLoading: isProfileDataLoading } = useQuery({
-    queryKey: ["userProfile"],
-    queryFn: async () => GetUserProfile(),
-  });
-
-  const { data: userCampaigns, isLoading: isUserCampaignsLoading } = useQuery({
-    queryKey: ["userCampaigns"],
-    queryFn: async () => {
-      // CLIENT SIDE
-      const supabase = await createClient();
-
-      const { data, error }: any = await supabase
-        .from("campaigns")
-        .select("id, title, user_id")
-        .eq("user_id", userProfileData?.user_id);
-
-      if (error) {
-        setServerError(true);
-      }
-
-      return (
-        data?.sort((a: any, b: any) => a.title.localeCompare(b.title)) || []
-      );
-    },
-    enabled: !!userProfileData?.user_id,
-  }) as any;
-
-  const getCurrentCampaign = userCampaigns?.find(
-    (campaign: any) => campaign.title === campaignName
-  );
-
-  const { data, isFetching, refetch } = useQuery<any>({
-    queryKey: ["whatsappTracking", getCurrentCampaign?.id, reportPeriod],
-    queryFn: async () => {
-      const supabase = createClient();
-      const { data, error } = await supabase
-        .from("whatsapp_tracking")
-        .select("created_at, country, city, device_size, device_system", {
-          count: "exact",
-        })
-        .eq("user_id", userProfileData.user_id)
-        .eq("campaign_id", getCurrentCampaign?.id)
-        .gte("created_at", timeTemp)
-        .order("created_at", { ascending: true });
-
-      if (error) {
-        setServerError(true);
-      }
-
-      return data || [];
-    },
-    enabled: Boolean(
-      !!userProfileData?.user_id && !!campaignName && !!userCampaigns
-    ),
+  const { data, isLoading, errorMessage, refetch } = useReports({
+    campaignName,
+    reportPeriod,
   });
 
   useEffect(() => {
@@ -134,7 +75,7 @@ export default function ReportsPage() {
   return (
     <PageLayout
       breadcrumbItems={breadcrumbItems}
-      isLoading={isProfileDataLoading || isUserCampaignsLoading}
+      isLoading={isLoading}
       pageTitle={translate["pageTitle"]}
       pageDescription={translate["pageDescription"]}
     >
@@ -142,20 +83,20 @@ export default function ReportsPage() {
         <div className="w-full flex justify-end mt-6">
           <div className="w-full md:w-fit flex flex-row mb-5 items-center justify-end">
             <div
-              onClick={() => (Boolean(data?.data?.length) ? refetch() : null)}
+              onClick={() => (Boolean(data?.length) ? refetch() : null)}
               className={`${
-                Boolean(!data?.data?.length) &&
+                Boolean(!data?.length) &&
                 "cursor-not-allowed opacity-50 [&>span]:line-clamp-1"
               }flex h-10 items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm mr-2 hover:bg-accent cursor-pointer`}
             >
               <RefreshCcw
-                className={`${isFetching ? "animate-spin" : null} h-5 w-5`}
+                className={`${isLoading ? "animate-spin" : null} h-5 w-5`}
               />
             </div>
             <Select
               onValueChange={(e) => setReportPeriod(parseInt(e))}
               defaultValue={reportPeriod.toString()}
-              disabled={Boolean(!data?.data?.length)}
+              disabled={Boolean(!data?.length)}
             >
               <SelectTrigger>
                 <SelectValue placeholder="7 dias" />
@@ -174,25 +115,25 @@ export default function ReportsPage() {
             </Select>
           </div>
         </div>
-        {serverError && (
+        {errorMessage && (
           <div className="container mb-10">
             <AlertBanner message={translate["alertMessage"]} type="error" />
           </div>
         )}
         {Boolean(data?.length) ? (
           <>
-            <LineChart data={reportPerDayData} isLoading={isFetching} />
+            <LineChart data={reportPerDayData} isLoading={isLoading} />
             <TableRegion
               data={reportPerCountryAndCityData}
-              isLoading={isFetching}
+              isLoading={isLoading}
             />
             <TableDeviceType
               data={reportPerDeviceSizeData}
-              isLoading={isFetching}
+              isLoading={isLoading}
             />
             <TableDeviceSystem
               data={reportPerDeviceSystemData}
-              isLoading={isFetching}
+              isLoading={isLoading}
             />
           </>
         ) : (

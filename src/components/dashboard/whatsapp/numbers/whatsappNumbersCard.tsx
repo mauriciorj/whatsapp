@@ -1,8 +1,14 @@
 import { QrCode, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+type whatsappTable = {
+  id: string;
+  name: string;
+  status: string;
+};
+
 interface WhatsAppPhoneNumberCardProps {
-  entry: string;
+  entry: whatsappTable;
   translate: any;
   onEdit: (phoneNumber: string) => void;
   onDelete: (phoneNumber: string) => void;
@@ -27,7 +33,7 @@ export default function WhatsAppPhoneNumberCard({
               <span className="relative inline-flex size-3 rounded-full bg-red-500"></span>
             </span>
           </div>
-          <div className="font-medium">{entry}</div>
+          <div className="font-medium break-all">{entry?.name}</div>
         </div>
 
         {/* Top Right: Switch */}
@@ -45,14 +51,14 @@ export default function WhatsAppPhoneNumberCard({
       </div>
 
       <div className="flex justify-end items-end mt-4 space-x-2">
-        <Button size="sm" variant="outline" onClick={() => onGenerateQrCode(entry)}>
+        <Button size="sm" variant="outline" onClick={() => onGenerateQrCode(entry?.id)}>
           <QrCode className="h-5 w-5 mr-2" />
           {translate["generateQrCodeCta"]}
         </Button>
-        <Button size="sm" variant="outline" onClick={() => onEdit(entry)}>
+        <Button size="sm" variant="outline" onClick={() => onEdit(entry?.id)}>
           {translate["numbersEditCta"]}
         </Button>
-        <Button size="sm" variant="ghost" onClick={() => onDelete(entry)}>
+        <Button size="sm" variant="ghost" onClick={() => onDelete(entry?.id)}>
           <Trash2 className="h-5 w-5 text-destructive" />
         </Button>
       </div>

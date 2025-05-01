@@ -3,7 +3,7 @@
 import { createClient } from "@/db/supabase/client";
 import { useEffect, useState } from "react";
 
-const useGetUser = () => {
+const useSession = () => {
   const [session, setSession] = useState<any>(null);
 
   useEffect(() => {
@@ -26,4 +26,4 @@ const useGetUser = () => {
   };
 };
 
-export default useGetUser;
+export default useSession;

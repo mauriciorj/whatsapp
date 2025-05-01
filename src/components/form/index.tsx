@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { LoaderCircle } from "lucide-react";
+import { CalendarDays, LoaderCircle } from "lucide-react";
 import PhoneInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
 import pt from "react-phone-number-input/locale/pt";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import PasswordRulesValidation from "@/lib/passwordRulesValidation";
@@ -31,6 +33,7 @@ export default function Form({
   submitLabel,
   submitLoadingLabel,
 }: any) {
+  const [startDate, setStartDate] = useState(new Date());
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
 
   const [passwordValidation, setPasswordValidation] = useState<any>({
@@ -82,6 +85,17 @@ export default function Form({
             {(field: any) => {
               return (
                 <div className="space-y-2">
+                  {fieldToRender.type === "datePicker" && (
+                    <div className="w-full flex flex-row items-center">
+                      <Label htmlFor={field.name}>{fieldToRender.label}</Label>
+                      <DatePicker
+                        showIcon
+                        selected={startDate}
+                        onChange={(date) => setStartDate(date)}
+                        icon={<CalendarDays />}
+                      />
+                    </div>
+                  )}
                   {fieldToRender.type === "textArea" && (
                     <>
                       <Label htmlFor={field.name}>{fieldToRender.label}</Label>
