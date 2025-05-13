@@ -6,7 +6,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-const UpdateWhatsappMessageDialog = ({
+const WhatsappMessageDialog = ({
   isModalOpen,
   setIsModalOpen,
   form,
@@ -76,4 +76,4 @@ const UpdateWhatsappMessageDialog = ({
   );
 };
 
-export default UpdateWhatsappMessageDialog;
+export default WhatsappMessageDialog;

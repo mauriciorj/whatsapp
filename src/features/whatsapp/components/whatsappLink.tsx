@@ -21,8 +21,8 @@ const WhatsAppLink = ({
   refetch,
 }: {
   isLoading: boolean;
-  link: string;
-  campaignId: string;
+  link?: string | null;
+  campaignId?: string;
   refetch: () => void;
 }) => {
   const translations = useTranslations(

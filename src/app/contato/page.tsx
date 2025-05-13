@@ -12,7 +12,7 @@ export default function Contato() {
   const translations = useTranslations("Pages.Contact");
 
   const {
-    translations: contactFormTranslation,
+    translations: postMessageTranslation,
     errorMessage,
     form,
     successMessage,
@@ -27,7 +27,7 @@ export default function Contato() {
         <AlertBanner message={successMessage} type="error" />
         {!successMessage && (
           <div>
-            <ContactForm form={form} translations={contactFormTranslation} />
+            <ContactForm form={form} translations={postMessageTranslation} />
           </div>
         )}
       </AuthCard>

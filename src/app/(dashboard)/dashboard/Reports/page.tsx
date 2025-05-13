@@ -3,14 +3,14 @@
 import { useSearchParams } from "next/navigation";
 import { ChartSpline } from "lucide-react";
 import PageLayout from "@/components/dashboard/pageLayout";
+import AlertBanner from "@/components/ui/alert-banner";
 import LineChart from "@/features/reports/components/lineChart";
 import TableDeviceSystem from "@/features/reports/components/tableDeviceSystem";
 import TableDeviceType from "@/features/reports/components/tableDeviceType";
 import TableRegion from "@/features/reports/components/tableRegion";
 import PeriodSelector from "@/features/reports/components/periodSelector";
-import useTranslations from "@/hooks/useTranslations";
-import AlertBanner from "@/components/ui/alert-banner";
 import useReports from "@/features/reports/hooks/useReports";
+import useTranslations from "@/hooks/useTranslations";
 
 export default function ReportsPage() {
   const searchParams = useSearchParams();

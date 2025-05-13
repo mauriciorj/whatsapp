@@ -36,7 +36,7 @@ const getCampaigns = () => {
     },
     enabled: !!userProfile?.company_id, // Only run the query if we have a company_id
   }) as {
-    data: Tables<"campaigns">[];
+    data: Tables<"campaigns">;
     isLoading: boolean;
     error: any;
     refetch: () => void;

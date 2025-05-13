@@ -27,19 +27,15 @@ type whatsappTable = {
 };
 
 const WhatsAppNumbers = ({
-  addPhoneNameForm,
+  // addPhoneNameForm,
   campaignId,
   isLoading,
   whatsapps,
-  refetch,
-  userPlan,
 }: {
-  addPhoneNameForm: any;
+  // addPhoneNameForm: any;
   campaignId?: string | null;
   isLoading: boolean;
   whatsapps: whatsappTable[];
-  refetch: () => void;
-  userPlan: string;
 }) => {
   const translations = useTranslations(
     "Pages.Dashboard.Whatsapp.NumberComponent"
@@ -192,7 +188,7 @@ const WhatsAppNumbers = ({
           <div className="flex flex-col w-full items-center justify-center">
             <Card className="w-full max-w-lg px-10 pb-10">
               <div className="mb-5">{translations["addNumberCtaLabel"]}</div>
-              <Form
+              {/* <Form
                 fieldsToRender={[
                   {
                     label:
@@ -215,7 +211,7 @@ const WhatsAppNumbers = ({
                 submitLoadingLabel={
                   translations["addNumberForm"]["submitLoadingLabel"]
                 }
-              />
+              /> */}
             </Card>
           </div>
           <div className="h-[1px] border-b mt-10 mb-10" />

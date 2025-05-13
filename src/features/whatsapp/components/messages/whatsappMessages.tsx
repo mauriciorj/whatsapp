@@ -3,14 +3,14 @@
 import { useState } from "react";
 import WhatsAppMessagesLoading from "./messagesLoading";
 import "./style.css";
-import DeleteWhatsappMessageDialog from "./deleteWhatsappMessageDialog";
-import UpdateWhatsappMessageDialog from "./updateWhatsappMessageDialog";
+import WhatsappDeleteMessageDialog from "./whatsappDeleteMessageDialog";
+import WhatsappMessageDialog from "./whatsappMessageDialog";
 import WhatsAppMessageCard from "./whatsappMessageCard";
 import Form from "@/components/form";
 import ContentCard from "@/components/layout/contentCard";
 import AlertBanner from "@/components/ui/alert-banner";
 import useTranslations from "@/hooks/useTranslations";
-import BusinessRules from "@/lib/businessRules";
+// import BusinessRules from "@/lib/businessRules";
 import { deleteDialogSchema, messageSchema } from "@/lib/validations/schemas";
 import createClient from "@/supabase/client";
 import { useForm } from "@tanstack/react-form";
@@ -248,7 +248,7 @@ const WhatsAppMessages = ({
               />
             </div>
           ))}
-        <UpdateWhatsappMessageDialog
+        <WhatsappMessageDialog
           form={editMessageForm}
           isLoading={isFormLoading}
           isModalOpen={isModalEditMessageOpen}
@@ -256,7 +256,7 @@ const WhatsAppMessages = ({
           setIsModalOpen={setIsModalEditMessageOpen}
           translations={translations}
         />
-        <DeleteWhatsappMessageDialog
+        <WhatsappDeleteMessageDialog
           form={deleteMessageForm}
           isLoading={isFormLoading}
           isModalOpen={isModalDeleteMessageOpen}

@@ -6,7 +6,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-const DeleteWhatsappMessageDialog = ({
+const WhatsappDeleteMessageDialog = ({
   isModalOpen,
   setIsModalOpen,
   form,
@@ -59,4 +59,4 @@ const DeleteWhatsappMessageDialog = ({
   );
 };
 
-export default DeleteWhatsappMessageDialog;
+export default WhatsappDeleteMessageDialog;

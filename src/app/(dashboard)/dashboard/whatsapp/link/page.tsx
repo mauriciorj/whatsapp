@@ -1,21 +1,18 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
 import { MessageCircle } from "lucide-react";
 import PageLayout from "@/components/dashboard/pageLayout";
 import AlertBanner from "@/components/ui/alert-banner";
 import getCampaigns from "@/features/campaigns/lib/getCampaigns";
+// import WhatsAppNumbers from "@/features/whatsapp/components/numbers/whatsappNumbers";
 import WhatsAppLink from "@/features/whatsapp/components/whatsappLink";
 import getUserProfile from "@/features/user/lib/getUserProfile";
-import WhatsAppNumbers from "@/features/whatsapp/components/numbers/whatsappNumbers";
 import useTranslations from "@/hooks/useTranslations";
 
 export default function WhatsAppPage() {
   const searchParams = useSearchParams();
   const translations = useTranslations("Pages.Dashboard.Whatsapp");
-
-  const [serverError, setServerError] = useState<boolean | null>(null);
 
   const { userProfile, userProfileIsLoading } = getUserProfile();
 
@@ -56,13 +53,13 @@ export default function WhatsAppPage() {
             campaignId={userCampaigns?.id}
             refetch={refetch}
           />
-          <WhatsAppNumbers
+          {/* <WhatsAppNumbers
+            campaignId={userCampaigns?.id}
             isLoading={userProfileIsLoading}
             numbers={userCampaigns?.wp_numbers}
-            campaignId={userCampaigns?.id}
             refetch={refetch}
             userPlan={userProfile?.plan}
-          />
+          /> */}
         </>
       )}
     </PageLayout>

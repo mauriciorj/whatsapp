@@ -3,7 +3,7 @@
 import Form from "@/components/form";
 import ContentCard from "@/components/layout/contentCard";
 
-const CreateWhatsappMessagesForm = ({
+const WhatsappMessagesForm = ({
   form,
   translations,
   isLoading,
@@ -64,4 +64,4 @@ const CreateWhatsappMessagesForm = ({
   );
 };
 
-export default CreateWhatsappMessagesForm;
+export default WhatsappMessagesForm;

@@ -3,11 +3,11 @@
 import { useSearchParams } from "next/navigation";
 import { MessageCircle } from "lucide-react";
 import PageLayout from "@/components/dashboard/pageLayout";
-import Form from "@/components/form";
-import CreateWhatsappMessagesForm from "@/features/whatsapp/components/messages/createWhatsappMessagesForm";
-import WhatsAppMessages from "@/features/whatsapp/components/messages/whatsappMessages";
-import DraggableWhatsAppMessages from "@/features/whatsapp/components/messages/draggableWhatsAppMessages";
-import AlertBanner from "@/components/ui/alert-banner";
+// import Form from "@/components/form";
+// import WhatsappMessagesForm from "@/features/whatsapp/components/messages/whatsappMessagesForm";
+// import WhatsAppMessages from "@/features/whatsapp/components/messages/whatsappMessages";
+// import DraggableWhatsAppMessages from "@/features/whatsapp/components/messages/draggableWhatsAppMessages";
+// import AlertBanner from "@/components/ui/alert-banner";
 import useTranslations from "@/hooks/useTranslations";
 
 export default function MessagesPage() {
@@ -62,7 +62,7 @@ export default function MessagesPage() {
         </div>
       ) : (
         <>
-          {/* <CreateWhatsappMessagesForm
+          {/* <WhatsappMessagesForm
             form={createWhatsappMessageForm}
             translations={
               createWhatsappMessageFormTranslations
