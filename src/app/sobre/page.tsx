@@ -25,7 +25,7 @@ const breadcrumbItems = [
   },
 ];
 
-export default function Sobre() {
+const Sobre = () => {
   return (
     <PageLayout breadcrumbItems={breadcrumbItems}>
       {aboutSections.map((section, index) => (
@@ -40,4 +40,6 @@ export default function Sobre() {
       ))}
     </PageLayout>
   );
-}
+};
+
+export default Sobre;

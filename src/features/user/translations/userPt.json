@@ -1,0 +1,81 @@
+{
+  "CreateAccountForm": {
+    "alertMessage": "Ops... alguma coisa deu errada. Tente novamente mais tarde",
+    "alertMessageEmailExists": "Esse email já existe, por favor faça o login.",
+    "fields": {
+      "firstName": {
+        "label": "Primeiro Nome *",
+        "name": "firstName",
+        "placeholder": "Seu primeiro nome"
+      },
+      "lastName": {
+        "label": "Último Nome *",
+        "name": "lastName",
+        "placeholder": "Seu último nome"
+      },
+      "email": {
+        "label": "Email *",
+        "name": "email",
+        "placeholder": "seuemail@exemplo.com"
+      },
+      "password": {
+        "label": "Senha *",
+        "name": "password"
+      },
+      "plan": {
+        "label": "Plano *",
+        "name": "plan"
+      }
+    },
+    "forgotPasswordLabel": "Esqueceu sua senha?",
+    "makeLoginLabel": "Lembra da sua senha? Faça o login aqui.",
+    "submitLabel": "Criar conta e ir para o pagamento",
+    "submitLoadingLabel": "Criando conta ...",
+    "successMessage": "Conta criada com sucesso, estamos redirecionando você para o pagamento"
+  },
+  "LoginForm": {
+    "alertMessage": "Email e/ou senha inválidos",
+    "createAccountLinkLabel": "Não tem uma conta? Crie uma agora mesmo.",
+    "forgotPasswordLabel": "Esqueceu sua senha?",
+    "fields": {
+      "email": {
+        "label": "Email *",
+        "name": "email",
+        "placeholder": "seuemail@exemplo.com"
+      },
+      "password": {
+        "label": "Senha *",
+        "name": "password"
+      }
+    },
+    "submitLabel": "Entrar",
+    "submitLoadingLabel": "Entrando..."
+  },
+  "RecoveryPasswordForm": {
+    "alertMessage": "Ops... alguma coisa deu errada. Tente novamente mais tarde",
+    "makeLoginLabel": "Lembra da sua senha? Faça o login aqui.",
+    "fields": {
+      "email": {
+        "label": "Email *",
+        "name": "email",
+        "placeholder": "seuemail@exemplo.com"
+      }
+    },
+    "submitLabel": "Recuperar senha",
+    "submitLoadingLabel": "Processando...",
+    "successMessage": "Por favor verifique o seu e-mail. Enviamos todas as instruções para recuperar a sua senha."
+  },
+  "UpdateAccountForm": {
+    "alertMessage": "Ops... alguma coisa deu errada. Tente novamente mais tarde",
+    "createAccountLinkLabel": "Não tem uma conta? Crie uma agora mesmo.",
+    "errorMessage": "Ops... alguma coisa deu errada. Tente novamente mais tarde",
+    "fields": {
+      "password": {
+        "label": "Senha *",
+        "name": "password"
+      }
+    },
+    "submitLabel": "Atualizar",
+    "submitLoadingLabel": "Atualizando..."
+  }
+}

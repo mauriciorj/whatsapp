@@ -176,7 +176,7 @@ const Pricing = () => {
               key={plan.name}
             >
               {plan.popular && (
-                <div className="absolute w-[80%] text-center -top-4 left-1/2 -translate-x-1/2 bg-primary px-4 py-1 rounded-full text-primary-foreground text-sm font-medium">
+                <div className="absolute w-[80%] text-center -top-4 left-1/2 -translations-x-1/2 bg-primary px-4 py-1 rounded-full text-primary-foreground text-sm font-medium">
                   Most Popular
                 </div>
               )}

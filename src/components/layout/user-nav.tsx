@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { createClient } from "@/db/supabase/client";
+import createClient from "@/db/supabase/client";
 
 const UserNav = () => {
   const router = useRouter();
@@ -18,7 +18,7 @@ const UserNav = () => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleSignOut = async () => {
+  const userhHandleSignOut = async () => {
     setIsLoading(true);
     const supabase = createClient();
     const { error } = await supabase.auth.signOut();
@@ -49,7 +49,7 @@ const UserNav = () => {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="text-destructive cursor-pointer"
-          onClick={() => handleSignOut()}
+          onClick={() => userhHandleSignOut()}
         >
           <LogOut className="mr-2 h-4 w-4" />
           {isLoading ? "Saindo..." : "Log out"}

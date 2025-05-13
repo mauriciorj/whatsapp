@@ -1,5 +1,5 @@
 {
-  "main": {
+  "Main": {
     "dashboard": "Dashboard",
     "login": "Login",
     "signUp": "Começar",
@@ -45,38 +45,6 @@
       "breadcrumbTitle": "Criar Conta",
       "cardTitle": "Primeiro vamos criar a sua conta",
       "cardDescription": "Por favor insira suas informações abaixo",
-      "form": {
-        "alertMessage": "Ops... alguma coisa deu errada. Tente novamente mais tarde",
-        "alertMessageEmailExists": "Esse email já existe, por favor faça o login.",
-        "fields": {
-          "firstName": {
-            "label": "Primeiro Nome *",
-            "name": "firstName",
-            "placeholder": "Seu primeiro nome"
-          },
-          "lastName": {
-            "label": "Último Nome *",
-            "name": "lastName",
-            "placeholder": "Seu último nome"
-          },
-          "email": {
-            "label": "Email *",
-            "name": "email",
-            "placeholder": "seuemail@exemplo.com"
-          },
-          "password": {
-            "label": "Senha *",
-            "name": "password"
-          },
-          "plan": {
-            "label": "Plano *",
-            "name": "plan"
-          }
-        },
-        "submitLabel": "Criar conta e ir para o pagamento",
-        "submitLoadingLabel": "Criando conta ...",
-        "successMessage": "Conta criada com sucesso, estamos redirecionando você para o pagamento"
-      },
       "makeLoginLabel": "Lembra da sua senha? Faça o login aqui."
     },
     "Contact": {
@@ -148,12 +116,12 @@
         }
       },
       "Campaigns": {
-        "addCampaignCtaLabel": "Adicionar Campanha",
+        "createCampaignCtaLabel": "Adicionar Campanha",
         "pageTitle": "Bem vindo, ",
         "campaignCardTitle": "Campanha: ",
-        "editCampaign": "Editar",
-        "createCampaignForm": {
-          "addCampaignLabel": "Adicionar Campanha",
+        "updateCampaign": "Editar",
+        "campaignsAddCampaingForm": {
+          "createCampaignLabel": "Adicionar Campanha",
           "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
           "cancelLabel": "Cancelar",
           "cardTitle": "Para começar, crie um campanha!",
@@ -172,7 +140,7 @@
           "submitLoadingLabel": "Criando campanha...",
           "successMessage": "Campanha criado com sucesso!"
         },
-        "deleteCampaignForm": {
+        "DeleteCampaignForm": {
           "dialog": {
             "title": "Deletar Campanha",
             "alertBannerTitle": "Atenção!",
@@ -194,7 +162,7 @@
           },
           "successMessage": "Campanha deletado com sucesso"
         },
-        "editCampaignForm": {
+        "EditCampaignForm": {
           "dialog": {
             "title": "Editar Campanha",
             "form": {
@@ -210,7 +178,7 @@
                 },
                 "campaignEndDate": {
                   "label": "Data de fim:",
-                  "name": "editCampaign"
+                  "name": "updateCampaign"
                 }
               },
               "submitLabel": "Editar campanha",
@@ -227,12 +195,15 @@
       },
       "Messages": {
         "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+        "noCampaign": "Selecione um campanha para carregar os dados.",
+        "noData": "Você não tem nenhum número cadastrado! Por favor cadastre um número para começar.",
         "pageTitle": "Mensagens",
         "pageDescription": "Gerencie as mensagens da sua campanha",
         "messageListTitle": "Sequência de mensagens"
       },
       "Settings": {
         "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+        "noCampaign": "Selecione um campanha para carregar os dados.",
         "pageTitle": "Configurações da Campanha",
         "pageDescription": "Gerencie todas as configurações da sua campanha"
       },
@@ -268,8 +239,7 @@
             "copyLinkTitle": "Copie o seu link"
           }
         },
-        "MessageComponent": {
-          "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+        "MessageComponent": {          
           "componentDescription": "Essa mensagem será exibida assim que os usuários forem adicionados ao WhatsApp",
           "componentTitle": "Mensagem de Boas Vindas",
           "form": {
@@ -511,44 +481,12 @@
     "Login": {
       "breadcrumbTitle": "Login",
       "cardTitle": "Seja Bem Vindo",
-      "cardDescription": "Insira suas informações para acessar o sistema",
-      "form": {
-        "alertMessage": "Email e/ou senha inválidos",
-        "createAccountLinkLabel": "Não tem uma conta? Crie uma agora mesmo.",
-        "forgotPasswordLabel": "Esqueceu sua senha?",
-        "fields": {
-          "email": {
-            "label": "Email *",
-            "name": "email",
-            "placeholder": "seuemail@exemplo.com"
-          },
-          "password": {
-            "label": "Senha *",
-            "name": "password"
-          }
-        },
-        "submitLabel": "Entrar",
-        "submitLoadingLabel": "Entrando..."
-      }
+      "cardDescription": "Insira suas informações para acessar o sistema"
     },
     "RecoveryPassword": {
       "breadcrumbTitle": "Recuperar Senha",
       "cardTitle": "Crie uma senha nova",
-      "cardDescription": "Por favor insira uma senha nova para acessar o nosso sistema.",
-      "form": {
-        "alertMessage": "Ops... alguma coisa deu errada. Tente novamente mais tarde",
-        "makeLoginLabel": "Lembra da sua senha? Faça o login aqui.",
-        "fields": {
-          "email": {
-            "label": "Email *",
-            "name": "email",
-            "placeholder": "seuemail@exemplo.com"
-          }
-        },
-        "submitLabel": "Recuperar senha",
-        "submitLoadingLabel": "Processando...",
-        "successMessage": "Por favor verifique o seu e-mail. Enviamos todas as instruções para recuperar a sua senha."
-      }
+      "cardDescription": "Por favor insira uma senha nova para acessar o nosso sistema."
     },
     "PaymentSuccess": {
       "breadcrumbTitle": "Status do Pagamento",
@@ -559,19 +497,7 @@
     "UpdatePassword": {
       "breadcrumbTitle": "Atualizar Senha",
       "cardTitle": "Crie uma senha nova",
-      "cardDescription": "Por favor insira uma senha nova para acessar o nosso sistema.",
-      "form": {
-        "createAccountLinkLabel": "Não tem uma conta? Crie uma agora mesmo.",
-        "errorMessage": "Ops... alguma coisa deu errada. Tente novamente mais tarde",
-        "fields": {
-          "password": {
-            "label": "Senha *",
-            "name": "password"
-          }
-        },
-        "submitLabel": "Atualizar",
-        "submitLoadingLabel": "Atualizando..."
-      }
+      "cardDescription": "Por favor insira uma senha nova para acessar o nosso sistema."
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Breadcrumb } from "@/components/ui/breadcrumb";
+import Breadcrumb from "@/components/ui/breadcrumb";
 import PageTitle from "@/components/layout/pageTitle";
 
 export interface BreadcrumbItem {

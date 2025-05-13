@@ -1,9 +1,9 @@
 "use server";
 
 import DeleteWhatsappTracking from "@/db/actions/deleteWhatsappTracking/actions";
-import { createServer } from "@/db/supabase/server";
+import createServer from "@/db/supabase/server";
 
-const DeleteCampaign = async (campaignToBeDeleted: any) => {
+const deleteCampaign = async (campaignToBeDeleted: any) => {
   const { id } = campaignToBeDeleted;
 
   if (!id) return { status: 400 };
@@ -17,4 +17,4 @@ const DeleteCampaign = async (campaignToBeDeleted: any) => {
   return response;
 };
 
-export default DeleteCampaign;
+export default deleteCampaign;

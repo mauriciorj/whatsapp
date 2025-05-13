@@ -3,13 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-export default function Email({
-  field,
-  fieldToRender,
-  isLoading,
-  onBlur,
-  onChange,
-}: any) {
+const Email = ({ field, fieldToRender, isLoading, onBlur, onChange }: any) => {
   return (
     <>
       <Label htmlFor={field.name}>{fieldToRender.label}</Label>
@@ -26,4 +20,6 @@ export default function Email({
       />
     </>
   );
-}
+};
+
+export default Email;

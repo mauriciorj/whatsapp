@@ -18,7 +18,7 @@ import Password from "./password";
 import Text from "./text";
 import FileUpload from "./file";
 
-export default function Form({
+const Form = ({
   cancelButtonLabel,
   createAccountLinkLabel,
   fieldsToRender,
@@ -32,7 +32,7 @@ export default function Form({
   showPasswordRules,
   submitLabel,
   submitLoadingLabel,
-}: any) {
+}: any) => {
   const [startDate, setStartDate] = useState(new Date());
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
 
@@ -268,4 +268,6 @@ export default function Form({
       )}
     </>
   );
-}
+};
+
+export default Form;

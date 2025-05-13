@@ -1,16 +1,43 @@
 import { relations } from "drizzle-orm/relations";
-import { company, whatsapp, user_profile, usersInAuth, campaigns, whatsapp_tracking, whatsapp_duplicate } from "./schema";
+import { campaigns, campaign_messages, company, whatsapp, user_profile, usersInAuth, whatsapp_tracking } from "./schema";
 
-export const whatsappRelations = relations(whatsapp, ({one}) => ({
+export const campaign_messagesRelations = relations(campaign_messages, ({one}) => ({
+	campaign: one(campaigns, {
+		fields: [campaign_messages.campaign_id],
+		references: [campaigns.id]
+	}),
 	company: one(company, {
-		fields: [whatsapp.company_id],
+		fields: [campaign_messages.company_id],
+		references: [company.id]
+	}),
+}));
+
+export const campaignsRelations = relations(campaigns, ({one, many}) => ({
+	campaign_messages: many(campaign_messages),
+	whatsapps: many(whatsapp),
+	whatsapp_trackings: many(whatsapp_tracking),
+	company: one(company, {
+		fields: [campaigns.company_id],
 		references: [company.id]
 	}),
 }));
 
 export const companyRelations = relations(company, ({many}) => ({
+	campaign_messages: many(campaign_messages),
 	whatsapps: many(whatsapp),
 	user_profiles: many(user_profile),
+	campaigns: many(campaigns),
+}));
+
+export const whatsappRelations = relations(whatsapp, ({one}) => ({
+	campaign: one(campaigns, {
+		fields: [whatsapp.campaign_id],
+		references: [campaigns.id]
+	}),
+	company: one(company, {
+		fields: [whatsapp.company_id],
+		references: [company.id]
+	}),
 }));
 
 export const user_profileRelations = relations(user_profile, ({one, many}) => ({
@@ -22,22 +49,11 @@ export const user_profileRelations = relations(user_profile, ({one, many}) => ({
 		fields: [user_profile.user_id],
 		references: [usersInAuth.id]
 	}),
-	campaigns: many(campaigns),
 	whatsapp_trackings: many(whatsapp_tracking),
-	whatsapp_duplicates: many(whatsapp_duplicate),
 }));
 
 export const usersInAuthRelations = relations(usersInAuth, ({many}) => ({
 	user_profiles: many(user_profile),
-}));
-
-export const campaignsRelations = relations(campaigns, ({one, many}) => ({
-	user_profile: one(user_profile, {
-		fields: [campaigns.user_id],
-		references: [user_profile.user_id]
-	}),
-	whatsapp_trackings: many(whatsapp_tracking),
-	whatsapp_duplicates: many(whatsapp_duplicate),
 }));
 
 export const whatsapp_trackingRelations = relations(whatsapp_tracking, ({one}) => ({
@@ -47,17 +63,6 @@ export const whatsapp_trackingRelations = relations(whatsapp_tracking, ({one}) =
 	}),
 	user_profile: one(user_profile, {
 		fields: [whatsapp_tracking.user_id],
-		references: [user_profile.user_id]
-	}),
-}));
-
-export const whatsapp_duplicateRelations = relations(whatsapp_duplicate, ({one}) => ({
-	campaign: one(campaigns, {
-		fields: [whatsapp_duplicate.campaign_id],
-		references: [campaigns.id]
-	}),
-	user_profile: one(user_profile, {
-		fields: [whatsapp_duplicate.user_id],
 		references: [user_profile.user_id]
 	}),
 }));

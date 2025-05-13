@@ -11,13 +11,13 @@ interface FileUploadProps {
   onChange: (files: FileList | null) => void;
 }
 
-export default function FileUpload({
+const FileUpload = ({
   field,
   fieldToRender,
   isLoading,
   onBlur,
   onChange,
-}: FileUploadProps) {
+}: FileUploadProps) => {
   const [fileName, setFileName] = useState<string>("");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,9 +30,7 @@ export default function FileUpload({
 
   return (
     <div className="w-full">
-      <Label htmlFor={field.name}>
-        {fieldToRender.label}
-      </Label>
+      <Label htmlFor={field.name}>{fieldToRender.label}</Label>
       <div className="mt-2 flex items-center gap-2">
         <input
           id={`${field.name}-input`}
@@ -47,7 +45,9 @@ export default function FileUpload({
           type="button"
           variant="outline"
           disabled={isLoading}
-          onClick={() => document.getElementById(`${field.name}-input`)?.click()}
+          onClick={() =>
+            document.getElementById(`${field.name}-input`)?.click()
+          }
         >
           <UploadCloud className="h-4 w-4 mr-2" />
           {fieldToRender.buttonText || "Select File"}
@@ -60,4 +60,6 @@ export default function FileUpload({
       </div>
     </div>
   );
-} 
+};
+
+export default FileUpload;

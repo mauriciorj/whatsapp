@@ -1,67 +1,81 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { PanelsTopLeft, Plus } from "lucide-react";
+import { PanelsTopLeft } from "lucide-react";
 import PageLayout from "@/components/dashboard/pageLayout";
-import CampaignsCard from "@/components/dashboard/campaigns/campaignsCard";
-import CampaignsDeleteDialog from "@/components/dashboard/campaigns/campaignsDeleteDialog";
-import CampaignsEditDialog from "@/components/dashboard/campaigns/campaignsEditDialog";
-import CampaignsLoadingCard from "@/components/dashboard/campaigns/campaignsLoadingCard";
-import Form from "@/components/form";
 import ContentCard from "@/components/layout/contentCard";
-import { AlertBanner } from "@/components/ui/alert-banner";
-import { Card } from "@/components/ui/card";
-import { useUserProfile } from "@/hooks/useUserProfile";
-import { useCampaigns } from "@/hooks/useCampaigns";
+import AlertBanner from "@/components/ui/alert-banner";
+import CampaignsCard from "@/features/campaigns/components/campaignsCard";
+import CreateCampaignsForm from "@/features/campaigns/components/createCampaignsForm";
+import DeleteCampaignsDialog from "@/features/campaigns/components/deleteCampaignsDialog";
+import UpdateCampaignsDialog from "@/features/campaigns/components/updateCampaignsDialog";
+import CampaignsLoadingCard from "@/features/campaigns/components/campaignsLoadingCard";
+import createCampaign from "@/features/campaigns/lib/createCampaign";
+import deleteCampaign from "@/features/campaigns/lib/deleteCampaign";
+import getCampaigns from "@/features/campaigns/lib/getCampaigns";
+import updateCampaign from "@/features/campaigns/lib/updateCampaign";
+import getUserProfile from "@/features/user/lib/getUserProfile";
 import useTranslations from "@/hooks/useTranslations";
 
 export default function CampaignsPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const translate = useTranslations("Pages.Dashboard.Campaigns");
+  const translations = useTranslations("Pages.Dashboard.Campaigns");
 
   const campaignName = searchParams?.get("campaign") || null;
 
-  const { data: user, isLoading: isUserProfileDataLoading } = useUserProfile();
+  const { userProfile, userProfileIsLoading } = getUserProfile();
 
   const {
-    campaignToDialog,
-    createCampaignForm,
     data: userCampaigns,
-    editCampaignForm,
-    deleteCampaignForm,
-    errorMessage,
-    isLoading: isCampaignsLoading,
-    isEditModalOpen,
-    isDeleteModalOpen,
-    setCampaignToDialog,
-    setIsDeleteModalOpen,
-    setIsEditModalOpen,
-    setSuccessMessage,
-    successMessage,
-  } = useCampaigns({ campaignName, translate });
+    isLoading: isLoadingGetCampaigns,
+    errorMessage: errorMessageGetCampaigns,
+    refetch,
+  } = getCampaigns();
+
+  const {
+    errorMessage: createCampaignErrorMessage,
+    form: createCampaignForm,
+    formTranslation: createCampaignTranslations,
+    successMessage: createCampaignSuccessMessage,
+  } = createCampaign();
+
+  const {
+    deleteCampaignToDialog,
+    errorMessage: deleteCampaignErrorMessage,
+    form: deleteCampaignForm,
+    formTranslation: deleteCampaignsTranslation,
+    isDeleteCampaignModalOpen,
+    setDeleteCampaignToDialog,
+    setIsDeleteCampaignModalOpen,
+    successMessage: deleteCampaignSuccessMessage,
+  } = deleteCampaign();
+
+  const {
+    errorMessage: editCampaignErrorMessage,
+    form: updateCampaignForm,
+    formTranslation: updateCampaignTranslation,
+    isUpdateCampaignModalOpen,
+    updateCampaignToDialog,
+    setIsUpdateCampaignModalOpen,
+    setUpdateCampaignToDialog,
+    successMessage: updateCampaignSuccessMessage,
+  } = updateCampaign();
 
   const onClickHandler = ({ campaign }: { campaign: string }) => {
     router.push(`/dashboard/reports?campaign=${campaign}`);
   };
 
   const hasCampaign = Boolean(userCampaigns?.length > 0);
-  // const maxCampaignsNumbers = user?.plan
-  //   ? BusinessRules[user?.plan]?.campaigns
-  //   : 0;
-  // const canAddMoreCampaigns = Boolean(
-  //   userCampaigns?.length > 0 || userCampaigns?.length < maxCampaignsNumbers
-  // );
-  const canAddMoreCampaigns = true;
 
   const getCardTitle = hasCampaign
-    ? translate["createCampaignForm"]["cardTitleTwo"]
-    : translate["createCampaignForm"]["cardTitle"];
+    ? createCampaignTranslations["cardTitleTwo"]
+    : createCampaignTranslations["cardTitle"];
 
   const getCardDescription = hasCampaign
-    ? translate["createCampaignForm"]["cardDescriptionTwo"]
-    : translate["createCampaignForm"]["cardDescription"];
+    ? createCampaignTranslations["cardDescriptionTwo"]
+    : createCampaignTranslations["cardDescription"];
 
   const breadcrumbItems = [
     { href: "/dashboard/campaigns", label: "Campanhas", icon: PanelsTopLeft },
@@ -70,114 +84,82 @@ export default function CampaignsPage() {
   return (
     <PageLayout
       breadcrumbItems={breadcrumbItems}
-      isLoading={isUserProfileDataLoading}
+      isLoading={userProfileIsLoading}
       pageTitle={
-        user?.first_name
-          ? `${translate["pageTitle"]} ${user?.first_name}`
-          : translate["pageTitle"]
+        userProfile?.first_name
+          ? `${translations["pageTitle"]} ${userProfile?.first_name}`
+          : translations["pageTitle"]
       }
     >
-      {errorMessage && (
-        <div className="container mb-10">
-          <AlertBanner message={errorMessage} type="error" />
-        </div>
-      )}
-      {successMessage && (
-        <div className="container mb-10">
-          <AlertBanner message={successMessage} type="success" />
-        </div>
-      )}
-      {isCampaignsLoading || isUserProfileDataLoading ? (
+      <div className="container mb-10">
+        <AlertBanner
+          message={
+            errorMessageGetCampaigns ||
+            createCampaignErrorMessage ||
+            deleteCampaignErrorMessage ||
+            editCampaignErrorMessage
+          }
+          type="error"
+        />
+      </div>
+      <div className="container mb-10">
+        <AlertBanner
+          message={
+            createCampaignSuccessMessage ||
+            deleteCampaignSuccessMessage ||
+            updateCampaignSuccessMessage
+          }
+          type="success"
+        />
+      </div>
+      {isLoadingGetCampaigns || userProfileIsLoading ? (
         <CampaignsLoadingCard />
       ) : (
         <ContentCard description={getCardDescription} title={getCardTitle}>
           <div className="flex flex-col w-full items-center justify-center">
-            <Card className="w-full max-w-lg px-10 pb-10">
-              {!isCampaignsLoading && !isUserProfileDataLoading && (
+            <ContentCard
+              className="w-full max-w-lg px-10 pb-10"
+              title={createCampaignTranslations["createCampaignLabel"]}
+            >
+              {!isLoadingGetCampaigns && !userProfileIsLoading && (
                 <div className="mt-10">
-                  <Form
-                    // cancelButtonLabel={
-                    //   translate["createCampaignForm"]["cancelLabel"]
-                    // }
-                    fieldsToRender={[
-                      {
-                        countChar: true,
-                        countCharMaxChar: 50,
-                        label:
-                          translate["createCampaignForm"]["fields"]["campaign"][
-                            "label"
-                          ],
-                        maxLength: 50,
-                        name: translate["createCampaignForm"]["fields"][
-                          "campaign"
-                        ]["name"],
-                        placeholder:
-                          translate["createCampaignForm"]["fields"]["campaign"][
-                            "placeholder"
-                          ],
-                        type: "text",
-                      },
-                    ]}
+                  <CreateCampaignsForm
                     form={createCampaignForm}
-                    // onCancel={() => {
-                    //   createCampaignForm.reset();
-                    //   setIsOpenForm(false);
-                    // }}
-                    submitLabel={translate["createCampaignForm"]["submitLabel"]}
-                    submitLoadingLabel={
-                      translate["createCampaignForm"]["submitLoadingLabel"]
-                    }
+                    translations={createCampaignTranslations}
                   />
                 </div>
               )}
-            </Card>
+            </ContentCard>
           </div>
           <div className="h-[1px] border-b mt-10 mb-10" />
-          {/* <div className="flex flex-row w-full justify-end mt-8">
-            {canAddMoreCampaigns && hasCampaign && (
-              <Button
-                onClick={() => {
-                  setIsOpenForm(true);
-                  setSuccessMessage(null);
-                }}
-                variant="outline"
-              >
-                <div className="flex flex-row items-center">
-                  <span>
-                    {translate["createCampaignForm"]["addCampaignLabel"]}
-                  </span>{" "}
-                  <Plus className="h-4 w-4 ml-2" />
-                </div>
-              </Button>
-            )}
-          </div> */}
           {hasCampaign && (
             <CampaignsCard
               onClickHandler={onClickHandler}
-              campaignCardTitle={translate["campaignCardTitle"]}
+              campaignCardTitle={translations["campaignCardTitle"]}
               campaignName={campaignName}
-              setIsDeleteModalOpen={setIsDeleteModalOpen}
-              setIsEditModalOpen={setIsEditModalOpen}
-              setCampaignToDialog={setCampaignToDialog}
-              translate={translate}
+              setIsDeleteCampaignModalOpen={setIsDeleteCampaignModalOpen}
+              setIsUpdateCampaignModalOpen={setIsUpdateCampaignModalOpen}
+              setUpdateCampaignToDialog={setUpdateCampaignToDialog}
+              setDeleteCampaignToDialog={setDeleteCampaignToDialog}
+              translations={translations}
               userCampaigns={userCampaigns}
             />
           )}
         </ContentCard>
       )}
-      <CampaignsDeleteDialog
+      <DeleteCampaignsDialog
         form={deleteCampaignForm}
-        isModalOpen={isDeleteModalOpen}
-        campaignToDialog={campaignToDialog}
-        setIsModalOpen={setIsDeleteModalOpen}
-        translate={translate["deleteCampaignForm"]["dialog"]}
+        isModalOpen={isDeleteCampaignModalOpen}
+        campaignToDialog={deleteCampaignToDialog}
+        setIsModalOpen={setIsDeleteCampaignModalOpen}
+        translations={deleteCampaignsTranslation["dialog"]}
       />
-      <CampaignsEditDialog
-        form={editCampaignForm}
-        isModalOpen={isEditModalOpen}
-        campaignToDialog={campaignToDialog}
-        setIsModalOpen={setIsEditModalOpen}
-        translate={translate["editCampaignForm"]["dialog"]}
+      <UpdateCampaignsDialog
+        form={updateCampaignForm}
+        isModalOpen={isUpdateCampaignModalOpen}
+        campaignToDialog={updateCampaignToDialog}
+        setIsModalOpen={setIsUpdateCampaignModalOpen}
+        translations={updateCampaignTranslation["dialog"]}
       />
     </PageLayout>
   );

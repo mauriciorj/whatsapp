@@ -3,13 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-export default function Text({
-  field,
-  fieldToRender,
-  isLoading,
-  onBlur,
-  onChange,
-}: any) {
+const Text = ({ field, fieldToRender, isLoading, onBlur, onChange }: any) => {
   // const [isOnFocus, setIsOnFocus] = useState<boolean>(false);
   // const countChar = Boolean(
   //   isOnFocus && fieldToRender.countChar && fieldToRender.countCharMaxChar
@@ -45,4 +39,6 @@ export default function Text({
       )}
     </>
   );
-}
+};
+
+export default Text;

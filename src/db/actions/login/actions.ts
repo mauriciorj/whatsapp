@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { createServer } from "@/db/supabase/server";
+import createServer from "@/db/supabase/server";
 
 const LoginUser = async (formData: { email: string; password: string }) => {
   const supabase = await createServer();

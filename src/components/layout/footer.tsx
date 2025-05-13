@@ -5,7 +5,7 @@ import FooterSections from "./footerSections";
 import useTranslations from "@/hooks/useTranslations";
 
 const Footer = () => {
-  const translate = useTranslations("main");
+  const translations = useTranslations("Main");
   return (
     <footer className="bg-secondary py-16">
       <div className="container mx-auto px-4">
@@ -16,16 +16,16 @@ const Footer = () => {
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
           <FooterSections
-            title={translate["footer"]["product"]["title"]}
-            links={translate["footer"]["product"]["links"]}
+            title={translations["footer"]["product"]["title"]}
+            links={translations["footer"]["product"]["links"]}
           />
           <FooterSections
-            title={translate["footer"]["company"]["title"]}
-            links={translate["footer"]["company"]["links"]}
+            title={translations["footer"]["company"]["title"]}
+            links={translations["footer"]["company"]["links"]}
           />
           <FooterSections
-            title={translate["footer"]["support"]["title"]}
-            links={translate["footer"]["support"]["links"]}
+            title={translations["footer"]["support"]["title"]}
+            links={translations["footer"]["support"]["links"]}
           />
         </div>
       </div>

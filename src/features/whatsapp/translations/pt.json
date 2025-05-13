@@ -1,0 +1,32 @@
+{
+  "AddPhoneNameForm": {
+    "whatsappAlreadyExist": "Esse nome de Whatsapp já existe.",
+    "whatsappSocketError": "Ops... algum erro ocorreu ao tentar iniciar uma nova sessão de Whatsapp. Por favor tente novamente ou entre em contato com o suporte."
+  },
+  "CreateWhatsappMessagesForm": {
+    "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+    "description": "Essa nova mensagem será adicionada ao final ",
+    "form": {
+      "cancelLabel": "Cancelar",
+      "fields": {
+        "attachmentFile": {
+          "label": "Adicionar Arquivo",
+          "name": "attachmentFile",
+          "Procurar arquivo": "Procurar arquivo"
+        },
+        "messageContent": {
+          "label": "Mensagem",
+          "name": "messageContent"
+        },
+        "messageTitle": {
+          "label": "Título",
+          "name": "messageTitle"
+        }
+      },
+      "submitLabel": "Salvar Mensagem",
+      "submitLoadingLabel": "Salvando mensagem...",
+      "title": "Crie uma mensagem"
+    },
+    "successMessage": "Mensagem salva com sucesso"
+  }
+}

@@ -83,7 +83,7 @@ const breadcrumbItems = [
   },
 ];
 
-export default function PoliticaDePrivacidade() {
+const PoliticaDePrivacidade = () => {
   return (
     <PageLayout breadcrumbItems={breadcrumbItems}>
       <section className="mb-10 ml-0 md:ml-[150px]">
@@ -103,4 +103,6 @@ export default function PoliticaDePrivacidade() {
       ))}
     </PageLayout>
   );
-}
+};
+
+export default PoliticaDePrivacidade;

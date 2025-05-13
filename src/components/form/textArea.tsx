@@ -2,13 +2,13 @@
 
 import { Textarea } from "@/components/ui/textarea";
 
-export default function TextArea({
+const TextArea = ({
   field,
   fieldToRender,
   isLoading,
   onBlur,
   onChange,
-}: any) {
+}: any) => {
   const countChar = Boolean(
     fieldToRender.countChar && fieldToRender.countCharMaxChar
   );
@@ -34,4 +34,6 @@ export default function TextArea({
       )}
     </>
   );
-}
+};
+
+export default TextArea;

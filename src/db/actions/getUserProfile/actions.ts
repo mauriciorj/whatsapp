@@ -1,6 +1,6 @@
 "use server";
 
-import { createServer } from "@/supabase/server";
+import createServer from "@/supabase/server";
 
 const GetUserProfile = async () => {
   const supabase = await createServer();

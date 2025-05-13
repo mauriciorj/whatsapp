@@ -15,12 +15,12 @@ import {
   Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useCampaigns } from "@/hooks/useCampaigns";
+import getCampaigns from "@/features/campaigns/lib/getCampaigns";
 import useTranslations from "@/hooks/useTranslations";
 import { cn } from "@/lib/utils";
 
 const Sidebar = () => {
-  const translate = useTranslations("main.sideBar");
+  const translations = useTranslations("Main.sideBar");
 
   const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
@@ -29,12 +29,8 @@ const Sidebar = () => {
   const isInsideDashboard = Boolean(pathname.split("/")[1] === "dashboard");
 
   const params = new URLSearchParams(searchParams.toString());
-  const campaignName = searchParams.get("campaign");
 
-  const { data: userCampaigns } = useCampaigns({
-    campaignName,
-    translate: null,
-  });
+  const { data: userCampaigns } = getCampaigns();
 
   if (!isInsideDashboard) return null;
 
@@ -44,18 +40,20 @@ const Sidebar = () => {
         className="fixed top-3 px-7 right-10 md:hidden z-50"
         onClick={() => setIsOpen(!isOpen)}
       >
-        {translate["openCloseCtaLabel"]}
+        {translations["openCloseCtaLabel"]}
       </Button>
 
       <div
         className={cn(
-          "fixed md:relative md:min-h-screen left-0 top-16 md:top-0 h-full w-64 border-r p-6 transition-transform duration-200 ease-in-out md:translate-x-0 z-10 bg-background",
-          isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+          "fixed md:relative md:min-h-screen left-0 top-16 md:top-0 h-full w-64 border-r p-6 transition-transform duration-200 ease-in-out md:translations-x-0 z-10 bg-background",
+          isOpen
+            ? "translations-x-0"
+            : "-translations-x-full md:translations-x-0"
         )}
       >
         <div className="space-y-4">
           <div>
-            <h2 className="text-xl font-bold">{translate["title"]}</h2>
+            <h2 className="text-xl font-bold">{translations["title"]}</h2>
           </div>
           <nav className="space-y-2">
             <Link
@@ -68,7 +66,7 @@ const Sidebar = () => {
               onClick={() => setIsOpen(false)}
             >
               <PanelsTopLeft className="min-h-5 max-h-5 min-w-5 max-w-5" />
-              {translate["campaigns"]}
+              {translations["campaigns"]}
             </Link>
             {Boolean(userCampaigns?.length) && (
               <>
@@ -82,7 +80,7 @@ const Sidebar = () => {
                   onClick={() => setIsOpen(false)}
                 >
                   <ChartSpline className="min-h-5 max-h-5 min-w-5 max-w-5" />
-                  {translate["reports"]}
+                  {translations["reports"]}
                 </Link>
                 <Link
                   className={cn(
@@ -95,7 +93,7 @@ const Sidebar = () => {
                   prefetch
                 >
                   <MessageCircle className="min-h-5 max-h-5 min-w-5 max-w-5" />
-                  {translate["whatsapp"]}
+                  {translations["whatsapp"]}
                 </Link>
                 <Link
                   className={cn(
@@ -108,7 +106,7 @@ const Sidebar = () => {
                   prefetch
                 >
                   <Rotate3d className="min-h-5 max-h-5 min-w-5 max-w-5" />
-                  {translate["phoneNumbers"]}
+                  {translations["phoneNumbers"]}
                 </Link>
                 <Link
                   className={cn(
@@ -121,7 +119,7 @@ const Sidebar = () => {
                   prefetch
                 >
                   <MessageCircleMore className="min-h-5 max-h-5 min-w-5 max-w-5" />
-                  {translate["messages"]}
+                  {translations["messages"]}
                 </Link>
                 <Link
                   className={cn(
@@ -134,20 +132,20 @@ const Sidebar = () => {
                   prefetch
                 >
                   <Users className="min-h-5 max-h-5 min-w-5 max-w-5" />
-                  {translate["groups"]}
+                  {translations["groups"]}
                 </Link>
                 <Link
                   className={cn(
-                    "flex items-center gap-3 pl-10 pr-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors",
-                    pathname === "/dashboard/whatsapp/settings" &&
+                    "flex items-center gap-3 pr-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors",
+                    pathname === "/dashboard/settings" &&
                       "bg-secondary text-foreground"
                   )}
-                  href={`/dashboard/whatsapp/settings?${params.toString()}`}
+                  href={`/dashboard/settings?${params.toString()}`}
                   onClick={() => setIsOpen(false)}
                   prefetch
                 >
                   <Settings className="min-h-5 max-h-5 min-w-5 max-w-5" />
-                  {translate["settings"]}
+                  {translations["settings"]}
                 </Link>
               </>
             )}
@@ -161,7 +159,7 @@ const Sidebar = () => {
               onClick={() => setIsOpen(false)}
             >
               <HelpCircle className="min-h-5 max-h-5 min-w-5 max-w-5" />
-              {translate["help"]}
+              {translations["help"]}
             </Link>
           </nav>
         </div>

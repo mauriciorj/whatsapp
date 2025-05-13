@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 import { geolocation } from "@vercel/functions";
 import { type NextRequest, NextResponse, userAgent } from "next/server";
 
-import { createServer } from "@/db/supabase/server";
+import createServer from "@/db/supabase/server";
 
 type whatsappApp = {
   id: string;

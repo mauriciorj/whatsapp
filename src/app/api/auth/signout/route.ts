@@ -1,4 +1,4 @@
-import { createServer } from '@/db/supabase/server';
+import createServer from '@/db/supabase/server';
 import { revalidatePath } from 'next/cache';
 import { type NextRequest, NextResponse } from 'next/server';
 

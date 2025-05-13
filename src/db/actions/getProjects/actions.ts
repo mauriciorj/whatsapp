@@ -1,6 +1,6 @@
 "use server";
 
-import { createServer } from "@/supabase/server";
+import createServer from "@/supabase/server";
 
 const GetUserCampaigns = async ({ userId }: { userId?: string }) => {
   if (!userId) return null;

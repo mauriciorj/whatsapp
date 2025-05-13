@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import PageTitle from "@/components/layout/pageTitle";
-import { Breadcrumb } from "@/components/ui/breadcrumb";
+import Breadcrumb from "@/components/ui/breadcrumb";
 import {
   Select,
   SelectContent,
@@ -10,9 +10,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Skeleton } from "@/components/ui/skeleton";
+import Skeleton from "@/components/ui/skeleton";
 import { Tables } from "@/db/types/database.types";
-import { useCampaigns } from "@/hooks/useCampaigns";
+import getCampaigns from "@/features/campaigns/lib/getCampaigns";
 
 export interface BreadcrumbItem {
   href: string;
@@ -41,10 +41,8 @@ const PageLayout = ({
 
   const campaignName = searchParams.get("campaign");
 
-  const { data: userCampaigns, isLoading: isCampaignsLoading } = useCampaigns({
-    campaignName,
-    translate: null,
-  });
+  const { data: userCampaigns, isLoading: isLoadingGetCampaigns } =
+    getCampaigns();
 
   return (
     <>
@@ -52,7 +50,7 @@ const PageLayout = ({
         <Breadcrumb items={breadcrumbItems} />
       </div>
       <div className="container mb-10 md:pl-10">
-        {isLoading || isCampaignsLoading ? (
+        {isLoading || isLoadingGetCampaigns ? (
           <Skeleton className="h-10 w-72 mb-4" />
         ) : (
           <div className="flex flex-col-reverse md:flex-row justify-between">

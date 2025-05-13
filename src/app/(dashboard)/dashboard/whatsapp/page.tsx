@@ -4,12 +4,12 @@ import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { MessageCircle } from "lucide-react";
 import PageLayout from "@/components/dashboard/pageLayout";
-import { AlertBanner } from "@/components/ui/alert-banner";
+import AlertBanner from "@/components/ui/alert-banner";
 import useTranslations from "@/hooks/useTranslations";
 
-const WhatsAppPage = () => {
+export default function WhatsAppPage() {
   const searchParams = useSearchParams();
-  const translate = useTranslations("Pages.Dashboard.Whatsapp");
+  const translations = useTranslations("Pages.Dashboard.Whatsapp");
 
   const [serverError, setServerError] = useState<boolean | null>(null);
 
@@ -22,18 +22,18 @@ const WhatsAppPage = () => {
   return (
     <PageLayout
       breadcrumbItems={breadcrumbItems}
-      pageTitle={translate["pageTitle"]}
-      pageDescription={translate["pageDescription"]}
+      pageTitle={translations["pageTitle"]}
+      pageDescription={translations["pageDescription"]}
     >
-      {serverError && (
-        <div className="container mb-10">
-          <AlertBanner message={translate["alertMessage"]} type="error" />
-        </div>
-      )}
+      <div className="container mb-10">
+        <AlertBanner message={translations["alertMessage"]} type="error" />
+      </div>
       {!campaignName ? (
         <div className="w-full flex flex-col items-center justify-center h-[100px]">
           <div className="border rounded-md py-5 px-7 text-center">
-            {!campaignName ? translate["noCampaign"] : translate["noData"]}
+            {!campaignName
+              ? translations["noCampaign"]
+              : translations["noData"]}
           </div>
         </div>
       ) : (
@@ -41,6 +41,4 @@ const WhatsAppPage = () => {
       )}
     </PageLayout>
   );
-};
-
-export default WhatsAppPage;
+}

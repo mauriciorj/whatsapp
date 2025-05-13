@@ -1,49 +1,20 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
 import { MessageCircle } from "lucide-react";
 import PageLayout from "@/components/dashboard/pageLayout";
-import { WhatsAppMessages } from "@/components/dashboard/whatsapp/messages/whatsappMessages";
-import DraggableWhatsAppMessages from "@/components/dashboard/whatsapp/messages/draggableWhatsAppMessages";
-import { AlertBanner } from "@/components/ui/alert-banner";
+import Form from "@/components/form";
+import CreateWhatsappMessagesForm from "@/features/whatsapp/components/messages/createWhatsappMessagesForm";
+import WhatsAppMessages from "@/features/whatsapp/components/messages/whatsappMessages";
+import DraggableWhatsAppMessages from "@/features/whatsapp/components/messages/draggableWhatsAppMessages";
+import AlertBanner from "@/components/ui/alert-banner";
 import useTranslations from "@/hooks/useTranslations";
-import { createClient } from "@/supabase/client";
-import { useQuery, useMutation } from "@tanstack/react-query";
-import GetUserProfile from "@/actions/getUserProfile/actions";
 
-const MessagesPage = () => {
+export default function MessagesPage() {
   const searchParams = useSearchParams();
-  const translate = useTranslations("Pages.Dashboard.Messages");
-
-  const [serverError, setServerError] = useState<boolean | null>(null);
-
-  const { data: userProfileData, isLoading: userProfileIsLoading } = useQuery({
-    queryKey: ["userProfile"],
-    queryFn: async () => GetUserProfile(),
-  });
+  const translations = useTranslations("Pages.Dashboard.Messages");
 
   const campaignName = decodeURIComponent(searchParams.get("campaign") || "");
-
-  const { data: userCampaigns, refetch } = useQuery({
-    queryKey: ["userCampaigns", campaignName],
-    queryFn: async () => {
-      const supabase = await createClient();
-
-      const { data, error }: any = await supabase
-        .from("campaigns")
-        .select()
-        .eq("user_id", userProfileData?.user_id)
-        .eq("title", campaignName);
-
-      if (error) {
-        setServerError(true);
-      }
-
-      return data?.[0];
-    },
-    enabled: Boolean(!!userProfileData?.user_id && !!campaignName),
-  }) as any;
 
   // const reorderMutation = useMutation({
   //   mutationFn: async (reorderedMessages: any[]) => {
@@ -75,42 +46,46 @@ const MessagesPage = () => {
   return (
     <PageLayout
       breadcrumbItems={breadcrumbItems}
-      pageTitle={translate["pageTitle"]}
-      pageDescription={translate["pageDescription"]}
+      pageTitle={translations["pageTitle"]}
+      pageDescription={translations["pageDescription"]}
     >
-      {serverError && (
-        <div className="container mb-10">
-          <AlertBanner message={translate["alertMessage"]} type="error" />
-        </div>
-      )}
+      <div className="container mb-10">
+        {/* <AlertBanner message={errorMessage} type="error" /> */}
+      </div>
       {!campaignName ? (
         <div className="w-full flex flex-col items-center justify-center h-[100px]">
           <div className="border rounded-md py-5 px-7 text-center">
-            {!campaignName ? translate["noCampaign"] : translate["noData"]}
+            {!campaignName
+              ? translations["noCampaign"]
+              : translations["noData"]}
           </div>
         </div>
       ) : (
         <>
-          <WhatsAppMessages
-            isLoading={userProfileIsLoading}
-            messages={userCampaigns?.wp_messages || []}
-            campaignId={userCampaigns?.id}
-            refetch={refetch}
-            userPlan={userProfileData?.plan}
-          />
-          {userCampaigns?.wp_messages?.length > 0 && (
-            <div className="mt-6">
-              <DraggableWhatsAppMessages
-                messages={userCampaigns?.wp_messages}
-                // onReorder={handleMessagesReorder}
-                title={translate["messageListTitle"]}
-              />
-            </div>
-          )}
+          {/* <CreateWhatsappMessagesForm
+            form={createWhatsappMessageForm}
+            translations={
+              createWhatsappMessageFormTranslations
+            }
+            isLoading={isLoading}
+          /> */}
+          {/* <WhatsAppMessages
+              isLoading={isLoading}
+              messages={userCampaigns?.wp_messages || []}
+              campaignId={userCampaigns?.id}
+              refetch={refetch}
+            />
+            {userCampaigns?.wp_messages?.length > 0 && (
+              <div className="mt-6">
+                <DraggableWhatsAppMessages
+                  messages={userCampaigns?.wp_messages}
+                  // onReorder={handleMessagesReorder}
+                  title={translations["messageListTitle"]}
+                />
+              </div>
+            )} */}
         </>
       )}
     </PageLayout>
   );
-};
-
-export default MessagesPage;
+}

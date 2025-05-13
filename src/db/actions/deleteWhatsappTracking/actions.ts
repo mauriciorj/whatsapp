@@ -1,6 +1,6 @@
 "use server";
 
-import { createServer } from "@/db/supabase/server";
+import createServer from "@/db/supabase/server";
 
 const DeleteWhatsappTracking = async (id: string) => {
   const supabase = await createServer();

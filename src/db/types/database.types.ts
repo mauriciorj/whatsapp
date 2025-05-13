@@ -9,6 +9,57 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      campaign_messages: {
+        Row: {
+          campaign_id: string | null
+          company_id: string | null
+          content: string | null
+          created_at: string
+          file_url: string | null
+          id: number
+          order_index: number | null
+          type: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          campaign_id?: string | null
+          company_id?: string | null
+          content?: string | null
+          created_at?: string
+          file_url?: string | null
+          id?: number
+          order_index?: number | null
+          type?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          campaign_id?: string | null
+          company_id?: string | null
+          content?: string | null
+          created_at?: string
+          file_url?: string | null
+          id?: number
+          order_index?: number | null
+          type?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_messages_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "campaign_messages_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "company"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       campaigns: {
         Row: {
           company_id: string | null
@@ -194,7 +245,7 @@ export type Database = {
         Row: {
           battery: string | null
           campaign_id: string | null
-          company_id: string
+          company_id: string | null
           created_at: string
           id: string
           name: string | null
@@ -209,7 +260,7 @@ export type Database = {
         Insert: {
           battery?: string | null
           campaign_id?: string | null
-          company_id: string
+          company_id?: string | null
           created_at?: string
           id?: string
           name?: string | null
@@ -224,7 +275,7 @@ export type Database = {
         Update: {
           battery?: string | null
           campaign_id?: string | null
-          company_id?: string
+          company_id?: string | null
           created_at?: string
           id?: string
           name?: string | null
@@ -247,54 +298,9 @@ export type Database = {
           {
             foreignKeyName: "whatsapp_company_id_fkey"
             columns: ["company_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "company"
             referencedColumns: ["id"]
-          },
-        ]
-      }
-      whatsapp_duplicate: {
-        Row: {
-          campaign_id: string | null
-          created_at: string
-          id: string
-          numbers: string[] | null
-          redirect_to: number | null
-          updated_at: string | null
-          user_id: string
-        }
-        Insert: {
-          campaign_id?: string | null
-          created_at?: string
-          id?: string
-          numbers?: string[] | null
-          redirect_to?: number | null
-          updated_at?: string | null
-          user_id: string
-        }
-        Update: {
-          campaign_id?: string | null
-          created_at?: string
-          id?: string
-          numbers?: string[] | null
-          redirect_to?: number | null
-          updated_at?: string | null
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "whatsapp_duplicate_campaign_id_fkey"
-            columns: ["campaign_id"]
-            isOneToOne: false
-            referencedRelation: "campaigns"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "whatsapp_duplicate_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: true
-            referencedRelation: "user_profile"
-            referencedColumns: ["user_id"]
           },
         ]
       }

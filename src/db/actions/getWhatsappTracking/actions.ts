@@ -1,6 +1,6 @@
 "use server";
 
-import { createServer } from "@/supabase/server";
+import createServer from "@/supabase/server";
 
 const getWhatsappTracking = async ({
   userId,

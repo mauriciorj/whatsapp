@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { Socket } from "socket.io-client";
 import SocketClient from "@/lib/socket";
-import { useUserProfile } from "./useUserProfile";
+import getUserProfile from "@/features/user/lib/getUserProfile";
 
 export const useSocket = () => {
   const [socket, setSocket] = useState<any>(null);
-  const { data: user } = useUserProfile();
+  const { userProfile } = getUserProfile();
 
   useEffect(() => {
-    if (user?.company_id) {
+    if (userProfile?.company_id) {
       // Get or create socket instance
-      const socketInstance = SocketClient.getInstance(user.company_id);
+      const socketInstance = SocketClient.getInstance(userProfile.company_id);
 
       // Set up event listeners
       socketInstance.on("connect", () => {
@@ -31,7 +31,7 @@ export const useSocket = () => {
         socketInstance.off("disconnect");
       };
     }
-  }, [user?.company_id]);
+  }, [userProfile?.company_id]);
 
-  return { socket, companyId: user?.company_id };
+  return { socket, companyId: userProfile?.company_id };
 };

@@ -1,6 +1,6 @@
 "use server";
 
-import { createServer } from "@/supabase/server";
+import createServer from "@/supabase/server";
 
 const GetWhatsapp = async ({ user_id }: { user_id: string }) => {
   const supabase = await createServer();

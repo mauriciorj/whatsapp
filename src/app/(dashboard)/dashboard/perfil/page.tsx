@@ -6,24 +6,24 @@ import { User } from "lucide-react";
 import UpdateUserPassword from "@/actions/updateUserPassword/actions";
 import ResetPasswordForEmail from "@/actions/resetPasswordForEmail/actions";
 import PageLayout from "@/components/dashboard/pageLayout";
-import ProfileTable from "@/components/dashboard/profileTable";
+import ProfileTable from "@/features/user/components/userProfileTable";
 import Form from "@/components/form";
 import ContentCard from "@/components/layout/contentCard";
-import { AlertBanner } from "@/components/ui/alert-banner";
+import AlertBanner from "@/components/ui/alert-banner";
+import getUserProfile from "@/features/user/lib/getUserProfile";
 import useTranslations from "@/hooks/useTranslations";
 import { RESET_PASSWORD_REDIRECT_TO_URL } from "@/lib/constants";
 import { updatePasswordSchema } from "@/lib/validations/schemas";
-import { createClient } from "@/supabase/client";
+import createClient from "@/supabase/client";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
-import { useUserProfile } from "@/hooks/useUserProfile";
 
 export default function Perfil() {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const translate = useTranslations("Pages.Dashboard.Perfil");
+  const translations = useTranslations("Pages.Dashboard.Perfil");
 
   const [isLoading, setIsLoading] = useState(false);
   // This is control by url once the user has to
@@ -36,8 +36,7 @@ export default function Perfil() {
 
   const isShowResetPasswordComponent = searchParams.get("showResetPassword");
 
-  const { data: userProfileData, isLoading: isUserProfileDataLoading } =
-    useUserProfile();
+  const { userProfile, userProfileIsLoading } = getUserProfile();
 
   useEffect(() => {
     if (isShowResetPasswordComponent === "true") {
@@ -50,17 +49,17 @@ export default function Perfil() {
   const mutation = useMutation({
     mutationFn: () =>
       ResetPasswordForEmail({
-        email: userProfileData?.email,
+        email: userProfile?.email,
         redirectToUrl: RESET_PASSWORD_REDIRECT_TO_URL,
       } as any),
     onError: () => {
       setSuccessMessage(null);
-      setErrorMessage(translate["form"]["alertMessage"]);
+      setErrorMessage(translations["form"]["alertMessage"]);
       setIsLoading(false);
     },
     onSuccess: () => {
       setErrorMessage(null);
-      setSuccessMessage(translate["pageDescription"]);
+      setSuccessMessage(translations["pageDescription"]);
       setIsLoading(false);
     },
   });
@@ -80,20 +79,20 @@ export default function Perfil() {
         );
         if (response === false) {
           setSuccessMessage(null);
-          setErrorMessage(translate["form"]["alertMessage"]);
+          setErrorMessage(translations["form"]["alertMessage"]);
         } else {
           setErrorMessage(null);
-          setSuccessMessage(translate["pageDescription"]);
-          handleSignOut();
+          setSuccessMessage(translations["pageDescription"]);
+          userhHandleSignOut();
         }
       } catch {
         setSuccessMessage(null);
-        setErrorMessage(translate["form"]["alertMessage"]);
+        setErrorMessage(translations["form"]["alertMessage"]);
       }
     },
   });
 
-  const handleSignOut = async () => {
+  const userhHandleSignOut = async () => {
     const supabase = createClient();
     const { error } = await supabase.auth.signOut();
     if (!error) {
@@ -112,53 +111,49 @@ export default function Perfil() {
   return (
     <PageLayout
       breadcrumbItems={breadcrumbItems}
-      pageTitle={translate["pageTitle"]}
-      pageDescription={translate["pageDescription"]}
+      pageTitle={translations["pageTitle"]}
+      pageDescription={translations["pageDescription"]}
     >
-      {errorMessage && (
-        <div className="container mb-10">
-          <AlertBanner message={errorMessage} type="error" />
-        </div>
-      )}
-      {successMessage && (
-        <div className="container mb-10">
-          <AlertBanner message={successMessage} type="success" />
-        </div>
-      )}
+      <div className="container mb-10">
+        <AlertBanner message={errorMessage} type="error" />
+      </div>
+      <div className="container mb-10">
+        <AlertBanner message={successMessage} type="success" />
+      </div>
       {!isShowPasswordComponent && (
         <ContentCard
           className="p-6"
-          title={translate["profileCard"]["cardTitle"]}
+          title={translations["profileCard"]["cardTitle"]}
         >
           <ProfileTable
             isLoading={isLoading}
             mutation={mutation}
             setIsLoading={setIsLoading}
-            translate={translate}
-            userProfileData={userProfileData}
-            isUserProfileDataLoading={isUserProfileDataLoading}
+            translations={translations}
+            userProfileData={userProfile}
+            isUserProfileDataLoading={userProfileIsLoading}
           />
         </ContentCard>
       )}
       {isShowPasswordComponent && (
         <ContentCard
-          description={translate["form"]["cardDescription"]}
-          title={translate["form"]["cardTitle"]}
+          description={translations["form"]["cardDescription"]}
+          title={translations["form"]["cardTitle"]}
         >
           <Form
-            cancelButtonLabel={translate["form"]["cancelLabel"]}
+            cancelButtonLabel={translations["form"]["cancelLabel"]}
             fieldsToRender={[
               {
-                label: translate["form"]["fields"]["password"]["label"],
-                name: translate["form"]["fields"]["password"]["name"],
+                label: translations["form"]["fields"]["password"]["label"],
+                name: translations["form"]["fields"]["password"]["name"],
                 type: "password",
               },
             ]}
             form={form}
             onCancel={onCancelHandler}
             showPasswordRules
-            submitLabel={translate["form"]["submitLabel"]}
-            submitLoadingLabel={translate["form"]["submitLoadingLabel"]}
+            submitLabel={translations["form"]["submitLabel"]}
+            submitLoadingLabel={translations["form"]["submitLoadingLabel"]}
           />
         </ContentCard>
       )}

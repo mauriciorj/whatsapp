@@ -41,12 +41,12 @@ const refundPolicySections = [
 const breadcrumbItems = [
   {
     href: "/politica-de-reembolso",
-    label: "Política de Reembolso",
+    label: "Politica de reembolso",
     icon: HandCoins,
   },
 ];
 
-export default function PoliticaDeReembolso() {
+const PoliticaDeReembolso = () => {
   return (
     <PageLayout breadcrumbItems={breadcrumbItems}>
       <section className="mb-10 ml-0 md:ml-[150px]">
@@ -66,4 +66,6 @@ export default function PoliticaDeReembolso() {
       ))}
     </PageLayout>
   );
-}
+};
+
+export default PoliticaDeReembolso;

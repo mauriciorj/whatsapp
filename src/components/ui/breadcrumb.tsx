@@ -13,7 +13,7 @@ interface BreadcrumbProps {
   items?: BreadcrumbItem[];
 }
 
-export function Breadcrumb({ items }: BreadcrumbProps) {
+const Breadcrumb = ({ items }: BreadcrumbProps) => {
   if (!items) return null;
   return (
     <nav className="flex items-center space-x-1 text-sm text-muted-foreground">
@@ -40,4 +40,6 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
       ))}
     </nav>
   );
-}
+};
+
+export default Breadcrumb;

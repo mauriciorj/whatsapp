@@ -1,0 +1,100 @@
+{
+  "CampaignSettingsForm": {
+    "fields": {
+      "campaignName": {
+        "label": "Nome da campanha",
+        "name": "campaignName"
+      },
+      "campaignDescription": {
+        "label": "Descrição",
+        "name": "campaignDescription"
+      },
+      "startDate": {
+        "label": "Data de início",
+        "name": "startDate"
+      },
+      "endDate": {
+        "label": "Data de término",
+        "name": "endDate"
+      },
+      "leadsPerGroup": {
+        "label": "Quantidade de pessoas por grupo",
+        "name": "leadsPerGroup"
+      },
+      "sameLeadsInGroups": {
+        "label": "O mesmo lead pode estar em mais de um grupo",
+        "name": "sameLeadsInGroups"
+      },
+      "redirectLink": {
+        "label": "Link",
+        "name": "redirectLink"
+      }
+    }
+  },
+  "CreateCampaignForm": {
+    "createCampaignLabel": "Adicionar Campanha",
+    "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+    "cardTitle": "Para começar, crie um campanha!",
+    "cardTitleTwo": "Campanhas",
+    "cardDescription": "Escolha um nome para o seu campanha.",
+    "cardDescriptionTwo": "Gerencie os seus campanhas",
+    "fields": {
+      "campaign": {
+        "label": "Nome *",
+        "name": "Campanha",
+        "placeholder": "Ex: Campanha Suporte Online",
+        "fieldError": "Já existe um campanha com esse nome."
+      }
+    },
+    "submitLabel": "Criar campanha",
+    "submitLoadingLabel": "Criando campanha...",
+    "successMessage": "Campanha criado com sucesso!"
+  },
+  "DeleteCampaignForm": {
+    "dialog": {
+      "title": "Deletar Campanha",
+      "alertBannerTitle": "Atenção!",
+      "alertBannerDescription": "Todos os dados relacionados a esse campanha serão apagados e não poderão ser acessados ou recuperados!",
+      "alertBannerFooter": "Essa operação é irreversível",
+      "instruction": "Para prosseguir insira a palavra 'deletar' e confirme.",
+      "form": {
+        "cancelLabel": "Cancelar",
+        "fields": {
+          "deleteCampaign": {
+            "label": "Deletar a Campanha:",
+            "name": "deleteWord",
+            "placeholder": "deletar"
+          }
+        },
+        "submitLabel": "Deletar campanha",
+        "submitLoadingLabel": "Deletando campanha..."
+      }
+    },
+    "successMessage": "Campanha deletado com sucesso"
+  },
+  "EditCampaignForm": {
+    "dialog": {
+      "title": "Editar Campanha",
+      "form": {
+        "cancelLabel": "Editar",
+        "fields": {
+          "campaignName": {
+            "label": "Nome:",
+            "name": "campaignName"
+          },
+          "campaignStartDate": {
+            "label": "Data de início:",
+            "name": "campaignStartDate"
+          },
+          "campaignEndDate": {
+            "label": "Data de fim:",
+            "name": "updateCampaign"
+          }
+        },
+        "submitLabel": "Editar campanha",
+        "submitLoadingLabel": "Editando campanha..."
+      }
+    },
+    "successMessage": "Campanha editada com sucesso"
+  }
+}

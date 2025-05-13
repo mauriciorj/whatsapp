@@ -3,25 +3,21 @@
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { MessageCircle } from "lucide-react";
-import GetUserProfile from "@/actions/getUserProfile/actions";
 import PageLayout from "@/components/dashboard/pageLayout";
-import { AlertBanner } from "@/components/ui/alert-banner";
-import WhatsAppLink from "@/components/dashboard/whatsapp/whatsappLink";
-import { WhatsAppNumbers } from "@/components/dashboard/whatsapp/numbers/whatsappNumbers";
+import AlertBanner from "@/components/ui/alert-banner";
+import getCampaigns from "@/features/campaigns/lib/getCampaigns";
+import WhatsAppLink from "@/features/whatsapp/components/whatsappLink";
+import getUserProfile from "@/features/user/lib/getUserProfile";
+import WhatsAppNumbers from "@/features/whatsapp/components/numbers/whatsappNumbers";
 import useTranslations from "@/hooks/useTranslations";
-import { createClient } from "@/supabase/client";
-import { useQuery } from "@tanstack/react-query";
 
-const WhatsAppPage = () => {
+export default function WhatsAppPage() {
   const searchParams = useSearchParams();
-  const translate = useTranslations("Pages.Dashboard.Whatsapp");
+  const translations = useTranslations("Pages.Dashboard.Whatsapp");
 
   const [serverError, setServerError] = useState<boolean | null>(null);
 
-  const { data: userProfileData, isLoading: userProfileIsLoading } = useQuery({
-    queryKey: ["userProfile"],
-    queryFn: async () => GetUserProfile(),
-  });
+  const { userProfile, userProfileIsLoading } = getUserProfile();
 
   const campaignName = decodeURIComponent(searchParams.get("campaign") || "");
 
@@ -29,26 +25,7 @@ const WhatsAppPage = () => {
     data: userCampaigns,
     isLoading: isUserCampaignsLoading,
     refetch,
-  } = useQuery({
-    queryKey: ["userCampaigns", campaignName],
-    queryFn: async () => {
-      // CLIENT SIDE
-      const supabase = await createClient();
-
-      const { data, error }: any = await supabase
-        .from("campaigns")
-        .select()
-        .eq("user_id", userProfileData?.user_id)
-        .eq("title", campaignName);
-
-      if (error) {
-        setServerError(true);
-      }
-
-      return data[0];
-    },
-    enabled: Boolean(!!userProfileData?.user_id && !!campaignName),
-  }) as any;
+  } = getCampaigns();
 
   const breadcrumbItems = [
     { href: "/dashboard/whatsapp", label: "Whatsapp", icon: MessageCircle },
@@ -57,18 +34,18 @@ const WhatsAppPage = () => {
   return (
     <PageLayout
       breadcrumbItems={breadcrumbItems}
-      pageTitle={translate["pageTitle"]}
-      pageDescription={translate["pageDescription"]}
+      pageTitle={translations["pageTitle"]}
+      pageDescription={translations["pageDescription"]}
     >
-      {serverError && (
-        <div className="container mb-10">
-          <AlertBanner message={translate["alertMessage"]} type="error" />
-        </div>
-      )}
+      <div className="container mb-10">
+        <AlertBanner message={translations["alertMessage"]} type="error" />
+      </div>
       {!campaignName ? (
         <div className="w-full flex flex-col items-center justify-center h-[100px]">
           <div className="border rounded-md py-5 px-7 text-center">
-            {!campaignName ? translate["noCampaign"] : translate["noData"]}
+            {!campaignName
+              ? translations["noCampaign"]
+              : translations["noData"]}
           </div>
         </div>
       ) : (
@@ -84,12 +61,10 @@ const WhatsAppPage = () => {
             numbers={userCampaigns?.wp_numbers}
             campaignId={userCampaigns?.id}
             refetch={refetch}
-            userPlan={userProfileData?.plan}
+            userPlan={userProfile?.plan}
           />
         </>
       )}
     </PageLayout>
   );
-};
-
-export default WhatsAppPage;
+}

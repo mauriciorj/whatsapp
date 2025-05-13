@@ -1,7 +1,7 @@
 "use server";
 
 import updateUserProfile from "@/actions/updateUserProfile/actions";
-import { createServer } from "@/supabase/server";
+import createServer from "@/supabase/server";
 import { redirect } from "next/navigation";
 import BusinessRules from "@/lib/businessRules";
 import { v4 as uuidv4 } from "uuid";

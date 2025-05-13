@@ -5,7 +5,7 @@ export const campaignSettingsSchema = z.object({
   campaignDescription: z.string(),
   startDate: z.string(),
   endDate: z.string(),
-  leadsPerGroup: z.number(),
+  leadsPerGroup: z.string(),
   sameLeadsInGroups: z.string(),
   redirectLink: z.string(),
 });

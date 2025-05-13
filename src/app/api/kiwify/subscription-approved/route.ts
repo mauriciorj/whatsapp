@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { createServer } from "@/db/supabase/server";
+import createServer from "@/db/supabase/server";
 
 type userEmail = {
   email: string;

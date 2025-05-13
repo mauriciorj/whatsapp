@@ -9,23 +9,23 @@ import useTranslations from "@/hooks/useTranslations";
 import { PAGES } from "@/lib/constants";
 
 export default function Successo() {
-  const translate = useTranslations("Pages.PaymentSuccess");
+  const translations = useTranslations("Pages.PaymentSuccess");
   const breadcrumbItems = [
     {
       href: PAGES.auth.success,
-      label: translate["breadcrumbTitle"],
+      label: translations["breadcrumbTitle"],
       icon: Check,
     },
   ];
   return (
     <PageLayout breadcrumbItems={breadcrumbItems}>
       <ContentCard
-        title={translate["cardTitle"]}
-        description={translate["cardDescription"]}
+        title={translations["cardTitle"]}
+        description={translations["cardDescription"]}
       >
         <div className="flex flex-row w-full items-center justify-center">
           <Button asChild>
-            <Link href={PAGES.auth.login}>{translate["buttonLabel"]}</Link>
+            <Link href={PAGES.auth.login}>{translations["buttonLabel"]}</Link>
           </Button>
         </div>
       </ContentCard>

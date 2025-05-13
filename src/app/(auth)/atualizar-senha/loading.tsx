@@ -1,5 +1,5 @@
-import AuthCard from "@/components/auth/auth-card";
-import { Skeleton } from "@/components/ui/skeleton";
+import AuthCard from "@/features/user/components/authCard";
+import Skeleton from "@/components/ui/skeleton";
 
 const LoginLoading = () => {
   return (

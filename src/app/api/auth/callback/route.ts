@@ -1,4 +1,4 @@
-import { createServer } from '@/db/supabase/server';
+import createServer from '@/db/supabase/server';
 import { NextResponse } from 'next/server';
 
 import type { NextRequest } from 'next/server';

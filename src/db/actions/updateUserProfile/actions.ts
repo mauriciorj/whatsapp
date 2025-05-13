@@ -1,6 +1,6 @@
 "use server";
 
-import { createServer } from "@/db/supabase/server";
+import createServer from "@/db/supabase/server";
 
 const updateUserProfile = async ({
   first_name,

@@ -3,12 +3,12 @@
 import { useState } from "react";
 import { MessageCircle } from "lucide-react";
 import PageLayout from "@/components/dashboard/pageLayout";
-import { AlertBanner } from "@/components/ui/alert-banner";
+import AlertBanner from "@/components/ui/alert-banner";
 import useTranslations from "@/hooks/useTranslations";
-import WhatsappGroups from "@/components/dashboard/whatsapp/groups/whatsappGroups";
+import WhatsappGroups from "@/features/whatsapp/components/groups/whatsappGroups";
 
-const GroupsPage = () => {
-  const translate = useTranslations("Pages.Dashboard.Groups");
+export default function GroupsPage() {
+  const translations = useTranslations("Pages.Dashboard.Groups");
 
   const [serverError, setServerError] = useState<boolean | null>(null);
 
@@ -19,17 +19,13 @@ const GroupsPage = () => {
   return (
     <PageLayout
       breadcrumbItems={breadcrumbItems}
-      pageTitle={translate["pageTitle"]}
-      pageDescription={translate["pageDescription"]}
+      pageTitle={translations["pageTitle"]}
+      pageDescription={translations["pageDescription"]}
     >
-      {serverError && (
-        <div className="container mb-10">
-          <AlertBanner message={translate["alertMessage"]} type="error" />
-        </div>
-      )}
+      <div className="container mb-10">
+        <AlertBanner message={translations["alertMessage"]} type="error" />
+      </div>
       <WhatsappGroups />
     </PageLayout>
   );
-};
-
-export default GroupsPage;
+}

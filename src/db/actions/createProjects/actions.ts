@@ -1,9 +1,9 @@
 "use server";
 
 import GetUserProfile from "@/actions/getUserProfile/actions";
-import { createServer } from "@/supabase/server";
+import createServer from "@/supabase/server";
 
-const CreateCampaign = async ({ title }: { title: string }) => {
+const createCampaign = async ({ title }: { title: string }) => {
   const supabase = await createServer();
 
   const userData = await GetUserProfile();
@@ -20,4 +20,4 @@ const CreateCampaign = async ({ title }: { title: string }) => {
   return { status: 200 };
 };
 
-export default CreateCampaign;
+export default createCampaign;

@@ -9,7 +9,7 @@ interface AlertBannerProps {
   className?: string;
 }
 
-export function AlertBanner({ type, message, className }: AlertBannerProps) {
+const AlertBanner = ({ type, message, className }: AlertBannerProps) => {
   if (!message) return null;
   return (
     <div
@@ -29,4 +29,6 @@ export function AlertBanner({ type, message, className }: AlertBannerProps) {
       {message}
     </div>
   );
-}
+};
+
+export default AlertBanner;

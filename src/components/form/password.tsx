@@ -1,11 +1,11 @@
 "use client";
 
 import { Eye, EyeOff } from "lucide-react";
-import PasswordRules from "@/components/auth/passwordRules";
+import PasswordRules from "@/features/user/components/passwordRules";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-export default function Password({
+const Password = ({
   field,
   fieldToRender,
   isLoading,
@@ -15,7 +15,7 @@ export default function Password({
   passwordValidation,
   setIsShowPassword,
   showPasswordRules,
-}: any) {
+}: any) => {
   return (
     <div className="relative">
       <Label htmlFor={field.name}>{fieldToRender.label}</Label>
@@ -53,4 +53,6 @@ export default function Password({
       )}
     </div>
   );
-}
+};
+
+export default Password;

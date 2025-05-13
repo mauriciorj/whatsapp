@@ -1,6 +1,6 @@
 'use server';
 
-import { createServer } from '@/db/supabase/server';
+import createServer from '@/db/supabase/server';
 
 const UpdateUserPassword = async (formData: { password: string }) => {
   const supabase = await createServer();

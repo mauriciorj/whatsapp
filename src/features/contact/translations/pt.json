@@ -1,0 +1,28 @@
+{
+  "ContactForm": {
+    "alertMessage": "Ops... alguma coisa deu errada. Tente novamente mais tarde",
+    "fields": {
+      "name": {
+        "label": "Nome *",
+        "name": "name",
+        "placeholder": "Por favor informe seu nome"
+      },
+      "email": {
+        "label": "Email *",
+        "name": "email",
+        "placeholder": "seuemail@exemplo.com"
+      },
+      "subject": {
+        "label": "Dúvida, Assunto ou Sugestão *",
+        "name": "subject"
+      },
+      "message": {
+        "label": "Mensagem *",
+        "name": "message"
+      }
+    },
+    "submitLabel": "Enviar Mensagem",
+    "submitLoadingLabel": "Enviando Mensagem ...",
+    "successMessage": "Mensagem Enviada! Obrigado por entrar em contato. Retornaremos o mais rápido possível."
+  }
+}
