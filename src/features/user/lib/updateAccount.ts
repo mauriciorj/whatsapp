@@ -13,14 +13,14 @@ const UpdateAccount = () => {
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-
-  const UserLogout = async() => {
+  const UserLogout = async () => {
     const supabase = createClient();
-  
+
     const { error } = await supabase.auth.signOut();
-  
+
     if (!error) {
       router.refresh();
+      router.push("/login");
     }
   };
 

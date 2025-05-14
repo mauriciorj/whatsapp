@@ -29,7 +29,7 @@ const UserLogin = () => {
         password: value?.password,
       });
       if (error) {
-        setErrorMessage(translations["form"]["alertMessage"]);
+        setErrorMessage(translations["alertMessage"]);
       } else {
         setErrorMessage(null);
         router.refresh();

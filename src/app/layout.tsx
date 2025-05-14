@@ -25,7 +25,7 @@ export default async function RootLayout({
       <body className={inter.className}>
         <Providers>
           <Header />
-          <main className="pt-16 min-h-screen">{children}</main>
+          <main className="min-h-screen">{children}</main>
           <Footer />
         </Providers>
       </body>

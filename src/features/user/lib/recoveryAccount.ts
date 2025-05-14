@@ -27,14 +27,14 @@ const RecoveryAccount = () => {
         );
         if (error) {
           setSuccessMessage(null);
-          setErrorMessage(translations["form"]["alertMessage"]);
+          setErrorMessage(translations["alertMessage"]);
         } else {
           setErrorMessage(null);
-          setSuccessMessage(translations["form"]["successMessage"]);
+          setSuccessMessage(translations["successMessage"]);
         }
       } catch {
         setSuccessMessage(null);
-        setErrorMessage(translations["form"]["alertMessage"]);
+        setErrorMessage(translations["alertMessage"]);
       }
     },
   });
