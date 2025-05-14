@@ -10,6 +10,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "ZapRouter",
   description: "Um link, muitos whatsapps",
+  icons: {
+    icon: '/icon.png', // /public path
+  },
 };
 
 export default async function RootLayout({
