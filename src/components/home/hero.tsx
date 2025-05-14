@@ -14,7 +14,7 @@ const Hero = () => {
     <section className="py-24">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div>
+          <div className="text-center md:text-left">
             <h1 className="text-5xl font-bold mb-6">
               Um link, vários WhatsApps
             </h1>
@@ -31,7 +31,7 @@ const Hero = () => {
               </Button>
             </Link>
           </div>
-          <div className="border-0 relative h-[500px]">
+          <div className="flex flex-col border-0 relative h-[500px] items-center justify-center">
             {resolvedTheme === "dark" ? (
               <Image
                 alt="ZapRouter Interface"

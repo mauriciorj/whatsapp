@@ -26,18 +26,18 @@ const Header = () => {
   }, [isInsideDashboard, refetch]);
 
   return (
-    <header className="fixed top-0 w-full bg-background/80 backdrop-blur-sm border-b z-50">
+    <header className="w-full bg-background/80 backdrop-blur-sm border-b">
       <div
         className={`${
           userProfileData?.email && !isInsideDashboard
             ? "pl-5 pr-5 md:pl-20 md:pr-20"
-            : null
+            : ""
         } ${
           userProfileData?.email && isInsideDashboard
             ? "pl-5 pr-2 md:pl-20 md:pr-20"
-            : null
+            : ""
         } ${
-          !userProfileData?.email ? "pl-5 pr-5 md:pl-20 md:pr-20" : null
+          !userProfileData?.email ? "pl-5 pr-5 md:pl-20 md:pr-20" : ""
         } h-16 flex items-center justify-between`}
       >
         <Link className="pl-0 text-xl md:text-3xl font-bold" href="/">
