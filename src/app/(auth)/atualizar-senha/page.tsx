@@ -5,7 +5,7 @@ import PageLayout from "@/components/layout/pageLayout";
 import AlertBanner from "@/components/ui/alert-banner";
 import AuthCard from "@/features/user/components/authCard";
 import UpdateAccountForm from "@/features/user/components/updateAccountForm";
-import updateAccount from "@/features/user/lib/updateAccount";
+import UpdateAccount from "@/features/user/lib/updateAccount";
 import useTranslations from "@/hooks/useTranslations";
 import { PAGES } from "@/lib/constants";
 
@@ -16,7 +16,7 @@ export default function ResetPassword() {
     errorMessage,
     form,
     translations: updateAccountTranslations,
-  } = updateAccount();
+  } = UpdateAccount();
 
   const breadcrumbItems = [
     {

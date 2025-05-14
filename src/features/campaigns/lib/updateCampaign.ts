@@ -6,7 +6,7 @@ import useTranslations from "@/hooks/useTranslations";
 import { editDialogSchema } from "@/lib/validations/schemas";
 import { useForm } from "@tanstack/react-form";
 
-const updateCampaign = () => {
+const UpdateCampaign = () => {
   const formTranslation = useTranslations("Features.EditCampaignForm");
 
   const [updateCampaignToDialog, setUpdateCampaignToDialog] =
@@ -27,6 +27,7 @@ const updateCampaign = () => {
       onSubmit: editDialogSchema,
     },
     onSubmit: async ({ value }: { value: { campaignName: string } }) => {
+      console.log(value)
       setErrorMessage(null);
       setSuccessMessage(null);
     },
@@ -43,4 +44,4 @@ const updateCampaign = () => {
   };
 };
 
-export default updateCampaign;
+export default UpdateCampaign;

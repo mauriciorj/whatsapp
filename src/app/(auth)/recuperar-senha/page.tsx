@@ -5,7 +5,7 @@ import PageLayout from "@/components/layout/pageLayout";
 import AlertBanner from "@/components/ui/alert-banner";
 import AuthCard from "@/features/user/components/authCard";
 import RecoveryAccountForm from "@/features/user/components/recoveryAccountForm";
-import recoveryAccount from "@/features/user/lib/recoveryAccount";
+import RecoveryAccount from "@/features/user/lib/recoveryAccount";
 import useTranslations from "@/hooks/useTranslations";
 import { PAGES } from "@/lib/constants";
 
@@ -17,7 +17,7 @@ export default function ForgotPasswordPage() {
     form,
     translations: recoveryAccountTranslations,
     successMessage,
-  } = recoveryAccount();
+  } = RecoveryAccount();
 
   const breadcrumbItems = [
     {

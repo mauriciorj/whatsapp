@@ -1,6 +1,6 @@
 "use server";
 
-import updateUserProfile from "@/actions/updateUserProfile/actions";
+import UpdateUserProfile from "@/actions/updateUserProfile/actions";
 import createServer from "@/supabase/server";
 import { redirect } from "next/navigation";
 import BusinessRules from "@/lib/businessRules";
@@ -46,7 +46,7 @@ const CreateUserAccount = async (formData: {
 
   // Step 3 - Update account after create it
   if (signUpData?.user?.id) {
-    const profileUpdated = await updateUserProfile({
+    const profileUpdated = await UpdateUserProfile({
       first_name: firstName,
       last_name: lastName,
       plan: plan,

@@ -6,7 +6,7 @@ import useTranslations from "@/hooks/useTranslations";
 import { UPDATE_PASSWORD_REDIRECT_TO_URL } from "@/lib/constants";
 import { useForm } from "@tanstack/react-form";
 
-const recoveryAccount = () => {
+const RecoveryAccount = () => {
   const translations = useTranslations("Features.RecoveryPasswordForm");
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -47,4 +47,4 @@ const recoveryAccount = () => {
   };
 };
 
-export default recoveryAccount;
+export default RecoveryAccount;

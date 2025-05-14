@@ -1,0 +1,6 @@
+{
+  "AddPhoneNumberForm": {
+    "whatsappAlreadyExist": "Esse nome de Whatsapp já existe.",
+    "whatsappSocketError": "Ops... algum erro ocorreu ao tentar iniciar uma nova sessão de Whatsapp. Por favor tente novamente ou entre em contato com o suporte."
+  }
+}

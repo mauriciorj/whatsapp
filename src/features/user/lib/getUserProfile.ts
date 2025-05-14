@@ -1,11 +1,11 @@
-import GetUserProfile from "@/actions/getUserProfile/actions";
+import getUserProfileAction from "@/actions/getUserProfile/actions";
 import { Tables } from "@/db/types/database.types";
 import { useQuery } from "@tanstack/react-query";
 
-const getUserProfile = () => {
+const GetUserProfile = () => {
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["userProfile"],
-    queryFn: async () => GetUserProfile(),
+    queryFn: async () => getUserProfileAction(),
   }) as {
     data: Tables<"user_profile">;
     isLoading: boolean;
@@ -22,4 +22,4 @@ const getUserProfile = () => {
   };
 };
 
-export default getUserProfile;
+export default GetUserProfile;

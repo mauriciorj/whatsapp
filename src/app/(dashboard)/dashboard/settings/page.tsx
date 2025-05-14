@@ -6,14 +6,14 @@ import PageLayout from "@/components/dashboard/pageLayout";
 import ContentCard from "@/components/layout/contentCard";
 import AlertBanner from "@/components/ui/alert-banner";
 import CampaignSettingsForm from "@/features/campaigns/components/campaignSettingsForm";
-import campaignSettings from "@/features/campaigns/lib/campaignSettings";
+import CampaignSettings from "@/features/campaigns/lib/campaignSettings";
 import useTranslations from "@/hooks/useTranslations";
 
 export default function SettingsPage() {
   const searchParams = useSearchParams();
   const translations = useTranslations("Pages.Dashboard.Settings");
 
-  const { errorMessage, isLoading, form, formTranslation } = campaignSettings();
+  const { errorMessage, isLoading, form, formTranslation } = CampaignSettings();
 
   const campaignName = decodeURIComponent(searchParams.get("campaign") || "");
 

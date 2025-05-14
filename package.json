@@ -7,7 +7,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "drizzle:pull": "npx drizzle-kit pull",
     "supabase:gentypes": "npx supabase gen types typescript --project-id 'projectId' --schema public > ./src/db/types/database.types.ts"
   },
   "dependencies": {
@@ -34,7 +33,6 @@
     "class-variance-authority": "^0.7.1",
     "date-fns": "^4.1.0",
     "dotenv": "^16.5.0",
-    "drizzle-orm": "^0.41.0",
     "install": "^0.13.0",
     "lodash": "^4.17.21",
     "lucide-react": "^0.469.0",
@@ -63,7 +61,6 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "dayjs": "^1.11.13",
-    "drizzle-kit": "^0.30.6",
     "eslint": "^9",
     "eslint-config-next": "15.1.3",
     "postcss": "^8",

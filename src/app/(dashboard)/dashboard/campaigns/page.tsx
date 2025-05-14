@@ -10,11 +10,11 @@ import CampaignsLoadingCard from "@/features/campaigns/components/campaignsLoadi
 import CreateCampaignsForm from "@/features/campaigns/components/createCampaignsForm";
 import DeleteCampaignsDialog from "@/features/campaigns/components/deleteCampaignsDialog";
 import UpdateCampaignsDialog from "@/features/campaigns/components/updateCampaignsDialog";
-import createCampaign from "@/features/campaigns/lib/createCampaign";
-import deleteCampaign from "@/features/campaigns/lib/deleteCampaign";
-import getCampaigns from "@/features/campaigns/lib/getCampaigns";
-import updateCampaign from "@/features/campaigns/lib/updateCampaign";
-import getUserProfile from "@/features/user/lib/getUserProfile";
+import CreateCampaign from "@/features/campaigns/lib/createCampaign";
+import DeleteCampaign from "@/features/campaigns/lib/deleteCampaign";
+import GetCampaigns from "@/features/campaigns/lib/getCampaigns";
+import UpdateCampaign from "@/features/campaigns/lib/updateCampaign";
+import GetUserProfile from "@/features/user/lib/getUserProfile";
 import useTranslations from "@/hooks/useTranslations";
 
 export default function CampaignsPage() {
@@ -25,21 +25,20 @@ export default function CampaignsPage() {
 
   const campaignName = searchParams?.get("campaign") || null;
 
-  const { userProfile, userProfileIsLoading } = getUserProfile();
+  const { userProfile, userProfileIsLoading } = GetUserProfile();
 
   const {
     data: userCampaigns,
     isLoading: isLoadingGetCampaigns,
     errorMessage: errorMessageGetCampaigns,
-    refetch,
-  } = getCampaigns();
+  } = GetCampaigns();
 
   const {
     errorMessage: createCampaignErrorMessage,
     form: createCampaignForm,
     formTranslation: createCampaignTranslations,
     successMessage: createCampaignSuccessMessage,
-  } = createCampaign();
+  } = CreateCampaign();
 
   const {
     deleteCampaignToDialog,
@@ -50,7 +49,7 @@ export default function CampaignsPage() {
     setDeleteCampaignToDialog,
     setIsDeleteCampaignModalOpen,
     successMessage: deleteCampaignSuccessMessage,
-  } = deleteCampaign();
+  } = DeleteCampaign();
 
   const {
     errorMessage: editCampaignErrorMessage,
@@ -61,7 +60,7 @@ export default function CampaignsPage() {
     setIsUpdateCampaignModalOpen,
     setUpdateCampaignToDialog,
     successMessage: updateCampaignSuccessMessage,
-  } = updateCampaign();
+  } = UpdateCampaign();
 
   const onClickHandler = ({ campaign }: { campaign: string }) => {
     router.push(`/dashboard/reports?campaign=${campaign}`);

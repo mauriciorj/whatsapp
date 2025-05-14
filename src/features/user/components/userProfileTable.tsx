@@ -26,7 +26,7 @@ const UserProfileTable = ({
         <TableBody>
           <TableRow>
             <TableCell className="font-medium">
-              {translations["profileCard"]["firstName"]["label"]}
+              {translations["firstName"]["label"]}
             </TableCell>
             <TableCell>
               {isUserProfileDataLoading ? (
@@ -38,7 +38,7 @@ const UserProfileTable = ({
           </TableRow>
           <TableRow>
             <TableCell className="font-medium">
-              {translations["profileCard"]["lastName"]["label"]}
+              {translations["lastName"]["label"]}
             </TableCell>
             <TableCell>
               {isUserProfileDataLoading ? (
@@ -50,7 +50,7 @@ const UserProfileTable = ({
           </TableRow>
           <TableRow>
             <TableCell className="font-medium">
-              {translations["profileCard"]["email"]["label"]}
+              {translations["email"]["label"]}
             </TableCell>
             <TableCell>
               {isUserProfileDataLoading ? (
@@ -62,7 +62,7 @@ const UserProfileTable = ({
           </TableRow>
           <TableRow>
             <TableCell className="font-medium">
-              {translations["profileCard"]["plan"]["label"]}
+              {translations["plan"]["label"]}
             </TableCell>
             <TableCell>
               {isUserProfileDataLoading ? (
@@ -87,11 +87,11 @@ const UserProfileTable = ({
         >
           {isLoading ? (
             <div className="flex flex-row items-center italic">
-              {translations["profileCard"]["submitLoadingLabel"]}
+              {translations["submitLoadingLabel"]}
               <LoaderCircle className="animate-spin h-6 w-5 ml-2" />
             </div>
           ) : (
-            translations["profileCard"]["submitLabel"]
+            translations["submitLabel"]
           )}
         </Button>
       </div>

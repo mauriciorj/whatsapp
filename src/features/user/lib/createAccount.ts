@@ -10,7 +10,7 @@ import { signupSchema } from "@/lib/validations/schemas";
 import { scrollToTop } from "@/lib/scroll";
 import { useForm } from "@tanstack/react-form";
 
-const createAccount = () => {
+const CreateAccount = () => {
   const router = useRouter();
   const translations = useTranslations("Features.CreateAccountForm");
 
@@ -42,7 +42,7 @@ const createAccount = () => {
 
       if (!Object.keys(BusinessRules).some((plan) => plan === getPlano)) {
         setSuccessMessage(null);
-        setErrorMessage(formTranslation["form"]["alertMessage"]);
+        setErrorMessage("alertMessage");
         return scrollToTop();
       }
 
@@ -59,7 +59,7 @@ const createAccount = () => {
 
       if (hasUser && hasUser[0]?.email) {
         setSuccessMessage(null);
-        setErrorMessage(formTranslation["form"]["alertMessageEmailExists"]);
+        setErrorMessage("alertMessageEmailExists");
         return scrollToTop();
       }
 
@@ -69,7 +69,7 @@ const createAccount = () => {
 
       if (error) {
         setSuccessMessage(null);
-        setErrorMessage(formTranslation["form"]["alertMessage"]);
+        setErrorMessage("alertMessage");
         return scrollToTop();
       }
 
@@ -89,13 +89,13 @@ const createAccount = () => {
           .eq("user_id", signUpData?.user?.id);
         if (error) {
           setSuccessMessage(null);
-          setErrorMessage(formTranslation["form"]["alertMessage"]);
+          setErrorMessage("alertMessage");
           return scrollToTop();
         }
       }
       if (BusinessRules[getPlano]?.url) {
         setErrorMessage(null);
-        setSuccessMessage(formTranslation["form"]["successMessage"]);
+        setSuccessMessage("successMessage");
         scrollToTop();
         return router.push(BusinessRules[getPlano]?.url);
       }
@@ -105,4 +105,4 @@ const createAccount = () => {
   return { form, errorMessage, translations, successMessage };
 };
 
-export default createAccount;
+export default CreateAccount;

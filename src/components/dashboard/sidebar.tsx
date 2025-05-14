@@ -15,12 +15,12 @@ import {
   Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import getCampaigns from "@/features/campaigns/lib/getCampaigns";
+import GetCampaigns from "@/features/campaigns/lib/getCampaigns";
 import useTranslations from "@/hooks/useTranslations";
 import { cn } from "@/lib/utils";
 
 const Sidebar = () => {
-  const translations = useTranslations("Main.sideBar");
+  const translations = useTranslations("Main.SideBar");
 
   const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
@@ -30,7 +30,7 @@ const Sidebar = () => {
 
   const params = new URLSearchParams(searchParams.toString());
 
-  const { data: userCampaigns } = getCampaigns();
+  const { data: userCampaigns } = GetCampaigns();
 
   if (!isInsideDashboard) return null;
 

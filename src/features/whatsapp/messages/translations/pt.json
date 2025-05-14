@@ -1,0 +1,76 @@
+{
+  "AddMessageForm": {
+    "cancelLabel": "Cancelar",
+    "fields": {
+      "attachmentFile": {
+        "label": "Adicionar Arquivo",
+        "name": "attachmentFile",
+        "Procurar arquivo": "Procurar arquivo"
+      },
+      "messageContent": {
+        "label": "Mensagem",
+        "name": "messageContent"
+      },
+      "messageTitle": {
+        "label": "Título",
+        "name": "messageTitle"
+      }
+    },
+    "submitLabel": "Salvar Mensagem",
+    "submitLoadingLabel": "Salvando mensagem..."
+  },
+  "CreateWhatsappMessagesForm": {
+    "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+    "description": "Essa nova mensagem será adicionada ao final ",
+    "form": {
+      "cancelLabel": "Cancelar",
+      "fields": {
+        "attachmentFile": {
+          "label": "Adicionar Arquivo",
+          "name": "attachmentFile",
+          "Procurar arquivo": "Procurar arquivo"
+        },
+        "messageContent": {
+          "label": "Mensagem",
+          "name": "messageContent"
+        },
+        "messageTitle": {
+          "label": "Título",
+          "name": "messageTitle"
+        }
+      },
+      "submitLabel": "Salvar Mensagem",
+      "submitLoadingLabel": "Salvando mensagem...",
+      "title": "Crie uma mensagem"
+    },
+    "successMessage": "Mensagem salva com sucesso"
+  },
+  "DeleteWhatsappMessageForm": {
+    "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+    "cancelLabel": "Cancelar",
+    "fields": {
+      "deleteWord": {
+        "label": "Mensagem",
+        "name": "message"
+      }
+    },
+    "submitLabel": "Salvar Mensagem",
+    "submitLoadingLabel": "Salvando mensagem...",
+    "successMessage": "Mensagem salva com sucesso"
+  },
+  "EditWhatsappMessageForm": {
+    "cancelLabel": "Cancelar",
+    "fields": {
+      "messageTitle": {
+        "label": "Mensagem",
+        "name": "message"
+      },
+      "messageContent": {
+        "label": "Mensagem",
+        "name": "message"
+      }
+    },
+    "submitLabel": "Salvar Mensagem",
+    "submitLoadingLabel": "Salvando mensagem..."
+  }
+}

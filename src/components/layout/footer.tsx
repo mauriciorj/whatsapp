@@ -16,16 +16,16 @@ const Footer = () => {
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
           <FooterSections
-            title={translations["footer"]["product"]["title"]}
-            links={translations["footer"]["product"]["links"]}
+            title={translations["Footer"]["Product"]["title"]}
+            links={translations["Footer"]["Product"]["links"]}
           />
           <FooterSections
-            title={translations["footer"]["company"]["title"]}
-            links={translations["footer"]["company"]["links"]}
+            title={translations["Footer"]["Company"]["title"]}
+            links={translations["Footer"]["Company"]["links"]}
           />
           <FooterSections
-            title={translations["footer"]["support"]["title"]}
-            links={translations["footer"]["support"]["links"]}
+            title={translations["Footer"]["Support"]["title"]}
+            links={translations["Footer"]["Support"]["links"]}
           />
         </div>
       </div>

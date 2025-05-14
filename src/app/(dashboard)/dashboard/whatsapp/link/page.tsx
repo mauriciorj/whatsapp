@@ -4,25 +4,24 @@ import { useSearchParams } from "next/navigation";
 import { MessageCircle } from "lucide-react";
 import PageLayout from "@/components/dashboard/pageLayout";
 import AlertBanner from "@/components/ui/alert-banner";
-import getCampaigns from "@/features/campaigns/lib/getCampaigns";
+import GetCampaigns from "@/features/campaigns/lib/getCampaigns";
 // import WhatsAppNumbers from "@/features/whatsapp/components/numbers/whatsappNumbers";
-import WhatsAppLink from "@/features/whatsapp/components/whatsappLink";
-import getUserProfile from "@/features/user/lib/getUserProfile";
+import WhatsAppLink from "@/features/whatsapp/link/components/whatsappLink";
+import GetUserProfile from "@/features/user/lib/getUserProfile";
 import useTranslations from "@/hooks/useTranslations";
 
 export default function WhatsAppPage() {
   const searchParams = useSearchParams();
   const translations = useTranslations("Pages.Dashboard.Whatsapp");
 
-  const { userProfile, userProfileIsLoading } = getUserProfile();
+  const { userProfileIsLoading } = GetUserProfile();
 
   const campaignName = decodeURIComponent(searchParams.get("campaign") || "");
 
   const {
     data: userCampaigns,
     isLoading: isUserCampaignsLoading,
-    refetch,
-  } = getCampaigns();
+  } = GetCampaigns();
 
   const breadcrumbItems = [
     { href: "/dashboard/whatsapp", label: "Whatsapp", icon: MessageCircle },
@@ -49,9 +48,8 @@ export default function WhatsAppPage() {
         <>
           <WhatsAppLink
             isLoading={userProfileIsLoading || isUserCampaignsLoading}
-            link={userCampaigns?.wp_link}
-            campaignId={userCampaigns?.id}
-            refetch={refetch}
+            link={userCampaigns[0]?.wp_link}
+            // refetch={refetch}
           />
           {/* <WhatsAppNumbers
             campaignId={userCampaigns?.id}

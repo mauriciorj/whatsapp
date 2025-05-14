@@ -6,7 +6,7 @@ import PageLayout from "@/components/layout/pageLayout";
 import AlertBanner from "@/components/ui/alert-banner";
 import AuthCard from "@/features/user/components/authCard";
 import CreateAccountForm from "@/features/user/components/createAccountForm";
-import createAccount from "@/features/user/lib/createAccount";
+import CreateAccount from "@/features/user/lib/createAccount";
 import useTranslations from "@/hooks/useTranslations";
 import { PAGES } from "@/lib/constants";
 
@@ -19,7 +19,7 @@ export default function CriarConta() {
     form,
     translations: createAccountTranslations,
     successMessage,
-  } = createAccount();
+  } = CreateAccount();
 
   const getPlano = searchParams.get("plano") as string;
 

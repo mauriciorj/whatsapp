@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import createWhatsappPhone from "@/features/whatsapp/lib/createWhatsappPhone";
-import getWhatsapp from "@/features/whatsapp/lib/getWhatsapp";
+import CreateWhatsappPhone from "@/features/whatsapp/phoneNumbers/lib/createWhatsappPhone";
+import GetWhatsapp from "@/features/whatsapp/hooks/lib/getWhatsapp";
 import { Tables } from "@/db/types/database.types";
-import getCampaigns from "@/features/campaigns/lib/getCampaigns";
-import getUserProfile from "@/features/user/lib/getUserProfile";
+import GetCampaigns from "@/features/campaigns/lib/getCampaigns";
+import GetUserProfile from "@/features/user/lib/getUserProfile";
 import { useSocket } from "@/hooks/useSocket";
 // import SocketClient from "@/lib/socket";
 
@@ -17,9 +17,9 @@ interface tableCampaign {
 export type queryResult = tableWhatsapp & tableCampaign;
 
 const useWhatsapp = () => {
-  const { userProfile, userProfileIsLoading } = getUserProfile();
+  const { userProfile, userProfileIsLoading } = GetUserProfile();
 
-  const { currentCampaign, isLoading: campaignsIsLoading } = getCampaigns();
+  const { currentCampaign, isLoading: campaignsIsLoading } = GetCampaigns();
 
   const { socket, companyId } = useSocket();
 
@@ -27,14 +27,14 @@ const useWhatsapp = () => {
     addPhoneNameForm,
     errorMessage: createWhatsappPhoneErrorMessage,
     isLoading: createWhatsappPhoneIsLoading,
-  } = createWhatsappPhone();
+  } = CreateWhatsappPhone();
 
   const {
     data,
     errorMessage: getWhatsappErrorMessage,
     isLoading: getWhatsappIsLoading,
     refetch,
-  } = getWhatsapp();
+  } = GetWhatsapp();
 
   useEffect(() => {
     if (socket && companyId) {

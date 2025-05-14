@@ -1,0 +1,31 @@
+{
+  "UpdateWhatsappLink": {
+    "Dialog": {
+      "alertMessage": "Ops... algo deu errado. Tente novamente mais tarde ou entre em contato com o nosso suporte",
+      "successMessage": "Link atualizado com sucesso",
+      "title": "Personalize o seu link",
+      "description": "Por favor insira o seu link abaixo para confirmar a disponibilidade",
+      "instruction": "Seu link só deve conter letras e \"-\".",
+      "form": {
+        "cancelLabel": "Cancelar",
+        "fields": {
+          "link": {
+            "label": "Link",
+            "name": "link",
+            "placeholder": "ex: seu-link"
+          }
+        },
+        "submitLabel": "Checar disponibilidade",
+        "submitLoadingLabel": "Checando disponibilidade..."
+      }
+    },
+    "HoverCards": {
+      "createLinkTitle": "Personalize o seu link",
+      "createLinkDescription": "Tenha um link da sua maneira",
+      "generateRandomLinkTitle": "Gere um link aleatório",
+      "generateRandomLinkErrorMessage": "Ops... Erro ao gerar um novo link.",
+      "generateRandomLinkSuccessMessage": "Um novo link foi gerado com sucesso",
+      "copyLinkTitle": "Copie o seu link"
+    }
+  }
+}

@@ -4,26 +4,24 @@ import { useSearchParams } from "next/navigation";
 import { MessageCircle } from "lucide-react";
 import PageLayout from "@/components/dashboard/pageLayout";
 import AlertBanner from "@/components/ui/alert-banner";
-import WhatsAppNumbers from "@/features/whatsapp/components/numbers/whatsappNumbers";
+import WhatsAppNumbers from "@/features/whatsapp/phoneNumbers/components/whatsappNumbers";
 import useWhatsapp from "@/features/whatsapp/hooks/useWhatsapp";
-import getUserProfile from "@/features/user/lib/getUserProfile";
+import GetUserProfile from "@/features/user/lib/getUserProfile";
 import useTranslations from "@/hooks/useTranslations";
 
 export default function PhoneNumbersPage() {
   const searchParams = useSearchParams();
   const translations = useTranslations("Pages.Dashboard.PhoneNumbers");
 
-  const { userProfile, userProfileIsLoading } = getUserProfile();
+  const { userProfileIsLoading } = GetUserProfile();
 
   const campaignName = decodeURIComponent(searchParams.get("campaign") || "");
 
   const {
-    addPhoneNameForm,
     currentCampaign,
     data: whatsapps,
     errorMessage,
     isLoading: isWhatsappLoading,
-    refetch,
   } = useWhatsapp();
 
   const breadcrumbItems = [
@@ -53,12 +51,12 @@ export default function PhoneNumbersPage() {
       ) : (
         <>
           <WhatsAppNumbers
-            addPhoneNameForm={addPhoneNameForm}
+            // addPhoneNameForm={addPhoneNameForm}
             campaignId={currentCampaign?.id}
             isLoading={userProfileIsLoading || isWhatsappLoading}
             whatsapps={whatsapps}
-            refetch={refetch}
-            userPlan={l?.plan}
+            // refetch={refetch}
+            // userPlan={l?.plan}
           />
         </>
       )}

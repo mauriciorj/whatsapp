@@ -1,5 +1,4 @@
 import Skeleton from "@/components/ui/skeleton";
-import ContentCard from "@/components/layout/contentCard";
 
 const LoginLoading = () => {
   return (

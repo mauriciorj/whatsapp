@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { Socket } from "socket.io-client";
+// import { Socket } from "socket.io-client";
 import SocketClient from "@/lib/socket";
-import getUserProfile from "@/features/user/lib/getUserProfile";
+import GetUserProfile from "@/features/user/lib/getUserProfile";
 
 export const useSocket = () => {
   const [socket, setSocket] = useState<any>(null);
-  const { userProfile } = getUserProfile();
+  const { userProfile } = GetUserProfile();
 
   useEffect(() => {
     if (userProfile?.company_id) {

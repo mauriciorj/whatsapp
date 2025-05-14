@@ -9,7 +9,7 @@ import { DELETE_MAGIC_WORD, PAGES } from "@/lib/constants";
 import { deleteDialogSchema } from "@/lib/validations/schemas";
 import { useForm } from "@tanstack/react-form";
 
-const deleteCampaign = () => {
+const DeleteCampaign = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -83,4 +83,4 @@ const deleteCampaign = () => {
   };
 };
 
-export default deleteCampaign;
+export default DeleteCampaign;

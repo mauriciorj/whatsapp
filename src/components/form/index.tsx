@@ -33,7 +33,7 @@ const Form = ({
   submitLabel,
   submitLoadingLabel,
 }: any) => {
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState<any>(new Date());
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
 
   const [passwordValidation, setPasswordValidation] = useState<any>({

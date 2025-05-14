@@ -1,16 +1,28 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import userLogout from "./userLogout";
 import createClient from "@/db/supabase/client";
 import useTranslations from "@/hooks/useTranslations";
 import { updatePasswordSchema } from "@/lib/validations/schemas";
 import { useForm } from "@tanstack/react-form";
 
-const updateAccount = () => {
+const UpdateAccount = () => {
+  const router = useRouter();
   const translations = useTranslations("Features.UpdateAccountForm");
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+
+  const UserLogout = async() => {
+    const supabase = createClient();
+  
+    const { error } = await supabase.auth.signOut();
+  
+    if (!error) {
+      router.refresh();
+    }
+  };
 
   const form = useForm({
     defaultValues: {
@@ -29,7 +41,7 @@ const updateAccount = () => {
           setErrorMessage(translations["alertMessage"]);
         } else {
           setErrorMessage(null);
-          userLogout();
+          UserLogout();
         }
       } catch {
         setErrorMessage(translations["alertMessage"]);
@@ -44,4 +56,4 @@ const updateAccount = () => {
   };
 };
 
-export default updateAccount;
+export default UpdateAccount;

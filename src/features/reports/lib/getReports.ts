@@ -1,21 +1,21 @@
 import { useState } from "react";
 import { Tables } from "@/db/types/database.types";
-import getCampaigns from "@/features/campaigns/lib/getCampaigns";
-import getUserProfile from "@/features/user/lib/getUserProfile";
+import GetCampaigns from "@/features/campaigns/lib/getCampaigns";
+import GetUserProfile from "@/features/user/lib/getUserProfile";
 import createClient from "@/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 
-const getReport = ({ reportsPeriod }: { reportsPeriod: number }) => {
+const GetReport = ({ reportsPeriod }: { reportsPeriod: number }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const { userProfile, userProfileError, userProfileIsLoading } =
-    getUserProfile();
+    GetUserProfile();
 
   const {
     currentCampaign,
     data: campaigns,
     isLoading: isLoadingGetCampaigns,
-  } = getCampaigns();
+  } = GetCampaigns();
 
   const timePeriod = new Date(
     new Date().setDate(new Date().getDate() - reportsPeriod)
@@ -66,4 +66,4 @@ const getReport = ({ reportsPeriod }: { reportsPeriod: number }) => {
   };
 };
 
-export default getReport;
+export default GetReport;

@@ -5,7 +5,7 @@ import useTranslations from "@/hooks/useTranslations";
 import PageLayout from "@/components/layout/pageLayout";
 import AlertBanner from "@/components/ui/alert-banner";
 import ContactForm from "@/features/contact/components/contactForm";
-import postMessage from "@/features/contact/lib/postMessage";
+import PostMessage from "@/features/contact/lib/postMessage";
 import AuthCard from "@/features/user/components/authCard";
 
 export default function Contato() {
@@ -16,7 +16,7 @@ export default function Contato() {
     errorMessage,
     form,
     successMessage,
-  } = postMessage();
+  } = PostMessage();
 
   const breadcrumbItems = [{ href: "/contato", label: "Contato", icon: Mail }];
 

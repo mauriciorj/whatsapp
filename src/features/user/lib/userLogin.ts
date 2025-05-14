@@ -8,7 +8,7 @@ import { PAGES } from "@/lib/constants";
 import { loginSchema } from "@/lib/validations/schemas";
 import { useForm } from "@tanstack/react-form";
 
-const userLogin = () => {
+const UserLogin = () => {
   const router = useRouter();
   const translations = useTranslations("Features.LoginForm");
 
@@ -45,4 +45,4 @@ const userLogin = () => {
   };
 };
 
-export default userLogin;
+export default UserLogin;

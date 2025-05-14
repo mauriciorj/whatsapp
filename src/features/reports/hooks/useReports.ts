@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import getReport from "@/features/reports/lib/getReports";
+import GetReport from "@/features/reports/lib/getReports";
 import getGroupedCounts from "@/features/reports/lib/formatReport";
 
 const useReports = () => {
@@ -17,7 +17,7 @@ const useReports = () => {
 
   const campaignName = searchParams.get("campaign");
 
-  const { data, error, isLoading, refetch } = getReport({
+  const { data, error, isLoading, refetch } = GetReport({
     reportsPeriod,
   });
 

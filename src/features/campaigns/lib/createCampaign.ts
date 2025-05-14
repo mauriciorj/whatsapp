@@ -2,15 +2,15 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import getCampaigns from "./getCampaigns";
+import GetCampaigns from "./getCampaigns";
 import { Tables } from "@/db/types/database.types";
-import getUserProfile from "@/features/user/lib/getUserProfile";
+import GetUserProfile from "@/features/user/lib/getUserProfile";
 import useTranslations from "@/hooks/useTranslations";
 import generateRandomCode from "@/lib/generateCode";
 import createClient from "@/supabase/client";
 import { useForm } from "@tanstack/react-form";
 
-const createCampaign = () => {
+const CreateCampaign = () => {
   const router = useRouter();
 
   const formTranslation = useTranslations("Features.CreateCampaignForm");
@@ -18,9 +18,9 @@ const createCampaign = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  const { data, errorMessage: getCampaignsErrorMessage } = getCampaigns();
+  const { data, errorMessage: getCampaignsErrorMessage } = GetCampaigns();
 
-  const { userProfile, userProfileErrorMessage } = getUserProfile();
+  const { userProfile, userProfileErrorMessage } = GetUserProfile();
 
   const form = useForm({
     defaultValues: {
@@ -99,4 +99,4 @@ const createCampaign = () => {
   };
 };
 
-export default createCampaign;
+export default CreateCampaign;

@@ -6,7 +6,7 @@ import useTranslations from "@/hooks/useTranslations";
 import { contactSchema } from "@/lib/validations/schemas";
 import { useForm } from "@tanstack/react-form";
 
-const postMessage = () => {
+const PostMessage = () => {
   const translations = useTranslations("Features.ContactForm");
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -48,4 +48,4 @@ const postMessage = () => {
   return { errorMessage, form, translations, successMessage };
 };
 
-export default postMessage;
+export default PostMessage;

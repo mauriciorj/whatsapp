@@ -6,7 +6,7 @@ import PageLayout from "@/components/layout/pageLayout";
 import AlertBanner from "@/components/ui/alert-banner";
 import UserLoginForm from "@/features/user/components/userLoginForm";
 import useTranslations from "@/hooks/useTranslations";
-import userLogin from "@/features/user/lib/userLogin";
+import UserLogin from "@/features/user/lib/userLogin";
 import { PAGES } from "@/lib/constants";
 
 export default function Login() {
@@ -16,7 +16,7 @@ export default function Login() {
     errorMessage,
     form,
     translations: translationsUserLogin,
-  } = userLogin();
+  } = UserLogin();
 
   const breadcrumbItems = [
     {

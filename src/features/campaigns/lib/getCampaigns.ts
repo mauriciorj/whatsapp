@@ -2,13 +2,13 @@
 
 import { useSearchParams } from "next/navigation";
 import { Tables } from "@/db/types/database.types";
-import getUserProfile from "@/features/user/lib/getUserProfile";
+import GetUserProfile from "@/features/user/lib/getUserProfile";
 import createClient from "@/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 
-const getCampaigns = () => {
+const GetCampaigns = () => {
   const searchParams = useSearchParams();
-  const { userProfile } = getUserProfile();
+  const { userProfile } = GetUserProfile();
 
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["userCampaign", userProfile?.company_id],
@@ -36,7 +36,7 @@ const getCampaigns = () => {
     },
     enabled: !!userProfile?.company_id, // Only run the query if we have a company_id
   }) as {
-    data: Tables<"campaigns">;
+    data: Tables<"campaigns">[];
     isLoading: boolean;
     error: any;
     refetch: () => void;
@@ -57,4 +57,4 @@ const getCampaigns = () => {
   };
 };
 
-export default getCampaigns;
+export default GetCampaigns;

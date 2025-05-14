@@ -1,10 +1,10 @@
 import { Tables } from "@/db/types/database.types";
-import getUserProfile from "@/features/user/lib/getUserProfile";
+import GetUserProfile from "@/features/user/lib/getUserProfile";
 import createClient from "@/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 
-const getCompany = () => {
-  const { userProfile } = getUserProfile();
+const GetCompany = () => {
+  const { userProfile } = GetUserProfile();
 
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["userCompany", userProfile?.company_id],
@@ -38,4 +38,4 @@ const getCompany = () => {
   };
 };
 
-export default getCompany;
+export default GetCompany;

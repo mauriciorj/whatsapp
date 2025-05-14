@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/select";
 import Skeleton from "@/components/ui/skeleton";
 import { Tables } from "@/db/types/database.types";
-import getCampaigns from "@/features/campaigns/lib/getCampaigns";
+import GetCampaigns from "@/features/campaigns/lib/getCampaigns";
 
 export interface BreadcrumbItem {
   href: string;
@@ -42,7 +42,7 @@ const PageLayout = ({
   const campaignName = searchParams.get("campaign");
 
   const { data: userCampaigns, isLoading: isLoadingGetCampaigns } =
-    getCampaigns();
+    GetCampaigns();
 
   return (
     <>

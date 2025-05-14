@@ -3,7 +3,7 @@
 import { MessageCircle } from "lucide-react";
 import PageLayout from "@/components/dashboard/pageLayout";
 import AlertBanner from "@/components/ui/alert-banner";
-import WhatsappGroups from "@/features/whatsapp/components/groups/whatsappGroups";
+import WhatsappGroups from "@/features/whatsapp/groups/components/whatsappGroups";
 import useTranslations from "@/hooks/useTranslations";
 
 export default function GroupsPage() {

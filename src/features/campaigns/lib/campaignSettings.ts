@@ -2,16 +2,16 @@
 
 import dayjs from "dayjs";
 import { useSearchParams } from "next/navigation";
-import getCampaigns from "./getCampaigns";
+import GetCampaigns from "./getCampaigns";
 import useTranslations from "@/hooks/useTranslations";
 import { useForm } from "@tanstack/react-form";
 import { campaignSettingsSchema } from "@/lib/validations/schemas";
 
-const campaignSettings = () => {
+const CampaignSettings = () => {
   const searchParams = useSearchParams();
   const formTranslation = useTranslations("Features.CampaignSettingsForm");
 
-  const { data, errorMessage, isLoading } = getCampaigns();
+  const { data, errorMessage, isLoading } = GetCampaigns();
 
   const campaignName = searchParams?.get("campaign") || null;
 
@@ -45,4 +45,4 @@ const campaignSettings = () => {
   };
 };
 
-export default campaignSettings;
+export default CampaignSettings;
