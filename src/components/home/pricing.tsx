@@ -27,39 +27,6 @@ const Pricing = () => {
   const searchParams = useSearchParams();
 
   const plans = [
-    // {
-    //   name: BusinessRules.basico.name,
-    //   value: "basico",
-    //   price: `R$${BusinessRules.basico.price}`,
-    //   description: "Perfeito para quem está começando",
-    //   features: [
-    //     {
-    //       icon: <Check className="h-5 w-5 text-primary" />,
-    //       label: "Um link",
-    //       special: false,
-    //     },
-    //     {
-    //       icon: <Check className="h-5 w-5 text-primary" />,
-    //       label: "Até 2 WhatsApp",
-    //       special: false,
-    //     },
-    //     {
-    //       icon: <Check className="h-5 w-5 text-primary" />,
-    //       label: "Relatório básico",
-    //       special: false,
-    //     },
-    //     {
-    //       icon: (
-    //         <ChartNoAxesCombined
-    //           className="h-5 w-5 text-primary"
-    //           color={theme === "light" ? "#475569" : "#b8c2d1"}
-    //         />
-    //       ),
-    //       label: "Total de cliques diários",
-    //       special: true,
-    //     },
-    //   ],
-    // },
     {
       name: BusinessRules.avancado.name,
       value: "avancado",
@@ -176,7 +143,7 @@ const Pricing = () => {
               key={plan.name}
             >
               {plan.popular && (
-                <div className="absolute w-[80%] text-center -top-4 left-1/2 -translations-x-1/2 bg-primary px-4 py-1 rounded-full text-primary-foreground text-sm font-medium">
+                <div className="absolute w-[80%] text-center -top-4 left-12 -translations-x-1/2 bg-primary px-4 py-1 rounded-full text-primary-foreground text-sm font-medium">
                   Most Popular
                 </div>
               )}
