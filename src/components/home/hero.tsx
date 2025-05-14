@@ -37,12 +37,14 @@ const Hero = () => {
                 alt="ZapRouter Interface"
                 className="border-0"
                 src={whatsapp_dark}
+                priority={true}
               />
             ) : (
               <Image
                 alt="ZapRouter Interface"
                 className="border-0"
                 src={whatsapp_light}
+                priority={true}
               />
             )}
           </div>

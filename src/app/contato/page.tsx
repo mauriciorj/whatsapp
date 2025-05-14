@@ -24,7 +24,7 @@ export default function Contato() {
     <PageLayout breadcrumbItems={breadcrumbItems}>
       <AuthCard title={translations["cardTitle"]}>
         <AlertBanner message={errorMessage} type="error" />
-        <AlertBanner message={successMessage} type="error" />
+        <AlertBanner message={successMessage} type="success" />
         {!successMessage && (
           <div>
             <ContactForm form={form} translations={postMessageTranslation} />

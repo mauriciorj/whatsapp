@@ -23,7 +23,6 @@ const PostMessage = () => {
       onSubmit: contactSchema,
     },
     onSubmit: async ({ value }: any) => {
-      setErrorMessage(null);
       try {
         const response = await postMessageAction(
           value as {
@@ -34,12 +33,14 @@ const PostMessage = () => {
           }
         );
         if (response === false) {
+          setSuccessMessage(null);
           setErrorMessage(translations["alertMessage"]);
         } else {
           setErrorMessage(null);
           setSuccessMessage(translations["successMessage"]);
         }
       } catch {
+        setSuccessMessage(null);
         setErrorMessage(translations["alertMessage"]);
       }
     },
